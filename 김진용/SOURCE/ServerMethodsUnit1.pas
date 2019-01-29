@@ -31,6 +31,11 @@ type
     tb_DEliveryManDELI_MAN_CMT: TWideStringField;
     dsp_DeliveryMan: TDataSetProvider;
     FDPhysIBDriverLink1: TFDPhysIBDriverLink;
+    tb_DEliveryManDELI_MAN_IMAGE: TWideMemoField;
+    tb_DEliveryManDELI_MAN_ID: TWideStringField;
+    tb_DEliveryManDELI_MAN_PASS: TWideStringField;
+    tb_DEliveryManDELI_MAN_CLOSING: TIntegerField;
+    tb_DEliveryManDELI_MAN_DEBT: TIntegerField;
   private
     { Private declarations }
   public

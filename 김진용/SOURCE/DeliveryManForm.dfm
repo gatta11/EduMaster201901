@@ -2,8 +2,8 @@ object frmDeliveryMan: TfrmDeliveryMan
   Left = 0
   Top = 0
   Caption = #44592#49324' '#46321#47197
-  ClientHeight = 619
-  ClientWidth = 874
+  ClientHeight = 693
+  ClientWidth = 926
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,84 +16,98 @@ object frmDeliveryMan: TfrmDeliveryMan
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 312
-    Top = 219
+    Left = 294
+    Top = 243
     Width = 24
     Height = 13
     Caption = #51060#47492
   end
   object Label2: TLabel
-    Left = 312
-    Top = 283
+    Left = 294
+    Top = 307
     Width = 24
     Height = 13
     Caption = #45208#51060
   end
   object Label3: TLabel
-    Left = 312
-    Top = 347
+    Left = 294
+    Top = 371
     Width = 36
     Height = 13
     Caption = #50672#46973#52376
   end
   object Label4: TLabel
-    Left = 312
-    Top = 411
+    Left = 294
+    Top = 435
     Width = 87
     Height = 13
     Caption = #48176#45804#44592#49324' '#49324#47924#49548
   end
   object Label5: TLabel
-    Left = 312
-    Top = 475
+    Left = 294
+    Top = 491
     Width = 75
     Height = 13
     Caption = #48176#45804#44592#49324' '#51452#49548
   end
   object Label6: TLabel
-    Left = 536
-    Top = 283
+    Left = 518
+    Top = 307
     Width = 51
     Height = 13
     Caption = #48176#45804' '#54943#49688
   end
   object Label7: TLabel
-    Left = 536
-    Top = 347
+    Left = 518
+    Top = 371
     Width = 66
     Height = 13
     Caption = #52509' '#44208#49328' '#44552#50529
   end
   object Label8: TLabel
-    Left = 536
-    Top = 411
+    Left = 518
+    Top = 435
     Width = 51
     Height = 13
     Caption = #52264#51077' '#44552#50529
   end
   object Label9: TLabel
-    Left = 711
-    Top = 411
+    Left = 294
+    Top = 557
     Width = 62
     Height = 13
     Caption = #48176#45804#44592#49324' ID'
   end
   object Label10: TLabel
-    Left = 736
-    Top = 283
+    Left = 686
+    Top = 307
     Width = 51
     Height = 13
     Caption = #48176#45804' '#49345#53468
   end
+  object Label11: TLabel
+    Left = 447
+    Top = 557
+    Width = 108
+    Height = 13
+    Caption = #48176#45804#44592#49324' PASSWORD'
+  end
+  object Label12: TLabel
+    Left = 725
+    Top = 243
+    Width = 20
+    Height = 13
+    Caption = 'SEQ'
+  end
   object DBGrid1: TDBGrid
     Left = 8
-    Top = 47
-    Width = 850
-    Height = 146
+    Top = 8
+    Width = 910
+    Height = 209
     DataSource = dsDeliveryMan
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     ReadOnly = True
-    TabOrder = 0
+    TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -103,11 +117,15 @@ object frmDeliveryMan: TfrmDeliveryMan
       item
         Expanded = False
         FieldName = 'DELI_MAN_NM'
+        Title.Alignment = taCenter
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'DELI_MAN_SEX'
+        FieldName = 'DELI_MAN_KORSEX'
+        Title.Alignment = taCenter
+        Title.Caption = #49457#48324
+        Width = 40
         Visible = True
       end
       item
@@ -118,13 +136,11 @@ object frmDeliveryMan: TfrmDeliveryMan
       item
         Expanded = False
         FieldName = 'DELI_MAN_PHONE'
-        Title.Alignment = taCenter
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DELI_MAN_OFFICE'
-        Title.Alignment = taCenter
         Visible = True
       end
       item
@@ -145,13 +161,9 @@ object frmDeliveryMan: TfrmDeliveryMan
       end
       item
         Expanded = False
-        FieldName = 'DELI_MAN_CMT'
-        Title.Alignment = taCenter
-        Visible = True
-      end
-      item
-        Expanded = False
         FieldName = 'DELI_MAN_SEQ'
+        Title.Caption = 'SEQ'
+        Width = 30
         Visible = True
       end
       item
@@ -163,11 +175,46 @@ object frmDeliveryMan: TfrmDeliveryMan
         Expanded = False
         FieldName = 'DELI_MAN_DLTIME'
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DELI_MAN_IMAGE'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DELI_MAN_ID'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DELI_MAN_PASS'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DELI_MAN_CLOSING'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DELI_MAN_DEBT'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DELI_MAN_CMT'
+        Width = 100
+        Visible = True
       end>
   end
   object edtName: TDBEdit
-    Left = 312
-    Top = 238
+    Left = 294
+    Top = 262
     Width = 185
     Height = 26
     DataField = 'DELI_MAN_NM'
@@ -178,11 +225,12 @@ object frmDeliveryMan: TfrmDeliveryMan
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 1
+    TabOrder = 2
+    OnExit = edtNameExit
   end
   object edtAge: TDBEdit
-    Left = 312
-    Top = 302
+    Left = 294
+    Top = 326
     Width = 185
     Height = 26
     DataField = 'DELI_MAN_AGE'
@@ -193,11 +241,11 @@ object frmDeliveryMan: TfrmDeliveryMan
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 5
   end
   object edtPhone: TDBEdit
-    Left = 312
-    Top = 366
+    Left = 294
+    Top = 390
     Width = 185
     Height = 26
     DataField = 'DELI_MAN_PHONE'
@@ -208,23 +256,11 @@ object frmDeliveryMan: TfrmDeliveryMan
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 3
-  end
-  object RadioGroup1: TRadioGroup
-    Left = 536
-    Top = 219
-    Width = 185
-    Height = 45
-    Caption = #49457#48324
-    Columns = 2
-    Items.Strings = (
-      #45224#51088
-      #50668#51088)
-    TabOrder = 4
+    TabOrder = 6
   end
   object edtOffice: TDBEdit
-    Left = 312
-    Top = 430
+    Left = 294
+    Top = 454
     Width = 185
     Height = 26
     DataField = 'DELI_MAN_OFFICE'
@@ -235,20 +271,11 @@ object frmDeliveryMan: TfrmDeliveryMan
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 5
-  end
-  object DBNavigator1: TDBNavigator
-    Left = 416
-    Top = 8
-    Width = 432
-    Height = 33
-    DataSource = dsDeliveryMan
-    VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh, nbApplyUpdates, nbCancelUpdates]
-    TabOrder = 6
+    TabOrder = 7
   end
   object edtAddress: TDBEdit
-    Left = 312
-    Top = 494
+    Left = 294
+    Top = 510
     Width = 536
     Height = 26
     DataField = 'DELI_MAN_ADDR'
@@ -259,12 +286,12 @@ object frmDeliveryMan: TfrmDeliveryMan
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 7
+    TabOrder = 8
   end
   object edtCount: TDBEdit
-    Left = 536
-    Top = 302
-    Width = 185
+    Left = 518
+    Top = 326
+    Width = 145
     Height = 26
     DataField = 'DELI_MAN_DELICOUNT'
     DataSource = dsDeliveryMan
@@ -274,41 +301,14 @@ object frmDeliveryMan: TfrmDeliveryMan
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 8
-  end
-  object edtClosing: TDBEdit
-    Left = 536
-    Top = 366
-    Width = 185
-    Height = 26
-    DataSource = dsDeliveryMan
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -15
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
     TabOrder = 9
   end
-  object edtBebt: TDBEdit
-    Left = 536
-    Top = 430
-    Width = 153
+  object edtClosing: TDBEdit
+    Left = 518
+    Top = 390
+    Width = 185
     Height = 26
-    DataSource = dsDeliveryMan
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -15
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 10
-  end
-  object edtId: TDBEdit
-    Left = 711
-    Top = 430
-    Width = 137
-    Height = 26
+    DataField = 'DELI_MAN_CLOSING'
     DataSource = dsDeliveryMan
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -318,30 +318,63 @@ object frmDeliveryMan: TfrmDeliveryMan
     ParentFont = False
     TabOrder = 11
   end
-  object GroupBox1: TGroupBox
-    Left = 48
-    Top = 238
-    Width = 201
-    Height = 211
+  object edtBebt: TDBEdit
+    Left = 518
+    Top = 454
+    Width = 185
+    Height = 26
+    DataField = 'DELI_MAN_DEBT'
+    DataSource = dsDeliveryMan
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 12
+  end
+  object edtId: TDBEdit
+    Left = 294
+    Top = 576
+    Width = 137
+    Height = 26
+    DataField = 'DELI_MAN_ID'
+    DataSource = dsDeliveryMan
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 13
+  end
+  object GroupBox1: TGroupBox
+    Left = 41
+    Top = 294
+    Width = 201
+    Height = 257
+    TabOrder = 16
     object imgDeliveryMan: TImage
       Left = 3
-      Top = 0
+      Top = 3
       Width = 195
-      Height = 208
+      Height = 254
+      Proportional = True
+      Stretch = True
     end
   end
   object btnLoadImage: TButton
-    Left = 48
-    Top = 455
+    Left = 92
+    Top = 557
     Width = 105
     Height = 33
     Caption = #49324#51652' '#48520#47084#50724#44592'...'
-    TabOrder = 13
+    TabOrder = 17
+    OnClick = btnLoadImageClick
   end
   object DBEdit1: TDBEdit
-    Left = 736
-    Top = 302
+    Left = 686
+    Top = 326
     Width = 112
     Height = 26
     DataField = 'DELI_MAN_ST'
@@ -352,48 +385,201 @@ object frmDeliveryMan: TfrmDeliveryMan
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 14
+    TabOrder = 10
   end
-  object btnInsert: TButton
-    Left = 629
-    Top = 541
+  object btnApply: TButton
+    Left = 559
+    Top = 633
     Width = 101
     Height = 35
-    Caption = #54869#51064
+    Caption = #51201#50857
     TabOrder = 15
-  end
-  object btnEdit: TButton
-    Left = 736
-    Top = 541
-    Width = 100
-    Height = 35
-    Caption = #51221#48372' '#49688#51221
-    TabOrder = 16
+    OnClick = btnApplyClick
   end
   object btnDelete: TButton
-    Left = 168
-    Top = 552
-    Width = 120
-    Height = 41
+    Left = 414
+    Top = 633
+    Width = 115
+    Height = 35
     Caption = #48176#45804#44592#49324' '#49325#51228
-    TabOrder = 17
+    TabOrder = 18
+    OnClick = btnDeleteClick
   end
   object btnNew: TButton
-    Left = 33
-    Top = 552
-    Width = 120
-    Height = 41
+    Left = 296
+    Top = 633
+    Width = 112
+    Height = 35
     Caption = #49888#44508' '#44592#49324' '#46321#47197
-    TabOrder = 18
+    TabOrder = 0
+    OnClick = btnNewClick
+  end
+  object rgSex: TDBRadioGroup
+    Left = 518
+    Top = 243
+    Width = 185
+    Height = 45
+    Caption = #49457#48324
+    Columns = 2
+    DataField = 'DELI_MAN_SEX'
+    DataSource = dsDeliveryMan
+    Items.Strings = (
+      #45224
+      #50668)
+    TabOrder = 3
+    Values.Strings = (
+      '0'
+      '1')
+  end
+  object DBEdit2: TDBEdit
+    Left = 447
+    Top = 576
+    Width = 137
+    Height = 26
+    DataField = 'DELI_MAN_PASS'
+    DataSource = dsDeliveryMan
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 14
+  end
+  object DBEdit3: TDBEdit
+    Left = 725
+    Top = 262
+    Width = 112
+    Height = 26
+    DataField = 'DELI_MAN_SEQ'
+    DataSource = dsDeliveryMan
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 4
+  end
+  object btnUpdate: TButton
+    Left = 66
+    Top = 234
+    Width = 155
+    Height = 44
+    Caption = #50629#45936#51060#53944
+    TabOrder = 19
+    OnClick = btnUpdateClick
+  end
+  object btnCancel: TButton
+    Left = 666
+    Top = 633
+    Width = 100
+    Height = 35
+    Caption = #49688#51221' '#52712#49548
+    TabOrder = 20
+    OnClick = btnCancelClick
   end
   object dtsDeliveryMan: TClientDataSet
     Active = True
     Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'DELI_MAN_SEQ'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DELI_MAN_NM'
+        Attributes = [faRequired]
+        DataType = ftWideString
+        Size = 40
+      end
+      item
+        Name = 'DELI_MAN_SEX'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'DELI_MAN_AGE'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'DELI_MAN_PHONE'
+        Attributes = [faRequired]
+        DataType = ftWideString
+        Size = 80
+      end
+      item
+        Name = 'DELI_MAN_OFFICE'
+        Attributes = [faRequired]
+        DataType = ftWideString
+        Size = 120
+      end
+      item
+        Name = 'DELI_MAN_ADDR'
+        Attributes = [faRequired]
+        DataType = ftWideString
+        Size = 800
+      end
+      item
+        Name = 'DELI_MAN_DELICOUNT'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DELI_MAN_ST'
+        Attributes = [faRequired]
+        DataType = ftWideString
+        Size = 4
+      end
+      item
+        Name = 'DELI_MAN_DNTIME'
+        DataType = ftWideString
+        Size = 48
+      end
+      item
+        Name = 'DELI_MAN_DLTIME'
+        DataType = ftWideString
+        Size = 48
+      end
+      item
+        Name = 'DELI_MAN_CMT'
+        DataType = ftWideString
+        Size = 4000
+      end
+      item
+        Name = 'DELI_MAN_IMAGE'
+        DataType = ftWideMemo
+      end
+      item
+        Name = 'DELI_MAN_ID'
+        Attributes = [faRequired]
+        DataType = ftWideString
+        Size = 80
+      end
+      item
+        Name = 'DELI_MAN_PASS'
+        Attributes = [faRequired]
+        DataType = ftWideString
+        Size = 120
+      end
+      item
+        Name = 'DELI_MAN_CLOSING'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'DELI_MAN_DEBT'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end>
+    IndexDefs = <>
     Params = <>
     ProviderName = 'dsp_DeliveryMan'
     RemoteServer = DSProviderConnection1
-    Left = 192
-    Top = 392
+    StoreDefs = True
+    OnCalcFields = dtsDeliveryManCalcFields
+    Left = 193
+    Top = 447
     object dtsDeliveryManDELI_MAN_NM: TWideStringField
       Alignment = taCenter
       DisplayLabel = #48176#45804#44592#49324#47749
@@ -486,6 +672,38 @@ object frmDeliveryMan: TfrmDeliveryMan
       Origin = 'DELI_MAN_DLTIME'
       Size = 48
     end
+    object dtsDeliveryManDELI_MAN_IMAGE: TWideMemoField
+      FieldName = 'DELI_MAN_IMAGE'
+      Origin = 'DELI_MAN_IMAGE'
+      BlobType = ftWideMemo
+    end
+    object dtsDeliveryManDELI_MAN_ID: TWideStringField
+      FieldName = 'DELI_MAN_ID'
+      Origin = 'DELI_MAN_ID'
+      Required = True
+      Size = 80
+    end
+    object dtsDeliveryManDELI_MAN_PASS: TWideStringField
+      FieldName = 'DELI_MAN_PASS'
+      Origin = 'DELI_MAN_PASS'
+      Required = True
+      Size = 120
+    end
+    object dtsDeliveryManDELI_MAN_CLOSING: TIntegerField
+      FieldName = 'DELI_MAN_CLOSING'
+      Origin = 'DELI_MAN_CLOSING'
+      Required = True
+    end
+    object dtsDeliveryManDELI_MAN_DEBT: TIntegerField
+      FieldName = 'DELI_MAN_DEBT'
+      Origin = 'DELI_MAN_DEBT'
+      Required = True
+    end
+    object dtsDeliveryManDELI_MAN_KORSEX: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'DELI_MAN_KORSEX'
+      Calculated = True
+    end
   end
   object SQLConnection1: TSQLConnection
     DriverName = 'DataSnap'
@@ -503,24 +721,25 @@ object frmDeliveryMan: TfrmDeliveryMan
       'Filters={}'
       'CommunicationProtocol=tcp/ip')
     Connected = True
-    Left = 64
-    Top = 248
+    Left = 81
+    Top = 319
     UniqueId = '{23397A5D-0362-4DAC-A8CC-5B6B7A1831CC}'
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TServerMethods1'
     Connected = True
     SQLConnection = SQLConnection1
-    Left = 184
-    Top = 248
+    Left = 185
+    Top = 327
   end
   object dsDeliveryMan: TDataSource
     DataSet = dtsDeliveryMan
-    Left = 56
-    Top = 384
+    OnStateChange = dsDeliveryManStateChange
+    Left = 81
+    Top = 439
   end
-  object OpenDialog1: TOpenDialog
-    Left = 128
-    Top = 328
+  object dlgLoadImage: TOpenDialog
+    Left = 137
+    Top = 391
   end
 end

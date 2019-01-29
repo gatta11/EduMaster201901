@@ -31,13 +31,11 @@ type
     Label2: TLabel;
     edtPhone: TDBEdit;
     Label3: TLabel;
-    RadioGroup1: TRadioGroup;
     edtOffice: TDBEdit;
     Label4: TLabel;
     dtsDeliveryManDELI_MAN_SEQ: TIntegerField;
     dtsDeliveryManDELI_MAN_DNTIME: TWideStringField;
     dtsDeliveryManDELI_MAN_DLTIME: TWideStringField;
-    DBNavigator1: TDBNavigator;
     edtAddress: TDBEdit;
     Label5: TLabel;
     edtCount: TDBEdit;
@@ -51,15 +49,36 @@ type
     GroupBox1: TGroupBox;
     btnLoadImage: TButton;
     imgDeliveryMan: TImage;
-    OpenDialog1: TOpenDialog;
+    dlgLoadImage: TOpenDialog;
     DBEdit1: TDBEdit;
     Label10: TLabel;
-    btnInsert: TButton;
-    btnEdit: TButton;
+    btnApply: TButton;
     btnDelete: TButton;
     btnNew: TButton;
+    rgSex: TDBRadioGroup;
+    dtsDeliveryManDELI_MAN_IMAGE: TWideMemoField;
+    dtsDeliveryManDELI_MAN_ID: TWideStringField;
+    dtsDeliveryManDELI_MAN_PASS: TWideStringField;
+    dtsDeliveryManDELI_MAN_CLOSING: TIntegerField;
+    dtsDeliveryManDELI_MAN_DEBT: TIntegerField;
+    DBEdit2: TDBEdit;
+    Label11: TLabel;
+    Label12: TLabel;
+    DBEdit3: TDBEdit;
+    btnUpdate: TButton;
+    btnCancel: TButton;
+    dtsDeliveryManDELI_MAN_KORSEX: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnNewClick(Sender: TObject);
+    procedure btnUpdateClick(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
+    procedure btnApplyClick(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
+    procedure dtsDeliveryManCalcFields(DataSet: TDataSet);
+    procedure dsDeliveryManStateChange(Sender: TObject);
+    procedure edtNameExit(Sender: TObject);
+    procedure btnLoadImageClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -73,10 +92,77 @@ implementation
 
 {$R *.dfm}
 
-uses ClientClass;
+uses ClientClass, CommonFunctions;
 
 var
   Client : TServerMethods1Client;
+
+procedure TfrmDeliveryMan.btnDeleteClick(Sender: TObject);
+begin
+  dtsDeliveryMan.Delete;
+end;
+
+procedure TfrmDeliveryMan.btnLoadImageClick(Sender: TObject);
+var
+  Field : TField;
+begin
+  if dlgLoadImage.Execute then
+    LoadImageFromFile(imgDeliveryMan, dlgLoadImage.Filename);
+
+  Field := dtsDeliveryMan.FieldByName('DELI_MAN_IMAGE');
+  SaveImageToBlobField(ImgDeliveryMan, Field as TBlobField);
+end;
+
+procedure TfrmDeliveryMan.btnApplyClick(Sender: TObject);
+begin
+  dtsDeliveryMan.Post;
+end;
+
+procedure TfrmDeliveryMan.btnNewClick(Sender: TObject);
+begin
+  dtsDeliveryMan.Append;
+  edtName.SetFocus;
+end;
+
+procedure TfrmDeliveryMan.btnUpdateClick(Sender: TObject);
+begin
+  dtsDeliveryMan.ApplyUpdates(-1);
+  dtsDeliveryMan.Refresh;
+end;
+
+procedure TfrmDeliveryMan.btnCancelClick(Sender: TObject);
+begin
+  dtsDeliveryMan.CancelUpdates;
+end;
+
+procedure TfrmDeliveryMan.dsDeliveryManStateChange(Sender: TObject);
+var
+  State : TDataSetState;
+begin
+
+  State := dtsDeliveryMan.State;
+
+  btnApply.Enabled := (State <> dsBrowse); //State <> dsBrowse
+  btnCancel.Enabled := (State <> dsBrowse);
+  //btnUpdate.Enabled := (State <> dsBrowse);
+  btnNew.Enabled := (State = dsBrowse); //<> dsEdit
+  btnDelete.Enabled := (State = dsBrowse);
+
+end;
+
+procedure TfrmDeliveryMan.dtsDeliveryManCalcFields(DataSet: TDataSet);
+
+begin
+  if dtsDeliveryManDeli_Man_Sex.Asinteger = 0 then
+    dtsDeliveryManDeli_Man_KorSex.AsString := '³²'
+  else
+    dtsDeliveryManDeli_Man_KorSex.AsString := '¿©';
+end;
+
+procedure TfrmDeliveryMan.edtNameExit(Sender: TObject);
+begin
+  rgSex.SetFocus;
+end;
 
 procedure TfrmDeliveryMan.FormClose(Sender: TObject; var Action: TCloseAction);
 begin

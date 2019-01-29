@@ -9,6 +9,7 @@ object ServerMethods1: TServerMethods1
       'Password=masterkey'
       'CharacterSet=UTF8'
       'DriverID=IB')
+    Connected = True
     LoginPrompt = False
     Left = 72
     Top = 32
@@ -19,15 +20,17 @@ object ServerMethods1: TServerMethods1
     Top = 24
   end
   object tb_DEliveryMan: TFDTable
+    Active = True
     Connection = FDConnection1
     UpdateOptions.UpdateTableName = 'DELIVERYMAN'
+    UpdateOptions.AutoIncFields = 'DELI_MAN_SEQ'
     TableName = 'DELIVERYMAN'
     Left = 72
     Top = 152
     object tb_DEliveryManDELI_MAN_SEQ: TIntegerField
+      AutoGenerateValue = arAutoInc
       FieldName = 'DELI_MAN_SEQ'
       Origin = 'DELI_MAN_SEQ'
-      Required = True
     end
     object tb_DEliveryManDELI_MAN_NM: TWideStringField
       FieldName = 'DELI_MAN_NM'
@@ -87,6 +90,33 @@ object ServerMethods1: TServerMethods1
       FieldName = 'DELI_MAN_CMT'
       Origin = 'DELI_MAN_CMT'
       Size = 4000
+    end
+    object tb_DEliveryManDELI_MAN_IMAGE: TWideMemoField
+      FieldName = 'DELI_MAN_IMAGE'
+      Origin = 'DELI_MAN_IMAGE'
+      BlobType = ftWideMemo
+    end
+    object tb_DEliveryManDELI_MAN_ID: TWideStringField
+      FieldName = 'DELI_MAN_ID'
+      Origin = 'DELI_MAN_ID'
+      Required = True
+      Size = 80
+    end
+    object tb_DEliveryManDELI_MAN_PASS: TWideStringField
+      FieldName = 'DELI_MAN_PASS'
+      Origin = 'DELI_MAN_PASS'
+      Required = True
+      Size = 120
+    end
+    object tb_DEliveryManDELI_MAN_CLOSING: TIntegerField
+      FieldName = 'DELI_MAN_CLOSING'
+      Origin = 'DELI_MAN_CLOSING'
+      Required = True
+    end
+    object tb_DEliveryManDELI_MAN_DEBT: TIntegerField
+      FieldName = 'DELI_MAN_DEBT'
+      Origin = 'DELI_MAN_DEBT'
+      Required = True
     end
   end
   object dsp_DeliveryMan: TDataSetProvider
