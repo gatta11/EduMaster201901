@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,System.Math,
   Datasnap.DBClient, Data.DBXDataSnap, Data.DBXCommon, IPPeerClient,
   Data.SqlExpr, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls,
   Vcl.ExtCtrls;
@@ -69,6 +69,7 @@ type
     btnCancel: TButton;
     dtsDeliveryManDELI_MAN_KORSEX: TStringField;
     btnDeleteImg: TButton;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnNewClick(Sender: TObject);
@@ -82,14 +83,19 @@ type
     procedure btnLoadImageClick(Sender: TObject);
     procedure btnDeleteImgClick(Sender: TObject);
     procedure dsDeliveryManDataChange(Sender: TObject; Field: TField);
+
+
   private
     { Private declarations }
   public
     { Public declarations }
+
   end;
 
 var
   frmDeliveryMan: TfrmDeliveryMan;
+  oldMetrics: NONCLIENTMETRICS;
+
 
 implementation
 
@@ -109,7 +115,7 @@ procedure TfrmDeliveryMan.btnDeleteImgClick(Sender: TObject);
 var
   Field : TField;
 begin
-  imgDeliveryMan.Assign(nil);
+  imgDeliveryMan.Picture.Assign(nil);
 
   Field := dtsDeliveryMan.FieldByName('DELI_MAN_IMAGE');
 
@@ -202,8 +208,11 @@ begin
 end;
 
 procedure TfrmDeliveryMan.FormCreate(Sender: TObject);
+var
+ps: tagSCROLLBARINFO;
 begin
  // Client := TServerMethods1Client.Create(SqlConnection1, TDBXConnection);
+
 end;
 
 end.

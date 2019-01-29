@@ -352,20 +352,20 @@ object frmDeliveryMan: TfrmDeliveryMan
     Left = 41
     Top = 294
     Width = 201
-    Height = 257
+    Height = 230
     TabOrder = 16
     object imgDeliveryMan: TImage
       Left = 3
       Top = 3
       Width = 195
-      Height = 254
+      Height = 222
       Proportional = True
       Stretch = True
     end
   end
   object btnLoadImage: TButton
     Left = 41
-    Top = 557
+    Top = 548
     Width = 105
     Height = 33
     Caption = #49324#51652' '#48520#47084#50724#44592'...'
@@ -481,12 +481,20 @@ object frmDeliveryMan: TfrmDeliveryMan
   end
   object btnDeleteImg: TButton
     Left = 152
-    Top = 557
+    Top = 548
     Width = 87
     Height = 33
     Caption = #49324#51652' '#49325#51228
     TabOrder = 21
     OnClick = btnDeleteImgClick
+  end
+  object Button1: TButton
+    Left = 66
+    Top = 632
+    Width = 97
+    Height = 36
+    Caption = 'Button1'
+    TabOrder = 22
   end
   object dtsDeliveryMan: TClientDataSet
     Active = True
@@ -738,8 +746,8 @@ object frmDeliveryMan: TfrmDeliveryMan
     ServerClassName = 'TServerMethods1'
     Connected = True
     SQLConnection = SQLConnection1
-    Left = 185
-    Top = 327
+    Left = 193
+    Top = 319
   end
   object dsDeliveryMan: TDataSource
     DataSet = dtsDeliveryMan
