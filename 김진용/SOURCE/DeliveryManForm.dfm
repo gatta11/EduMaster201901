@@ -364,7 +364,7 @@ object frmDeliveryMan: TfrmDeliveryMan
     end
   end
   object btnLoadImage: TButton
-    Left = 92
+    Left = 41
     Top = 557
     Width = 105
     Height = 33
@@ -478,6 +478,15 @@ object frmDeliveryMan: TfrmDeliveryMan
     Caption = #49688#51221' '#52712#49548
     TabOrder = 20
     OnClick = btnCancelClick
+  end
+  object btnDeleteImg: TButton
+    Left = 152
+    Top = 557
+    Width = 87
+    Height = 33
+    Caption = #49324#51652' '#49325#51228
+    TabOrder = 21
+    OnClick = btnDeleteImgClick
   end
   object dtsDeliveryMan: TClientDataSet
     Active = True
@@ -735,6 +744,7 @@ object frmDeliveryMan: TfrmDeliveryMan
   object dsDeliveryMan: TDataSource
     DataSet = dtsDeliveryMan
     OnStateChange = dsDeliveryManStateChange
+    OnDataChange = dsDeliveryManDataChange
     Left = 81
     Top = 439
   end

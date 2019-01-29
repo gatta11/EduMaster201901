@@ -68,6 +68,7 @@ type
     btnUpdate: TButton;
     btnCancel: TButton;
     dtsDeliveryManDELI_MAN_KORSEX: TStringField;
+    btnDeleteImg: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnNewClick(Sender: TObject);
@@ -79,6 +80,8 @@ type
     procedure dsDeliveryManStateChange(Sender: TObject);
     procedure edtNameExit(Sender: TObject);
     procedure btnLoadImageClick(Sender: TObject);
+    procedure btnDeleteImgClick(Sender: TObject);
+    procedure dsDeliveryManDataChange(Sender: TObject; Field: TField);
   private
     { Private declarations }
   public
@@ -100,6 +103,21 @@ var
 procedure TfrmDeliveryMan.btnDeleteClick(Sender: TObject);
 begin
   dtsDeliveryMan.Delete;
+end;
+
+procedure TfrmDeliveryMan.btnDeleteImgClick(Sender: TObject);
+var
+  Field : TField;
+begin
+  imgDeliveryMan.Assign(nil);
+
+  Field := dtsDeliveryMan.FieldByName('DELI_MAN_IMAGE');
+
+  if dtsDeliveryMan.State <> dsEdit then
+    dtsDeliveryMan.Edit;
+
+  Field.Assign(nil);
+
 end;
 
 procedure TfrmDeliveryMan.btnLoadImageClick(Sender: TObject);
@@ -133,6 +151,20 @@ end;
 procedure TfrmDeliveryMan.btnCancelClick(Sender: TObject);
 begin
   dtsDeliveryMan.CancelUpdates;
+end;
+
+procedure TfrmDeliveryMan.dsDeliveryManDataChange(Sender: TObject;
+  Field: TField);
+var
+  Lfield : TField;
+begin
+  if dtsDeliveryMan.State <> dsBrowse then
+    exit;
+
+  Lfield := dtsDeliveryMan.FieldByName('DELI_MAN_IMAGE');
+  LoadImageFromBlobField(imgDeliveryMan, Lfield as TBlobField);
+
+
 end;
 
 procedure TfrmDeliveryMan.dsDeliveryManStateChange(Sender: TObject);
