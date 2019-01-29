@@ -9,18 +9,16 @@ object ServerMethods1: TServerMethods1
       'Password=masterkey'
       'CharacterSet=UTF8'
       'DriverID=IB')
-    Connected = True
     LoginPrompt = False
     Left = 72
-    Top = 48
+    Top = 32
   end
   object FDGUIxWaitCursor1: TFDGUIxWaitCursor
     Provider = 'Forms'
-    Left = 176
-    Top = 56
+    Left = 200
+    Top = 24
   end
   object tb_DEliveryMan: TFDTable
-    Active = True
     Connection = FDConnection1
     UpdateOptions.UpdateTableName = 'DELIVERYMAN'
     TableName = 'DELIVERYMAN'
@@ -95,5 +93,9 @@ object ServerMethods1: TServerMethods1
     DataSet = tb_DEliveryMan
     Left = 72
     Top = 216
+  end
+  object FDPhysIBDriverLink1: TFDPhysIBDriverLink
+    Left = 312
+    Top = 24
   end
 end

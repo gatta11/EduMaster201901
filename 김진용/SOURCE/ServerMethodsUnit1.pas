@@ -9,7 +9,8 @@ uses System.SysUtils, System.Classes, System.Json,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.IB,
   FireDAC.Phys.IBDef, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
   FireDAC.DApt.Intf, FireDAC.DApt, Datasnap.Provider, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Comp.UI;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Comp.UI,
+  FireDAC.Phys.IBBase;
 
 type
   TServerMethods1 = class(TDSServerModule)
@@ -29,6 +30,7 @@ type
     tb_DEliveryManDELI_MAN_DLTIME: TWideStringField;
     tb_DEliveryManDELI_MAN_CMT: TWideStringField;
     dsp_DeliveryMan: TDataSetProvider;
+    FDPhysIBDriverLink1: TFDPhysIBDriverLink;
   private
     { Private declarations }
   public

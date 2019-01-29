@@ -2,7 +2,8 @@ program ProjectDeliveryMan;
 
 uses
   Vcl.Forms,
-  DeliveryManForm in 'DeliveryManForm.pas' {frmDeliveryMan};
+  DeliveryManForm in 'DeliveryManForm.pas' {frmDeliveryMan},
+  ClientClass in 'ClientClass.pas';
 
 {$R *.res}
 
