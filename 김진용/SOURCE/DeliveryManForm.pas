@@ -175,9 +175,6 @@ begin
   Lfield := dmPcClient.dtsDeliveryMan.FieldByName('DELI_MAN_IMAGE');
   LoadImageFromBlobField(imgDeliveryMan, Lfield as TBlobField);
 
- // if DeliState = nil then
- //   exit;
-
   DeliState := dmPcClient.dtsDeliveryMan.FieldByName('DELI_MAN_ST').asinteger;
   cbDeliManState.ItemIndex := DeliState;    //0: 미출근, 1:배송중,  2:배송대기
 
