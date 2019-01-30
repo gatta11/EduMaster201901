@@ -93,7 +93,7 @@ object frmDeliveryMan: TfrmDeliveryMan
     Caption = #48176#45804#44592#49324' PASSWORD'
   end
   object Label12: TLabel
-    Left = 725
+    Left = 781
     Top = 243
     Width = 20
     Height = 13
@@ -407,7 +407,7 @@ object frmDeliveryMan: TfrmDeliveryMan
   end
   object btnNew: TButton
     Left = 296
-    Top = 633
+    Top = 632
     Width = 112
     Height = 35
     Caption = #49888#44508' '#44592#49324' '#46321#47197
@@ -447,18 +447,20 @@ object frmDeliveryMan: TfrmDeliveryMan
     TabOrder = 14
   end
   object DBEdit3: TDBEdit
-    Left = 725
+    Left = 781
     Top = 262
     Width = 112
-    Height = 26
+    Height = 32
     DataField = 'DELI_MAN_SEQ'
     DataSource = dsDeliveryMan
+    Enabled = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -15
+    Font.Height = -20
     Font.Name = 'Tahoma'
-    Font.Style = []
+    Font.Style = [fsBold]
     ParentFont = False
+    ReadOnly = True
     TabOrder = 4
   end
   object btnUpdate: TButton
@@ -488,276 +490,15 @@ object frmDeliveryMan: TfrmDeliveryMan
     TabOrder = 21
     OnClick = btnDeleteImgClick
   end
-  object Button1: TButton
-    Left = 66
-    Top = 632
-    Width = 97
-    Height = 36
-    Caption = 'Button1'
-    TabOrder = 22
-  end
-  object dtsDeliveryMan: TClientDataSet
-    Active = True
-    Aggregates = <>
-    FieldDefs = <
-      item
-        Name = 'DELI_MAN_SEQ'
-        DataType = ftInteger
-      end
-      item
-        Name = 'DELI_MAN_NM'
-        Attributes = [faRequired]
-        DataType = ftWideString
-        Size = 40
-      end
-      item
-        Name = 'DELI_MAN_SEX'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'DELI_MAN_AGE'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'DELI_MAN_PHONE'
-        Attributes = [faRequired]
-        DataType = ftWideString
-        Size = 80
-      end
-      item
-        Name = 'DELI_MAN_OFFICE'
-        Attributes = [faRequired]
-        DataType = ftWideString
-        Size = 120
-      end
-      item
-        Name = 'DELI_MAN_ADDR'
-        Attributes = [faRequired]
-        DataType = ftWideString
-        Size = 800
-      end
-      item
-        Name = 'DELI_MAN_DELICOUNT'
-        DataType = ftInteger
-      end
-      item
-        Name = 'DELI_MAN_ST'
-        Attributes = [faRequired]
-        DataType = ftWideString
-        Size = 4
-      end
-      item
-        Name = 'DELI_MAN_DNTIME'
-        DataType = ftWideString
-        Size = 48
-      end
-      item
-        Name = 'DELI_MAN_DLTIME'
-        DataType = ftWideString
-        Size = 48
-      end
-      item
-        Name = 'DELI_MAN_CMT'
-        DataType = ftWideString
-        Size = 4000
-      end
-      item
-        Name = 'DELI_MAN_IMAGE'
-        DataType = ftWideMemo
-      end
-      item
-        Name = 'DELI_MAN_ID'
-        Attributes = [faRequired]
-        DataType = ftWideString
-        Size = 80
-      end
-      item
-        Name = 'DELI_MAN_PASS'
-        Attributes = [faRequired]
-        DataType = ftWideString
-        Size = 120
-      end
-      item
-        Name = 'DELI_MAN_CLOSING'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'DELI_MAN_DEBT'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end>
-    IndexDefs = <>
-    Params = <>
-    ProviderName = 'dsp_DeliveryMan'
-    RemoteServer = DSProviderConnection1
-    StoreDefs = True
-    OnCalcFields = dtsDeliveryManCalcFields
-    Left = 193
-    Top = 447
-    object dtsDeliveryManDELI_MAN_NM: TWideStringField
-      Alignment = taCenter
-      DisplayLabel = #48176#45804#44592#49324#47749
-      DisplayWidth = 12
-      FieldName = 'DELI_MAN_NM'
-      Origin = 'DELI_MAN_NM'
-      Required = True
-      Size = 40
-    end
-    object dtsDeliveryManDELI_MAN_SEX: TIntegerField
-      Alignment = taCenter
-      DisplayLabel = #49457#48324
-      DisplayWidth = 5
-      FieldName = 'DELI_MAN_SEX'
-      Origin = 'DELI_MAN_SEX'
-      Required = True
-    end
-    object dtsDeliveryManDELI_MAN_AGE: TIntegerField
-      Alignment = taCenter
-      DisplayLabel = #45208#51060
-      DisplayWidth = 6
-      FieldName = 'DELI_MAN_AGE'
-      Origin = 'DELI_MAN_AGE'
-      Required = True
-    end
-    object dtsDeliveryManDELI_MAN_PHONE: TWideStringField
-      Alignment = taCenter
-      DisplayLabel = #50672#46973#52376
-      DisplayWidth = 15
-      FieldName = 'DELI_MAN_PHONE'
-      Origin = 'DELI_MAN_PHONE'
-      Required = True
-      Size = 80
-    end
-    object dtsDeliveryManDELI_MAN_OFFICE: TWideStringField
-      Alignment = taCenter
-      DisplayLabel = #48176#45804#44592#49324' '#49324#47924#49548
-      DisplayWidth = 2
-      FieldName = 'DELI_MAN_OFFICE'
-      Origin = 'DELI_MAN_OFFICE'
-      Required = True
-      Size = 120
-    end
-    object dtsDeliveryManDELI_MAN_ADDR: TWideStringField
-      Alignment = taCenter
-      DisplayLabel = #48176#45804#44592#49324' '#51452#49548
-      DisplayWidth = 40
-      FieldName = 'DELI_MAN_ADDR'
-      Origin = 'DELI_MAN_ADDR'
-      Required = True
-      Size = 800
-    end
-    object dtsDeliveryManDELI_MAN_DELICOUNT: TIntegerField
-      DisplayLabel = #48176#45804#54943#49688
-      DisplayWidth = 5
-      FieldName = 'DELI_MAN_DELICOUNT'
-      Origin = 'DELI_MAN_DELICOUNT'
-    end
-    object dtsDeliveryManDELI_MAN_ST: TWideStringField
-      Alignment = taCenter
-      DisplayLabel = #54788#51116' '#48176#45804' '#49345#53468
-      FieldName = 'DELI_MAN_ST'
-      Origin = 'DELI_MAN_ST'
-      Required = True
-      Size = 4
-    end
-    object dtsDeliveryManDELI_MAN_CMT: TWideStringField
-      DisplayLabel = #48176#45804#44592#49324' '#47700#47784
-      DisplayWidth = 50
-      FieldName = 'DELI_MAN_CMT'
-      Origin = 'DELI_MAN_CMT'
-      Size = 4000
-    end
-    object dtsDeliveryManDELI_MAN_SEQ: TIntegerField
-      FieldName = 'DELI_MAN_SEQ'
-      Origin = 'DELI_MAN_SEQ'
-      Required = True
-    end
-    object dtsDeliveryManDELI_MAN_DNTIME: TWideStringField
-      DisplayLabel = #48176#45804' '#51217#49688' '#49884#44036
-      DisplayWidth = 15
-      FieldName = 'DELI_MAN_DNTIME'
-      Origin = 'DELI_MAN_DNTIME'
-      Size = 48
-    end
-    object dtsDeliveryManDELI_MAN_DLTIME: TWideStringField
-      DisplayLabel = #48176#45804' '#50756#47308' '#49884#44036
-      DisplayWidth = 15
-      FieldName = 'DELI_MAN_DLTIME'
-      Origin = 'DELI_MAN_DLTIME'
-      Size = 48
-    end
-    object dtsDeliveryManDELI_MAN_IMAGE: TWideMemoField
-      FieldName = 'DELI_MAN_IMAGE'
-      Origin = 'DELI_MAN_IMAGE'
-      BlobType = ftWideMemo
-    end
-    object dtsDeliveryManDELI_MAN_ID: TWideStringField
-      FieldName = 'DELI_MAN_ID'
-      Origin = 'DELI_MAN_ID'
-      Required = True
-      Size = 80
-    end
-    object dtsDeliveryManDELI_MAN_PASS: TWideStringField
-      FieldName = 'DELI_MAN_PASS'
-      Origin = 'DELI_MAN_PASS'
-      Required = True
-      Size = 120
-    end
-    object dtsDeliveryManDELI_MAN_CLOSING: TIntegerField
-      FieldName = 'DELI_MAN_CLOSING'
-      Origin = 'DELI_MAN_CLOSING'
-      Required = True
-    end
-    object dtsDeliveryManDELI_MAN_DEBT: TIntegerField
-      FieldName = 'DELI_MAN_DEBT'
-      Origin = 'DELI_MAN_DEBT'
-      Required = True
-    end
-    object dtsDeliveryManDELI_MAN_KORSEX: TStringField
-      FieldKind = fkCalculated
-      FieldName = 'DELI_MAN_KORSEX'
-      Calculated = True
-    end
-  end
-  object SQLConnection1: TSQLConnection
-    DriverName = 'DataSnap'
-    LoginPrompt = False
-    Params.Strings = (
-      'DriverUnit=Data.DBXDataSnap'
-      'DatasnapContext=datasnap/'
-      
-        'DriverAssemblyLoader=Borland.Data.TDBXClientDriverLoader,Borland' +
-        '.Data.DbxClientDriver,Version=24.0.0.0,Culture=neutral,PublicKey' +
-        'Token=91d62ebb5b0d1b1b'
-      'DriverName=DataSnap'
-      'HostName=localhost'
-      'port=211'
-      'Filters={}'
-      'CommunicationProtocol=tcp/ip')
-    Connected = True
-    Left = 81
-    Top = 319
-    UniqueId = '{23397A5D-0362-4DAC-A8CC-5B6B7A1831CC}'
-  end
-  object DSProviderConnection1: TDSProviderConnection
-    ServerClassName = 'TServerMethods1'
-    Connected = True
-    SQLConnection = SQLConnection1
-    Left = 193
-    Top = 319
-  end
   object dsDeliveryMan: TDataSource
-    DataSet = dtsDeliveryMan
+    DataSet = dmDeliveryMan.dtsDeliveryMan
     OnStateChange = dsDeliveryManStateChange
     OnDataChange = dsDeliveryManDataChange
-    Left = 81
-    Top = 439
+    Left = 97
+    Top = 394
   end
   object dlgLoadImage: TOpenDialog
-    Left = 137
-    Top = 391
+    Left = 177
+    Top = 394
   end
 end
