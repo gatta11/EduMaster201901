@@ -17,7 +17,19 @@ type
     FDConnection1: TFDConnection;
     FDGUIxWaitCursor1: TFDGUIxWaitCursor;
     tb_DEliveryMan: TFDTable;
-    tb_DEliveryManDELI_MAN_SEQ: TIntegerField;
+    dsp_DeliveryMan: TDataSetProvider;
+    FDPhysIBDriverLink1: TFDPhysIBDriverLink;
+    tb_Menu: TFDTable;
+    tb_MenuMENU_SEQ: TIntegerField;
+    tb_MenuMENU_NM: TWideStringField;
+    tb_MenuMENU_PRICE: TIntegerField;
+    tb_MenuMENU_QNT: TIntegerField;
+    tb_MenuMENU_COOKTIME: TIntegerField;
+    tb_MenuMENU_WAITTIME: TIntegerField;
+    tb_MenuMENU_IMAGE: TBlobField;
+    tb_MenuMENU_CMT: TWideStringField;
+    dsp_Menu: TDataSetProvider;
+    tb_DEliveryManDELI_MAN_SEQ: TFDAutoIncField;
     tb_DEliveryManDELI_MAN_NM: TWideStringField;
     tb_DEliveryManDELI_MAN_SEX: TIntegerField;
     tb_DEliveryManDELI_MAN_AGE: TIntegerField;
@@ -25,17 +37,15 @@ type
     tb_DEliveryManDELI_MAN_OFFICE: TWideStringField;
     tb_DEliveryManDELI_MAN_ADDR: TWideStringField;
     tb_DEliveryManDELI_MAN_DELICOUNT: TIntegerField;
-    tb_DEliveryManDELI_MAN_ST: TWideStringField;
     tb_DEliveryManDELI_MAN_DNTIME: TWideStringField;
     tb_DEliveryManDELI_MAN_DLTIME: TWideStringField;
-    tb_DEliveryManDELI_MAN_CMT: TWideStringField;
-    dsp_DeliveryMan: TDataSetProvider;
-    FDPhysIBDriverLink1: TFDPhysIBDriverLink;
-    tb_DEliveryManDELI_MAN_IMAGE: TWideMemoField;
     tb_DEliveryManDELI_MAN_ID: TWideStringField;
     tb_DEliveryManDELI_MAN_PASS: TWideStringField;
     tb_DEliveryManDELI_MAN_CLOSING: TIntegerField;
     tb_DEliveryManDELI_MAN_DEBT: TIntegerField;
+    tb_DEliveryManDELI_MAN_IMAGE: TBlobField;
+    tb_DEliveryManDELI_MAN_CMT: TWideStringField;
+    tb_DEliveryManDELI_MAN_ST: TSmallintField;
   private
     { Private declarations }
   public

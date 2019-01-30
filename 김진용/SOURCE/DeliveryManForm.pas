@@ -33,7 +33,6 @@ type
     GroupBox1: TGroupBox;
     btnLoadImage: TButton;
     imgDeliveryMan: TImage;
-    DBEdit1: TDBEdit;
     Label10: TLabel;
     btnApply: TButton;
     btnDelete: TButton;
@@ -48,6 +47,7 @@ type
     btnDeleteImg: TButton;
     dsDeliveryMan: TDataSource;
     dlgLoadImage: TOpenDialog;
+    cbDeliManState: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnNewClick(Sender: TObject);
@@ -60,6 +60,7 @@ type
     procedure btnLoadImageClick(Sender: TObject);
     procedure btnDeleteImgClick(Sender: TObject);
     procedure dsDeliveryManDataChange(Sender: TObject; Field: TField);
+    procedure cbDeliManStateChange(Sender: TObject);
 
 
   private
@@ -78,14 +79,24 @@ implementation
 
 {$R *.dfm}
 
-uses ClientClass, CommonFunctions, DataModuleDeliveryMan;
+uses ClientClass, CommonFunctions, DataModulePcClient;
 
 var
   Client : TServerMethods1Client;
 
 procedure TfrmDeliveryMan.btnDeleteClick(Sender: TObject);
+var
+  Msg, ManName : string;
 begin
-  dmDeliveryMan.dtsDeliveryMan.Delete;
+  ManName := dmPcClient.dtsDeliveryManDELI_MAN_NM.AsString;
+  Msg := Format('%s 기사님을 삭제 하시겠습니까?',[ManName]);
+
+  if messagedlg(Msg, mtInformation, [mbYes, mbNO],0) = mrNO then
+    exit;
+
+  dmPcClient.dtsDeliveryMan.Delete;
+
+  //type(dmPcClient.dtsDeliveryMan.State)
 end;
 
 procedure TfrmDeliveryMan.btnDeleteImgClick(Sender: TObject);
@@ -94,10 +105,10 @@ var
 begin
   imgDeliveryMan.Picture.Assign(nil);
 
-  Field := dmDeliveryMan.dtsDeliveryMan.FieldByName('DELI_MAN_IMAGE');
+  Field := dmPcClient.dtsDeliveryMan.FieldByName('DELI_MAN_IMAGE');
 
-  if dmDeliveryMan.dtsDeliveryMan.State <> dsEdit then
-    dmDeliveryMan.dtsDeliveryMan.Edit;
+  if dmPcClient.dtsDeliveryMan.State <> dsEdit then
+    dmPcClient.dtsDeliveryMan.Edit;
 
   Field.Assign(nil);
 
@@ -110,46 +121,65 @@ begin
   if dlgLoadImage.Execute then
     LoadImageFromFile(imgDeliveryMan, dlgLoadImage.Filename);
 
-  Field := dmDeliveryMan.dtsDeliveryMan.FieldByName('DELI_MAN_IMAGE');
+  Field := dmPcClient.dtsDeliveryMan.FieldByName('DELI_MAN_IMAGE');
   SaveImageToBlobField(ImgDeliveryMan, Field as TBlobField);
 end;
 
 procedure TfrmDeliveryMan.btnApplyClick(Sender: TObject);
 begin
-  dmDeliveryMan.dtsDeliveryMan.Post;
-  dmDeliveryMan.dtsDeliveryMan.ApplyUpdates(-1);
-  dmDeliveryMan.dtsDeliveryMan.Refresh;
+  dmPcClient.dtsDeliveryMan.Post;
+  dmPcClient.dtsDeliveryMan.ApplyUpdates(-1);
+  //dmPcClient.dtsDeliveryMan.Refresh;
 end;
 
 procedure TfrmDeliveryMan.btnNewClick(Sender: TObject);
 begin
-  dmDeliveryMan.dtsDeliveryMan.Append;
+  dmPcClient.dtsDeliveryMan.Append;
   edtName.SetFocus;
   imgDeliveryMan.Picture.Assign(nil);
 end;
 
 procedure TfrmDeliveryMan.btnUpdateClick(Sender: TObject);
 begin
-  dmDeliveryMan.dtsDeliveryMan.ApplyUpdates(-1);
-  dmDeliveryMan.dtsDeliveryMan.Refresh;
+  dmPcClient.dtsDeliveryMan.ApplyUpdates(-1);
+  //dmPcClient.dtsDeliveryMan.Refresh;
+end;
+
+procedure TfrmDeliveryMan.cbDeliManStateChange(Sender: TObject);
+begin
+  if dmPcClient.dtsDeliveryMan.state <> dsEdit  then
+    dmPcClient.dtsDeliveryMan.edit;
+
+  case cbDeliManstate.ItemIndex of   //0: 미출근, 1:배송중,  2:배송대기
+    0:dmPcClient.dtsDeliveryMan.FieldByName('DELI_MAN_ST').asinteger := 0;
+    1:dmPcClient.dtsDeliveryMan.FieldByName('DELI_MAN_ST').asinteger := 1;
+    2:dmPcClient.dtsDeliveryMan.FieldByName('DELI_MAN_ST').asinteger := 2;
+  end;
+
 end;
 
 procedure TfrmDeliveryMan.btnCancelClick(Sender: TObject);
 begin
-  dmDeliveryMan.dtsDeliveryMan.CancelUpdates;
+  dmPcClient.dtsDeliveryMan.CancelUpdates;
 end;
 
 procedure TfrmDeliveryMan.dsDeliveryManDataChange(Sender: TObject;
   Field: TField);
 var
   Lfield : TField;
+  DeliState : integer;
 begin
-  if dmDeliveryMan.dtsDeliveryMan.State <> dsBrowse then
+  if dmPcClient.dtsDeliveryMan.State <> dsBrowse then
     exit;
 
-  Lfield := dmDeliveryMan.dtsDeliveryMan.FieldByName('DELI_MAN_IMAGE');
+  Lfield := dmPcClient.dtsDeliveryMan.FieldByName('DELI_MAN_IMAGE');
   LoadImageFromBlobField(imgDeliveryMan, Lfield as TBlobField);
 
+ // if DeliState = nil then
+ //   exit;
+
+  DeliState := dmPcClient.dtsDeliveryMan.FieldByName('DELI_MAN_ST').asinteger;
+  cbDeliManState.ItemIndex := DeliState;    //0: 미출근, 1:배송중,  2:배송대기
 
 end;
 
@@ -158,7 +188,7 @@ var
   State : TDataSetState;
 begin
 
-  State := dmDeliveryMan.dtsDeliveryMan.State;
+  State := dmPcClient.dtsDeliveryMan.State;
 
   btnApply.Enabled := (State <> dsBrowse); //State <> dsBrowse
   btnCancel.Enabled := (State <> dsBrowse);
@@ -179,8 +209,6 @@ begin
 end;
 
 procedure TfrmDeliveryMan.FormCreate(Sender: TObject);
-var
-ps: tagSCROLLBARINFO;
 begin
  // Client := TServerMethods1Client.Create(SqlConnection1, TDBXConnection);
 

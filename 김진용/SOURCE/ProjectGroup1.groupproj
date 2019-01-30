@@ -6,7 +6,7 @@
         <Projects Include="ProjectServer.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="ProjectDeliveryMan.dproj">
+        <Projects Include="ProjectPCClient.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -26,23 +26,23 @@
     <Target Name="ProjectServer:Make">
         <MSBuild Projects="ProjectServer.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ProjectDeliveryMan">
-        <MSBuild Projects="ProjectDeliveryMan.dproj"/>
+    <Target Name="ProjectPCClient">
+        <MSBuild Projects="ProjectPCClient.dproj"/>
     </Target>
-    <Target Name="ProjectDeliveryMan:Clean">
-        <MSBuild Projects="ProjectDeliveryMan.dproj" Targets="Clean"/>
+    <Target Name="ProjectPCClient:Clean">
+        <MSBuild Projects="ProjectPCClient.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="ProjectDeliveryMan:Make">
-        <MSBuild Projects="ProjectDeliveryMan.dproj" Targets="Make"/>
+    <Target Name="ProjectPCClient:Make">
+        <MSBuild Projects="ProjectPCClient.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="ProjectServer;ProjectDeliveryMan"/>
+        <CallTarget Targets="ProjectServer;ProjectPCClient"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ProjectServer:Clean;ProjectDeliveryMan:Clean"/>
+        <CallTarget Targets="ProjectServer:Clean;ProjectPCClient:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ProjectServer:Make;ProjectDeliveryMan:Make"/>
+        <CallTarget Targets="ProjectServer:Make;ProjectPCClient:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
