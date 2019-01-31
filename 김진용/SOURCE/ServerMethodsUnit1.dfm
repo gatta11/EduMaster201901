@@ -121,7 +121,7 @@ object ServerMethods1: TServerMethods1
   object dsp_DeliveryMan: TDataSetProvider
     DataSet = tb_DEliveryMan
     Left = 72
-    Top = 216
+    Top = 224
   end
   object FDPhysIBDriverLink1: TFDPhysIBDriverLink
     Left = 312
@@ -180,6 +180,47 @@ object ServerMethods1: TServerMethods1
   object dsp_Menu: TDataSetProvider
     DataSet = tb_Menu
     Left = 192
-    Top = 224
+    Top = 232
+  end
+  object qryMenuList: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      
+        'SELECT MENU_SEQ, MENU_IMAGE, MENU_NM, MENU_PRICE, MENU_QNT FROM ' +
+        'MENU')
+    Left = 296
+    Top = 152
+    object qryMenuListMENU_SEQ: TIntegerField
+      FieldName = 'MENU_SEQ'
+      Origin = 'MENU_SEQ'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryMenuListMENU_IMAGE: TBlobField
+      FieldName = 'MENU_IMAGE'
+      Origin = 'MENU_IMAGE'
+    end
+    object qryMenuListMENU_NM: TWideStringField
+      FieldName = 'MENU_NM'
+      Origin = 'MENU_NM'
+      Required = True
+      Size = 40
+    end
+    object qryMenuListMENU_PRICE: TIntegerField
+      FieldName = 'MENU_PRICE'
+      Origin = 'MENU_PRICE'
+      Required = True
+    end
+    object qryMenuListMENU_QNT: TIntegerField
+      FieldName = 'MENU_QNT'
+      Origin = 'MENU_QNT'
+      Required = True
+    end
+  end
+  object dspMenuList: TDataSetProvider
+    DataSet = qryMenuList
+    Left = 296
+    Top = 232
   end
 end

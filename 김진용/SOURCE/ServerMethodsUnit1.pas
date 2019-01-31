@@ -46,6 +46,13 @@ type
     tb_DEliveryManDELI_MAN_IMAGE: TBlobField;
     tb_DEliveryManDELI_MAN_CMT: TWideStringField;
     tb_DEliveryManDELI_MAN_ST: TSmallintField;
+    qryMenuList: TFDQuery;
+    dspMenuList: TDataSetProvider;
+    qryMenuListMENU_SEQ: TIntegerField;
+    qryMenuListMENU_IMAGE: TBlobField;
+    qryMenuListMENU_NM: TWideStringField;
+    qryMenuListMENU_PRICE: TIntegerField;
+    qryMenuListMENU_QNT: TIntegerField;
   private
     { Private declarations }
   public
