@@ -53,6 +53,20 @@ type
     qryMenuListMENU_NM: TWideStringField;
     qryMenuListMENU_PRICE: TIntegerField;
     qryMenuListMENU_QNT: TIntegerField;
+    qryOrderMenu: TFDQuery;
+    dspOrderMenu: TDataSetProvider;
+    qryOrderMenuMENU_IMAGE: TBlobField;
+    qryOrderMenuMENU_NM: TWideStringField;
+    qryOrderMenuMENU_QNT: TIntegerField;
+    qryOrderMenuMENU_PRICE: TIntegerField;
+    qryOrderMenuMENU_COOKTIME: TIntegerField;
+    tb_OrderMenu: TFDTable;
+    tb_OrderMenuORDMN_SEQ: TIntegerField;
+    tb_OrderMenuORD_SEQ: TIntegerField;
+    tb_OrderMenuMENU_SEQ: TIntegerField;
+    tb_OrderMenuORDMN_QNT: TIntegerField;
+    tb_OrderMenuORDMN_PRICE: TIntegerField;
+    dspTbOrderMenu: TDataSetProvider;
   private
     { Private declarations }
   public

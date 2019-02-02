@@ -151,6 +151,7 @@ object ServerMethods1: TServerMethods1
       FieldName = 'MENU_PRICE'
       Origin = 'MENU_PRICE'
       Required = True
+      DisplayFormat = '#,##0'
     end
     object tb_MenuMENU_QNT: TIntegerField
       FieldName = 'MENU_QNT'
@@ -211,6 +212,7 @@ object ServerMethods1: TServerMethods1
       FieldName = 'MENU_PRICE'
       Origin = 'MENU_PRICE'
       Required = True
+      DisplayFormat = '#,##0'
     end
     object qryMenuListMENU_QNT: TIntegerField
       FieldName = 'MENU_QNT'
@@ -222,5 +224,89 @@ object ServerMethods1: TServerMethods1
     DataSet = qryMenuList
     Left = 296
     Top = 232
+  end
+  object qryOrderMenu: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      
+        'SELECT MENU_IMAGE, MENU_NM, MENU_QNT, MENU_PRICE, MENU_COOKTIME ' +
+        'FROM MENU, ORDERMENU'
+      'WHERE '
+      '    ORDERMENU.MENU_SEQ = MENU.MENU_SEQ')
+    Left = 392
+    Top = 152
+    object qryOrderMenuMENU_IMAGE: TBlobField
+      FieldName = 'MENU_IMAGE'
+      Origin = 'MENU_IMAGE'
+    end
+    object qryOrderMenuMENU_NM: TWideStringField
+      FieldName = 'MENU_NM'
+      Origin = 'MENU_NM'
+      Required = True
+      Size = 120
+    end
+    object qryOrderMenuMENU_QNT: TIntegerField
+      FieldName = 'MENU_QNT'
+      Origin = 'MENU_QNT'
+      Required = True
+    end
+    object qryOrderMenuMENU_PRICE: TIntegerField
+      FieldName = 'MENU_PRICE'
+      Origin = 'MENU_PRICE'
+      Required = True
+      DisplayFormat = '#,##0'
+    end
+    object qryOrderMenuMENU_COOKTIME: TIntegerField
+      FieldName = 'MENU_COOKTIME'
+      Origin = 'MENU_COOKTIME'
+      Required = True
+    end
+  end
+  object dspOrderMenu: TDataSetProvider
+    DataSet = qryOrderMenu
+    Left = 392
+    Top = 232
+  end
+  object tb_OrderMenu: TFDTable
+    Active = True
+    IndexFieldNames = 'ORDMN_SEQ'
+    Connection = FDConnection1
+    UpdateOptions.UpdateTableName = 'ORDERMENU'
+    UpdateOptions.AutoIncFields = 'ORDMN_SEQ'
+    TableName = 'ORDERMENU'
+    Left = 568
+    Top = 48
+    object tb_OrderMenuORDMN_SEQ: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'ORDMN_SEQ'
+      Origin = 'ORDMN_SEQ'
+    end
+    object tb_OrderMenuORD_SEQ: TIntegerField
+      FieldName = 'ORD_SEQ'
+      Origin = 'ORD_SEQ'
+      Required = True
+    end
+    object tb_OrderMenuMENU_SEQ: TIntegerField
+      FieldName = 'MENU_SEQ'
+      Origin = 'MENU_SEQ'
+      Required = True
+    end
+    object tb_OrderMenuORDMN_QNT: TIntegerField
+      FieldName = 'ORDMN_QNT'
+      Origin = 'ORDMN_QNT'
+      Required = True
+    end
+    object tb_OrderMenuORDMN_PRICE: TIntegerField
+      FieldName = 'ORDMN_PRICE'
+      Origin = 'ORDMN_PRICE'
+      Required = True
+      DisplayFormat = '#,##0'
+    end
+  end
+  object dspTbOrderMenu: TDataSetProvider
+    DataSet = tb_OrderMenu
+    Left = 568
+    Top = 104
   end
 end
