@@ -7,7 +7,7 @@ uses
   CommonFunctions in 'CommonFunctions.pas',
   DataModulePcClient in 'DataModulePcClient.pas' {dmPcClient: TDataModule},
   InsertMenuForm in 'InsertMenuForm.pas' {frmInsertMenu},
-  CustomerForm in 'CustomerForm.pas' {Form1},
+  CustomerForm in 'CustomerForm.pas' {frmCustomer},
   OrderMenuForm in 'OrderMenuForm.pas' {frmOrderMenu};
 
 {$R *.res}

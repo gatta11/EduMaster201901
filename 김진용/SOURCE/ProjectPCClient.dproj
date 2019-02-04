@@ -116,7 +116,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="CustomerForm.pas">
-            <Form>Form1</Form>
+            <Form>frmCustomer</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="OrderMenuForm.pas">
@@ -634,6 +634,7 @@
             <DataSnapProxyLookup>
                 <ClientClass>{23397A5D-0362-4DAC-A8CC-5B6B7A1831CC}</ClientClass>
             </DataSnapProxyLookup>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

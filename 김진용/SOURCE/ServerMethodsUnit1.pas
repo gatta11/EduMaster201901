@@ -67,6 +67,19 @@ type
     tb_OrderMenuORDMN_QNT: TIntegerField;
     tb_OrderMenuORDMN_PRICE: TIntegerField;
     dspTbOrderMenu: TDataSetProvider;
+    tb_Customer: TFDTable;
+    dspCustomer: TDataSetProvider;
+    tb_CustomerCUST_SEQ: TIntegerField;
+    tb_CustomerCUST_NM: TWideStringField;
+    tb_CustomerCUST_PHONE: TWideStringField;
+    tb_CustomerCUST_REGDATE: TWideStringField;
+    tb_CustomerCUST_ADDR: TWideStringField;
+    tb_CustomerCUST_ORDCNT: TIntegerField;
+    tb_CustomerCUST_ST: TSmallintField;
+    tb_CustomerCUST_ID: TWideStringField;
+    tb_CustomerCUST_PASS: TWideStringField;
+    tb_CustomerCUST_TOTALAMOUNT: TIntegerField;
+    tb_CustomerCUST_RCNTDATE: TWideStringField;
   private
     { Private declarations }
   public

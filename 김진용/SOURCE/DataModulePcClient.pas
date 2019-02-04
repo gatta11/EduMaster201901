@@ -58,6 +58,18 @@ type
     dtsTbOrderMenuMENU_SEQ: TIntegerField;
     dtsTbOrderMenuORDMN_QNT: TIntegerField;
     dtsTbOrderMenuORDMN_PRICE: TIntegerField;
+    dtsCustomer: TClientDataSet;
+    dtsCustomerCUST_SEQ: TIntegerField;
+    dtsCustomerCUST_NM: TWideStringField;
+    dtsCustomerCUST_PHONE: TWideStringField;
+    dtsCustomerCUST_REGDATE: TWideStringField;
+    dtsCustomerCUST_ADDR: TWideStringField;
+    dtsCustomerCUST_ORDCNT: TIntegerField;
+    dtsCustomerCUST_ST: TSmallintField;
+    dtsCustomerCUST_ID: TWideStringField;
+    dtsCustomerCUST_PASS: TWideStringField;
+    dtsCustomerCUST_TOTALAMOUNT: TIntegerField;
+    dtsCustomerCUST_RCNTDATE: TWideStringField;
     procedure dtsDeliveryManCalcFields(DataSet: TDataSet);
   private
     { Private declarations }

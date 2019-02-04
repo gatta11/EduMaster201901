@@ -384,4 +384,71 @@ object dmPcClient: TdmPcClient
       DisplayFormat = '#,##0'
     end
   end
+  object dtsCustomer: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCustomer'
+    RemoteServer = DSProviderConnection1
+    Left = 184
+    Top = 296
+    object dtsCustomerCUST_SEQ: TIntegerField
+      FieldName = 'CUST_SEQ'
+      Origin = 'CUST_SEQ'
+    end
+    object dtsCustomerCUST_NM: TWideStringField
+      FieldName = 'CUST_NM'
+      Origin = 'CUST_NM'
+      Required = True
+      Size = 40
+    end
+    object dtsCustomerCUST_PHONE: TWideStringField
+      FieldName = 'CUST_PHONE'
+      Origin = 'CUST_PHONE'
+      Required = True
+      Size = 80
+    end
+    object dtsCustomerCUST_REGDATE: TWideStringField
+      FieldName = 'CUST_REGDATE'
+      Origin = 'CUST_REGDATE'
+      Required = True
+      Size = 40
+    end
+    object dtsCustomerCUST_ADDR: TWideStringField
+      FieldName = 'CUST_ADDR'
+      Origin = 'CUST_ADDR'
+      Required = True
+      Size = 800
+    end
+    object dtsCustomerCUST_ORDCNT: TIntegerField
+      FieldName = 'CUST_ORDCNT'
+      Origin = 'CUST_ORDCNT'
+    end
+    object dtsCustomerCUST_ST: TSmallintField
+      FieldName = 'CUST_ST'
+      Origin = 'CUST_ST'
+      Required = True
+    end
+    object dtsCustomerCUST_ID: TWideStringField
+      FieldName = 'CUST_ID'
+      Origin = 'CUST_ID'
+      Required = True
+      Size = 80
+    end
+    object dtsCustomerCUST_PASS: TWideStringField
+      FieldName = 'CUST_PASS'
+      Origin = 'CUST_PASS'
+      Required = True
+      Size = 120
+    end
+    object dtsCustomerCUST_TOTALAMOUNT: TIntegerField
+      FieldName = 'CUST_TOTALAMOUNT'
+      Origin = 'CUST_TOTALAMOUNT'
+    end
+    object dtsCustomerCUST_RCNTDATE: TWideStringField
+      FieldName = 'CUST_RCNTDATE'
+      Origin = 'CUST_RCNTDATE'
+      Size = 40
+    end
+  end
 end

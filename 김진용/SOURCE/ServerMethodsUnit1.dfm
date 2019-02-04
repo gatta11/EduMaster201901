@@ -20,7 +20,6 @@ object ServerMethods1: TServerMethods1
     Top = 24
   end
   object tb_DEliveryMan: TFDTable
-    Active = True
     Connection = FDConnection1
     UpdateOptions.UpdateTableName = 'DELIVERYMAN'
     UpdateOptions.AutoIncFields = 'DELI_MAN_SEQ'
@@ -128,7 +127,6 @@ object ServerMethods1: TServerMethods1
     Top = 24
   end
   object tb_Menu: TFDTable
-    Active = True
     IndexFieldNames = 'MENU_SEQ'
     Connection = FDConnection1
     UpdateOptions.UpdateTableName = 'MENU'
@@ -184,7 +182,6 @@ object ServerMethods1: TServerMethods1
     Top = 232
   end
   object qryMenuList: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       
@@ -226,7 +223,6 @@ object ServerMethods1: TServerMethods1
     Top = 232
   end
   object qryOrderMenu: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       
@@ -269,7 +265,6 @@ object ServerMethods1: TServerMethods1
     Top = 232
   end
   object tb_OrderMenu: TFDTable
-    Active = True
     IndexFieldNames = 'ORDMN_SEQ'
     Connection = FDConnection1
     UpdateOptions.UpdateTableName = 'ORDERMENU'
@@ -308,5 +303,79 @@ object ServerMethods1: TServerMethods1
     DataSet = tb_OrderMenu
     Left = 568
     Top = 104
+  end
+  object tb_Customer: TFDTable
+    Active = True
+    IndexFieldNames = 'CUST_SEQ'
+    Connection = FDConnection1
+    UpdateOptions.UpdateTableName = 'CUSTOMER'
+    UpdateOptions.AutoIncFields = 'CUST_SEQ'
+    TableName = 'CUSTOMER'
+    Left = 488
+    Top = 152
+    object tb_CustomerCUST_SEQ: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'CUST_SEQ'
+      Origin = 'CUST_SEQ'
+    end
+    object tb_CustomerCUST_NM: TWideStringField
+      FieldName = 'CUST_NM'
+      Origin = 'CUST_NM'
+      Required = True
+      Size = 40
+    end
+    object tb_CustomerCUST_PHONE: TWideStringField
+      FieldName = 'CUST_PHONE'
+      Origin = 'CUST_PHONE'
+      Required = True
+      Size = 80
+    end
+    object tb_CustomerCUST_REGDATE: TWideStringField
+      FieldName = 'CUST_REGDATE'
+      Origin = 'CUST_REGDATE'
+      Required = True
+      Size = 40
+    end
+    object tb_CustomerCUST_ADDR: TWideStringField
+      FieldName = 'CUST_ADDR'
+      Origin = 'CUST_ADDR'
+      Required = True
+      Size = 800
+    end
+    object tb_CustomerCUST_ORDCNT: TIntegerField
+      FieldName = 'CUST_ORDCNT'
+      Origin = 'CUST_ORDCNT'
+    end
+    object tb_CustomerCUST_ST: TSmallintField
+      FieldName = 'CUST_ST'
+      Origin = 'CUST_ST'
+      Required = True
+    end
+    object tb_CustomerCUST_ID: TWideStringField
+      FieldName = 'CUST_ID'
+      Origin = 'CUST_ID'
+      Required = True
+      Size = 80
+    end
+    object tb_CustomerCUST_PASS: TWideStringField
+      FieldName = 'CUST_PASS'
+      Origin = 'CUST_PASS'
+      Required = True
+      Size = 120
+    end
+    object tb_CustomerCUST_TOTALAMOUNT: TIntegerField
+      FieldName = 'CUST_TOTALAMOUNT'
+      Origin = 'CUST_TOTALAMOUNT'
+    end
+    object tb_CustomerCUST_RCNTDATE: TWideStringField
+      FieldName = 'CUST_RCNTDATE'
+      Origin = 'CUST_RCNTDATE'
+      Size = 40
+    end
+  end
+  object dspCustomer: TDataSetProvider
+    DataSet = tb_Customer
+    Left = 488
+    Top = 232
   end
 end

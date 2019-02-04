@@ -8,39 +8,39 @@ uses
   Vcl.DBCtrls, Vcl.Mask, Vcl.Grids, Vcl.DBGrids;
 
 type
-  TForm1 = class(TForm)
+  TfrmCustomer = class(TForm)
     Label1: TLabel;
-    Label2: TLabel;
     Label3: TLabel;
-    Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
-    Label8: TLabel;
     Label9: TLabel;
     Label10: TLabel;
     Label11: TLabel;
     Label12: TLabel;
-    DBGrid1: TDBGrid;
     edtName: TDBEdit;
-    edtAge: TDBEdit;
     edtPhone: TDBEdit;
-    edtOffice: TDBEdit;
     edtAddress: TDBEdit;
     edtCount: TDBEdit;
-    edtClosing: TDBEdit;
-    edtBebt: TDBEdit;
+    edtTotal: TDBEdit;
     edtId: TDBEdit;
-    btnLoadImage: TButton;
     btnApply: TButton;
-    btnDelete: TButton;
     btnNew: TButton;
-    DBEdit2: TDBEdit;
-    DBEdit3: TDBEdit;
+    edtPass: TDBEdit;
+    edtSEQ: TDBEdit;
     btnUpdate: TButton;
     btnCancel: TButton;
-    btnDeleteImg: TButton;
+    dsCustomer: TDataSource;
+    grdCustomer: TDBGrid;
     cbDeliManState: TComboBox;
+    edtRcntDate: TDBEdit;
+    Label2: TLabel;
+    edtRegDate: TDBEdit;
+    Label4: TLabel;
+    DBComboBox1: TDBComboBox;
+    procedure btnNewClick(Sender: TObject);
+    procedure btnUpdateClick(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -48,10 +48,28 @@ type
   end;
 
 var
-  Form1: TForm1;
+  frmCustomer: TfrmCustomer;
 
 implementation
 
 {$R *.dfm}
+
+uses DataModulePcClient;
+
+procedure TfrmCustomer.btnCancelClick(Sender: TObject);
+begin
+  dmPcClient.dtsCustomer.CancelUpdates;
+end;
+
+procedure TfrmCustomer.btnNewClick(Sender: TObject);
+begin
+  dmPcClient.dtsCustomer.Append;
+  edtName.SetFocus;
+end;
+
+procedure TfrmCustomer.btnUpdateClick(Sender: TObject);
+begin
+  dmPcClient.dtsCustomer.ApplyUpdates(-1);
+end;
 
 end.

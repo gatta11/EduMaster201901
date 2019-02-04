@@ -144,7 +144,6 @@ begin
   //btnUpdate.Enabled := (State <> dsBrowse);
   btnNew.Enabled := (State = dsBrowse); //<> dsEdit
   btnDelete.Enabled := (State = dsBrowse);
-
 end;
 
 end.

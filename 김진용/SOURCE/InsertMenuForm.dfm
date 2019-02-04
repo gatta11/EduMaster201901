@@ -66,7 +66,7 @@ object frmInsertMenu: TfrmInsertMenu
     Left = 8
     Top = 8
     Width = 800
-    Height = 225
+    Height = 297
     DataSource = dsMenu
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText

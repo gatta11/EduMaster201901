@@ -21,9 +21,10 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Button2: TButton;
-    Button3: TButton;
+    btnOrderMenuPost: TButton;
     Label3: TLabel;
     TotalPrice: TLabel;
+    edtORD_SEQ: TEdit;
     procedure sgrdMenuListDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure Button1Click(Sender: TObject);
@@ -44,7 +45,7 @@ type
     procedure sgrdOrderMenuListSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
     procedure DeleteRow(StringGrid: TStringGrid; ARow: integer);
-    procedure Button3Click(Sender: TObject);
+    procedure btnOrderMenuPostClick(Sender: TObject);
     
   private
     { Private declarations }
@@ -159,13 +160,49 @@ begin
 end;
 
 
-procedure TfrmOrderMenu.Button3Click(Sender: TObject);
+procedure TfrmOrderMenu.btnOrderMenuPostClick(Sender: TObject);
 var
-  I: Integer;
+  I, J : Integer;
+  S : String;
 begin
-  for I := 0 to sgrdMenuList.ColCount - 1 do
-    sgrdMenuList.Cols[I].Clear;
-  sgrdMenuList.RowCount := 1;
+  if (sgrdOrderMenuList.Cells[0,0] = '') then
+  begin
+    showmessage('주문할 메뉴를 추가하세요.');
+    exit;
+  end;
+
+  for I := 0 to sgrdOrderMenuList.RowCount -1 do
+  begin
+    try
+      dmPcClient.dtsTbOrderMenu.Close;
+      dmPcClient.dtsTbOrderMenu.Open;
+
+      dmPcClient.dtsTbOrderMenu.Append;
+
+      dmPcClient.dtsTbOrderMenu.FieldByName('MENU_SEQ').AsInteger := StrtoInt(sgrdOrderMenuList.Cells[0, I]);
+      dmPcClient.dtsTbOrderMenu.FieldByName('ORDMN_QNT').AsInteger := StrtoInt(sgrdOrderMenuList.Cells[4, I]);
+      S := sgrdOrderMenuList.Cells[7, I];
+      S := StringReplace(S, ',', '',[rfReplaceAll]);
+      S := copy(S, 2,Length(S));
+      dmPcClient.dtsTbOrderMenu.FieldByName('ORDMN_PRICE').AsInteger := StrtoInt(S);
+      dmPcClient.dtsTbOrderMenu.FieldByName('ORD_SEQ').AsInteger := StrtoInt(edtORD_SEQ.Text);
+
+      dmPcClient.dtsTbOrderMenu.ApplyUpdates(-1);
+
+    except
+      begin
+      raise Exception.Create('주문내역 올리는 도중 오류 발생');
+      exit;
+      end;
+    end;
+
+  end;
+
+  for I := 0 to sgrdOrderMenuList.RowCount -1 do
+    DeleteRow(sgrdOrderMenuList, I);
+
+
+
 end;
 
 procedure TfrmOrderMenu.ClearMenuImageList;
@@ -403,6 +440,7 @@ begin
 
 //  if gdFixed in State then //if is fixed use the clBtnFace color
 //    sgrdOrderMenuList.Canvas.Brush.Color := clBtnFace;
+
 
   S := sgrdOrderMenuList.Cells[Acol,Arow];  // cell안의 글자
   HPos:= ((Rect.Top - Rect.Bottom) - sgrdOrderMenuList.Canvas.TextHeight(S)) div 2;   //중앙정렬
