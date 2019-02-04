@@ -3,7 +3,7 @@ object frmOrderMenu: TfrmOrderMenu
   Top = 0
   Caption = 'frmOrderMenu'
   ClientHeight = 719
-  ClientWidth = 1216
+  ClientWidth = 1359
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,7 +14,7 @@ object frmOrderMenu: TfrmOrderMenu
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   DesignSize = (
-    1216
+    1359
     719)
   PixelsPerInch = 96
   TextHeight = 13
@@ -44,9 +44,39 @@ object frmOrderMenu: TfrmOrderMenu
     Font.Style = []
     ParentFont = False
   end
+  object Label3: TLabel
+    Left = 521
+    Top = 2
+    Width = 652
+    Height = 24
+    Caption = 
+      '0          1                      2                   3         ' +
+      '   4           5          6          7'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -20
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object TotalPrice: TLabel
+    Left = 1172
+    Top = 453
+    Width = 143
+    Height = 40
+    BiDiMode = bdRightToLeft
+    Caption = 'TotalPrice'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -33
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBiDiMode = False
+    ParentFont = False
+  end
   object sgrdMenuList: TStringGrid
     Left = 8
-    Top = 24
+    Top = 32
     Width = 497
     Height = 393
     DefaultColWidth = 90
@@ -80,13 +110,13 @@ object frmOrderMenu: TfrmOrderMenu
   end
   object sgrdOrderMenuList: TStringGrid
     Left = 511
-    Top = 24
-    Width = 697
+    Top = 32
+    Width = 840
     Height = 393
     Anchors = [akLeft, akTop, akRight, akBottom]
-    BiDiMode = bdLeftToRight
     BorderStyle = bsNone
-    ColCount = 8
+    ColCount = 9
+    Ctl3D = False
     DefaultColWidth = 75
     DefaultRowHeight = 75
     DoubleBuffered = True
@@ -100,8 +130,8 @@ object frmOrderMenu: TfrmOrderMenu
     Font.Name = 'Tahoma'
     Font.Style = []
     GridLineWidth = 0
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowMoving, goEditing, goRowSelect]
-    ParentBiDiMode = False
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSizing, goColSizing, goRowMoving, goRowSelect]
+    ParentCtl3D = False
     ParentDoubleBuffered = False
     ParentFont = False
     ScrollBars = ssVertical
@@ -110,7 +140,6 @@ object frmOrderMenu: TfrmOrderMenu
     OnExit = sgrdOrderMenuListExit
     OnSelectCell = sgrdOrderMenuListSelectCell
     OnSetEditText = sgrdOrderMenuListSetEditText
-    ExplicitWidth = 588
   end
   object DBGrid1: TDBGrid
     Left = 0
@@ -146,11 +175,13 @@ object frmOrderMenu: TfrmOrderMenu
       item
         Expanded = False
         FieldName = 'MENU_PRICE'
+        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MENU_COOKTIME'
+        Width = 64
         Visible = True
       end>
   end

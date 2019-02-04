@@ -22,6 +22,8 @@ type
     Label2: TLabel;
     Button2: TButton;
     Button3: TButton;
+    Label3: TLabel;
+    TotalPrice: TLabel;
     procedure sgrdMenuListDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure Button1Click(Sender: TObject);
@@ -47,6 +49,7 @@ type
   private
     { Private declarations }
     FMenuImageList: TList<TWICImage>;
+    FQntImageList : TList<TWICImage>;
     procedure ClearMenuImageList;
   public
     { Public declarations }
@@ -127,7 +130,7 @@ begin
 end; 
 
 
-procedure TfrmOrderMenu.Button2Click(Sender: TObject);
+procedure TfrmOrderMenu.Button2Click(Sender: TObject);     // V 스크롤 크기 조정
 var
   i, j: Integer;
   info: TScrollInfo;
@@ -182,17 +185,45 @@ var
   row: integer;
   rect: TRect;
   y: integer;
+  wic: TWICImage;
 begin
   FMenuImageList := TList<TWICImage>.Create;
+  FQntImageList := TList<TWICImage>.Create;
+
+  wic := TWICImage.Create;
+  //wic.LoadFromFile('..\..\Image\minus.png');
+  wic.LoadFromFile('..\..\Image\Previous.png');
+  FQntImageList.Add(wic);
+
+  wic := TWICImage.Create;
+  //wic.LoadFromFile('..\..\Image\minus.png');
+  wic.LoadFromFile('..\..\Image\next.png');
+  FQntImageList.Add(wic);
+
+  wic := TWICImage.Create;
+  //wic.LoadFromFile('..\..\Image\minus.png');
+  wic.LoadFromFile('..\..\Image\Delete.png');
+  FQntImageList.Add(wic);
 
   sgrdMenuList.ColWidths[0] := sgrdMenuList.GridLineWidth -2;
   sgrdMenuList.ColWidths[1] := sgrdMenuList.GridLineWidth + 100;
   sgrdMenuList.ColWidths[2] := sgrdMenuList.GridLineWidth + 180;
   sgrdMenuList.ColWidths[3] := sgrdMenuList.GridLineWidth + 80;
   sgrdMenuList.ColWidths[4] := sgrdMenuList.GridLineWidth + 100;
-  Button1Click(self);
 
-(*
+  sgrdOrderMenuList.ColWidths[0] := sgrdOrderMenuList.GridLineWidth + 40;
+  sgrdOrderMenuList.ColWidths[1] := sgrdOrderMenuList.GridLineWidth + 80;
+  sgrdOrderMenuList.ColWidths[2] := sgrdOrderMenuList.GridLineWidth + 180;
+  sgrdOrderMenuList.ColWidths[3] := sgrdOrderMenuList.GridLineWidth + 80;
+  sgrdOrderMenuList.ColWidths[4] := sgrdOrderMenuList.GridLineWidth + 80;
+  sgrdOrderMenuList.ColWidths[5] := sgrdOrderMenuList.GridLineWidth + 80;
+  sgrdOrderMenuList.ColWidths[6] := sgrdOrderMenuList.GridLineWidth + 60;
+  sgrdOrderMenuList.ColWidths[7] := sgrdOrderMenuList.GridLineWidth + 100;
+  sgrdOrderMenuList.ColWidths[8] := sgrdOrderMenuList.GridLineWidth + 75;
+
+  Button1Click(self);
+  
+(*                                                                               // StringGrid에 Button넣기
     rect := sgrdOrderMenuList.CellRect(C_COL, sgrdOrderMenuList.TopRow);
     point := ScreenToClient(ClientToScreen(rect.TopLeft));
     y := rect.Top;
@@ -216,21 +247,34 @@ procedure TfrmOrderMenu.FormDestroy(Sender: TObject);
 begin
   ClearMenuImageList;
   FMenuImageList.Free;
+  FQntImageList.Free;
 end;
 
 procedure TfrmOrderMenu.sgrdMenuListDblClick(Sender: TObject);
 var
   Rcnt : Integer;
-  wic: TWICImage; // Microsoft Windows Imaging Component
   Stream: TMemoryStream;
   Bitmap : TBitmap;
   H: THandle;
   Rect : TRect;
-  s2 : string;
-
+  Seq, S2 : string;
   msg:string;
-
+  I : Integer;
 begin
+  for I := 0 to sgrdOrderMenuList.RowCount-1 do
+    begin
+      Seq := sgrdOrderMenuList.Cells[0, I];
+      if sgrdMenuList.Cells[0,sgrdMenuList.Row] = SEQ  then
+      begin
+        Msg := '<'+sgrdMenuList.Cells[2,sgrdMenuList.Row] + '> 메뉴가 주문목록에 있습니다.'+#13#10+ '수량을 증가 시키겠습니까?';
+        if messagedlg(Msg, mtInformation, [mbYes, mbNO], 0) = mrNO then
+          exit;
+
+        //showmessage(sgrdOrderMenuList.Cells[4, I]);
+        sgrdOrderMenuList.Cells[4, I] := inttostr(strtoint(sgrdOrderMenuList.Cells[4, I])+1);
+        exit;
+      end;
+    end;
 
   if sgrdOrderMenuList.RowCount > 1 then
     sgrdOrderMenuList.RowCount := sgrdOrderMenuList.RowCount + 1
@@ -243,23 +287,22 @@ begin
     end;
     //sgrdOrderMenuList.RowCount := sgrdOrderMenuList.RowCount + 1;
   Rcnt := sgrdOrderMenuList.RowCount;
-  sgrdOrderMenuList.Cells[0,Rcnt-1] := sgrdMenuList.Cells[0,sgrdMenuList.Row];
-  sgrdOrderMenuList.Cells[2,Rcnt-1] := sgrdMenuList.Cells[2,sgrdMenuList.Row];
-  sgrdOrderMenuList.Cells[3,Rcnt-1] := sgrdMenuList.Cells[3,sgrdMenuList.Row];
+  sgrdOrderMenuList.Cells[0,Rcnt-1] := sgrdMenuList.Cells[0,sgrdMenuList.Row];   // SEQ
+  sgrdOrderMenuList.Cells[2,Rcnt-1] := sgrdMenuList.Cells[2,sgrdMenuList.Row];   // MENU 이름
+  sgrdOrderMenuList.Cells[4,Rcnt-1] := sgrdMenuList.Cells[3,sgrdMenuList.Row];   // 수량
 
   s2 := sgrdMenuList.Cells[4,sgrdMenuList.Row];
   s2 := StringReplace(s2, ',', '',[rfReplaceAll]);
   s2 := copy(s2, 2,Length(s2));
 
 
-  sgrdOrderMenuList.Cells[4,Rcnt-1] := s2; // 2개이상 계산용 단가저장
-  sgrdOrderMenuList.Cells[5,Rcnt-1] := sgrdMenuList.Cells[4,sgrdMenuList.Row];
+  sgrdOrderMenuList.Cells[6,Rcnt-1] := s2; // 수량 2개이상 일때 계산용 단가저장
+  sgrdOrderMenuList.Cells[7,Rcnt-1] := sgrdMenuList.Cells[4,sgrdMenuList.Row];
 
-  sgrdOrderMenuList.Cells[6,Rcnt-1] := '삭제';
+  sgrdOrderMenuList.Cells[8,Rcnt-1] := '삭제';
 
-  //  msg := format('Col: %d, Row: %d',[seCol, seRow]);
-//  OutputDebugString(PChar(Msg));
-  //sgrdOrderMenuList.Canvas.
+  //msg := format('Col: %d, Row: %d',[seCol, seRow]);
+  //OutputDebugString(PChar(Msg));
   //dmPcClient.dtsTbOrderMenu.ApplyUpdates(-1);
   sgrdOrderMenuList.Refresh;
 
@@ -348,12 +391,24 @@ var
   S:String;
   WPos:integer;
   HPos:integer;
+  UnitCost : integer;
+  Price : String;
+  Qnt, TotalCost : Integer;
+  I:Integer;
 
 begin
+
+// if gdSelected in State then //if is selected use the clAqua color
+//    sgrdOrderMenuList.Canvas.Brush.Color := clWhite;
+
+//  if gdFixed in State then //if is fixed use the clBtnFace color
+//    sgrdOrderMenuList.Canvas.Brush.Color := clBtnFace;
+
   S := sgrdOrderMenuList.Cells[Acol,Arow];  // cell안의 글자
   HPos:= ((Rect.Top - Rect.Bottom) - sgrdOrderMenuList.Canvas.TextHeight(S)) div 2;   //중앙정렬
   WPos:= ((Rect.Right - Rect.Left) - sgrdOrderMenuList.Canvas.Textwidth(S)) div 2;
   sgrdOrderMenuList.Canvas.TextRect(Rect, Rect.Left+WPos, Rect.Bottom+HPos, S);
+  TotalCost := 0;
 
   case ACol of
     1:begin // Menu Image
@@ -370,22 +425,41 @@ begin
         end;
       end;
     end;
+    3:if (sgrdOrderMenuList.Cells[0,Arow] <> '') then
+//      sgrdOrderMenuList.Canvas.StretchDraw(Rect, FQntImageList[0]);
+        sgrdOrderMenuList.Canvas.Draw(Rect.Left, Rect.Top, FQntImageList[0]);
+    4:if (sgrdOrderMenuList.Cells[0,Arow] <> '') then
+    begin // 메뉴 수량
+      UnitCost := strtoint(sgrdOrderMenuList.Cells[6, ARow]);
+      Qnt := strtoint(sgrdOrderMenuList.Cells[4, ARow]);
+      Price := Format('%m', [UnitCost * Qnt * 1.0]);
+      sgrdOrderMenuList.Cells[7, ARow] := Price;
 
-    3:begin // 메뉴 수량
-      sgrdOrderMenuList.Canvas.font.Size:= sgrdOrderMenuList.Canvas.Font.Size + 4;
+      sgrdOrderMenuList.Canvas.Font.Name := 'Tahoma';
+      sgrdOrderMenuList.Canvas.Font.Color := clHotLight;
+      sgrdOrderMenuList.Canvas.font.Size:= sgrdOrderMenuList.Canvas.Font.Size + 15;
       HPos:= ((Rect.Top - Rect.Bottom) - sgrdOrderMenuList.Canvas.TextHeight(S)) div 2;
       WPos:= ((Rect.Right - Rect.Left) - sgrdOrderMenuList.Canvas.Textwidth(S)) div 2;
       sgrdOrderMenuList.Canvas.TextRect(Rect, Rect.Left+WPos, Rect.Bottom+HPos, S);
     end;
 
-    4:begin // 메뉴 가격
+    5:if (sgrdOrderMenuList.Cells[0,Arow] <> '') then
+//      sgrdOrderMenuList.Canvas.StretchDraw(Rect, FQntImageList[1]);
+      sgrdOrderMenuList.Canvas.Draw(Rect.Left, Rect.Top, FQntImageList[1]);
+    7:begin // 메뉴 가격
       sgrdOrderMenuList.Canvas.font.Size:= sgrdOrderMenuList.Canvas.Font.Size + 4;
       OldAlign := SetTextAlign(sgrdOrderMenuList.Canvas.Handle, Ta_right);
-      HPos:= ((Rect.Top - Rect.Bottom) - sgrdOrderMenuList.Canvas.TextHeight(S)) div 2; //중앙정렬
+      HPos:= ((Rect.Top - Rect.Bottom) - sgrdOrderMenuList.Canvas.TextHeight(S)) div 2; //세로 방향 middle정렬
       sgrdOrderMenuList.Canvas.TextRect(Rect, Rect.Right-10, Rect.Bottom+HPos, S);      //오른쪽 출발
       SetTextAlign(sgrdOrderMenuList.Canvas.Handle, OldAlign);
+
     end;
-(*
+
+    8:if (sgrdOrderMenuList.Cells[0,Arow] <> '') then
+//      sgrdOrderMenuList.Canvas.StretchDraw(Rect, FQntImageList[0]);
+        sgrdOrderMenuList.Canvas.Draw(Rect.Left, Rect.Top, FQntImageList[2]);
+
+    (*
       6:
       begin
       DrawFrameControl(TStringGrid(Sender).Canvas.Handle, Rect, DFC_BUTTON, DFCS_BUTTONPUSH);//DFCS_BUTTONPUSH);
@@ -393,6 +467,18 @@ begin
       end;
 *)
   end;
+
+  if (sgrdOrderMenuList.Cells[7,Arow] <> '') then
+    for I := 0 to sgrdOrderMenuList.RowCount -1 do
+    begin
+    S := sgrdOrderMenuList.Cells[7, I];
+    S := StringReplace(S,',','',[rfReplaceAll]);
+    S := Copy(S, 2,Length(S));
+
+    TotalCost := TotalCost + strtoint(S) ;
+    end;
+
+  TotalPrice.Caption := inttostr(TotalCost);
 end;
 
 procedure TfrmOrderMenu.sgrdOrderMenuListExit(Sender: TObject);
@@ -407,23 +493,41 @@ var
   SeletedRowMenuName : String;
   Msg :String;
   i : Integer;
+  Qnt : Integer;
+  Price : String;
+  TotalCost : Integer;
+
 begin
-  if (ACol <> 3) then
-  {컬럼에서 수정모드 막음}
-    TStringGrid(Sender).Options := TStringGrid(Sender).Options - [goEditing]
-  else
-    TStringGrid(Sender).Options := TStringGrid(Sender).Options + [goEditing];
-
-  S:= sgrdOrderMenuList.Cells[ACol, ARow];
-  SeletedRowMenuName := sgrdOrderMenuList.Cells[2, ARow];
-  Msg := SeletedRowMenuName + '메뉴를 삭제 하시겠습니까?';
-
-  if ACol = 6 then
+(*
+    if (ACol <> 3) then
+    {컬럼에서 수정모드 막음}
+      TStringGrid(Sender).Options := TStringGrid(Sender).Options - [goEditing]
+    else
+      TStringGrid(Sender).Options := TStringGrid(Sender).Options + [goEditing];
+*)
+  Qnt:= strtoint(sgrdOrderMenuList.Cells[4, ARow]);
+  if (Acol = 3) and (Qnt > 1) then
   begin
+    Qnt := Qnt - 1;
+    sgrdOrderMenuList.Cells[4, ARow] := inttoStr(Qnt);
+  end;
+
+  if (Acol = 5) then
+  begin
+    Qnt := Qnt + 1;
+    sgrdOrderMenuList.Cells[4, ARow] := inttoStr(Qnt);
+  end;
+
+  if ACol = 8 then
+  begin
+    SeletedRowMenuName := sgrdOrderMenuList.Cells[2, ARow];
+    Msg := SeletedRowMenuName + '메뉴를 삭제 하시겠습니까?';
+
     if messagedlg(Msg, mtInformation, [mbYes, mbNO], 0) = mrNO then
       exit;
     DeleteRow(sgrdOrderMenuList, Arow);
   end;
+
 end;
 
 procedure TfrmOrderMenu.sgrdOrderMenuListSetEditText(Sender: TObject; ACol,
@@ -456,8 +560,8 @@ begin
     else
     begin
     for i := ARow to RowCount-2 do
-      Rows[i].Assign(Rows[i+1]); // 밑에 줄을 올려서 덮어버림
-    RowCount := RowCount - 1
+      Rows[i].Assign(Rows[i+1]); // 차례대로 밑에 줄을 복사해서 덮어버림
+    RowCount := RowCount - 1  //
     end;
   end;
 
