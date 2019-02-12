@@ -9,6 +9,9 @@
         <Projects Include="ProjectPCClient.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="ProjectMobileDeliveryMan2.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="ProjectPCClient:Make">
         <MSBuild Projects="ProjectPCClient.dproj" Targets="Make"/>
     </Target>
+    <Target Name="ProjectMobileDeliveryMan2">
+        <MSBuild Projects="ProjectMobileDeliveryMan2.dproj"/>
+    </Target>
+    <Target Name="ProjectMobileDeliveryMan2:Clean">
+        <MSBuild Projects="ProjectMobileDeliveryMan2.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ProjectMobileDeliveryMan2:Make">
+        <MSBuild Projects="ProjectMobileDeliveryMan2.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ProjectServer;ProjectPCClient"/>
+        <CallTarget Targets="ProjectServer;ProjectPCClient;ProjectMobileDeliveryMan2"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ProjectServer:Clean;ProjectPCClient:Clean"/>
+        <CallTarget Targets="ProjectServer:Clean;ProjectPCClient:Clean;ProjectMobileDeliveryMan2:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ProjectServer:Make;ProjectPCClient:Make"/>
+        <CallTarget Targets="ProjectServer:Make;ProjectPCClient:Make;ProjectMobileDeliveryMan2:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

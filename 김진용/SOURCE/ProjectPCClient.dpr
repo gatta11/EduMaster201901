@@ -8,7 +8,10 @@ uses
   DataModulePcClient in 'DataModulePcClient.pas' {dmPcClient: TDataModule},
   InsertMenuForm in 'InsertMenuForm.pas' {frmInsertMenu},
   CustomerForm in 'CustomerForm.pas' {frmCustomer},
-  OrderMenuForm in 'OrderMenuForm.pas' {frmOrderMenu};
+  OrderMenuForm in 'OrderMenuForm.pas' {frmOrderMenu},
+  OrderForm in 'OrderForm.pas' {frmOrder},
+  FindCustomerForm in 'FindCustomerForm.pas' {frmFindCustomer},
+  PcClientMainForm in 'PcClientMainForm.pas' {MainForm};
 
 {$R *.res}
 
@@ -16,6 +19,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TdmPcClient, dmPcClient);
-  Application.CreateForm(TfrmOrderMenu, frmOrderMenu);
+  Application.CreateForm(TMainForm, MainForm);
   Application.Run;
 end.

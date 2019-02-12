@@ -2,7 +2,7 @@ object frmOrderMenu: TfrmOrderMenu
   Left = 0
   Top = 0
   Caption = 'frmOrderMenu'
-  ClientHeight = 744
+  ClientHeight = 772
   ClientWidth = 1359
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,7 +15,7 @@ object frmOrderMenu: TfrmOrderMenu
   OnDestroy = FormDestroy
   DesignSize = (
     1359
-    744)
+    772)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -100,11 +100,11 @@ object frmOrderMenu: TfrmOrderMenu
     OnSelectCell = sgrdMenuListSelectCell
   end
   object Button1: TButton
-    Left = 256
-    Top = 679
+    Left = 224
+    Top = 695
     Width = 161
     Height = 57
-    Caption = 'Button1'
+    Caption = #47700#45684' '#47785#47197' '#44032#51256#50724#44592
     TabOrder = 1
     OnClick = Button1Click
   end
@@ -145,7 +145,7 @@ object frmOrderMenu: TfrmOrderMenu
     Left = 224
     Top = 441
     Width = 641
-    Height = 52
+    Height = 117
     DataSource = dsOrderMenulist
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     ReadOnly = True
@@ -175,21 +175,19 @@ object frmOrderMenu: TfrmOrderMenu
       item
         Expanded = False
         FieldName = 'MENU_PRICE'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MENU_COOKTIME'
-        Width = 64
         Visible = True
       end>
   end
   object DBGrid2: TDBGrid
     Left = 224
-    Top = 499
+    Top = 564
     Width = 641
-    Height = 149
+    Height = 125
     DataSource = dsTbOrderMenu
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     ReadOnly = True
@@ -201,8 +199,8 @@ object frmOrderMenu: TfrmOrderMenu
     TitleFont.Style = []
   end
   object Button2: TButton
-    Left = 464
-    Top = 679
+    Left = 400
+    Top = 695
     Width = 153
     Height = 57
     Caption = 'Button2'
@@ -210,8 +208,8 @@ object frmOrderMenu: TfrmOrderMenu
     OnClick = Button2Click
   end
   object btnOrderMenuPost: TButton
-    Left = 680
-    Top = 679
+    Left = 559
+    Top = 695
     Width = 153
     Height = 57
     Caption = #51452#47928' '#47785#47197' '#50732#47532#44592
@@ -219,8 +217,8 @@ object frmOrderMenu: TfrmOrderMenu
     OnClick = btnOrderMenuPostClick
   end
   object edtORD_SEQ: TEdit
-    Left = 944
-    Top = 679
+    Left = 888
+    Top = 657
     Width = 149
     Height = 32
     Font.Charset = DEFAULT_CHARSET
@@ -231,6 +229,16 @@ object frmOrderMenu: TfrmOrderMenu
     ParentFont = False
     TabOrder = 7
     Text = '2'
+  end
+  object Button3: TButton
+    Left = 1004
+    Top = 535
+    Width = 217
+    Height = 54
+    Caption = #50724#45908#54868#47732#51004#47196' '#45336#44592#44592
+    ModalResult = 1
+    TabOrder = 8
+    OnClick = Button3Click
   end
   object dsOrderMenulist: TDataSource
     DataSet = dmPcClient.dtsOrderMenu

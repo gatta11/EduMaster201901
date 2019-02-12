@@ -4,7 +4,7 @@ uses
   Vcl.Forms,
   Web.WebReq,
   IdHTTPWebBrokerBridge,
-  ServerForm in 'ServerForm.pas' {Form13},
+  ServerForm in 'ServerForm.pas' {frmServer},
   ServerMethodsUnit1 in 'ServerMethodsUnit1.pas' {ServerMethods1: TDSServerModule},
   ServerContainerUnit1 in 'ServerContainerUnit1.pas' {ServerContainer1: TDataModule};
 
@@ -13,7 +13,7 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TForm13, Form13);
+  Application.CreateForm(TfrmServer, frmServer);
   Application.CreateForm(TServerContainer1, ServerContainer1);
   Application.Run;
 end.
