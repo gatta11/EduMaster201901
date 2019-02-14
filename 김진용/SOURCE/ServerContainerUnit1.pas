@@ -14,6 +14,8 @@ type
     DSServerClass1: TDSServerClass;
     procedure DSServerClass1GetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
+    procedure DSServerClass1CreateInstance(
+      DSCreateInstanceEventObject: TDSCreateInstanceEventObject);
   private
     { Private declarations }
   public
@@ -29,6 +31,13 @@ implementation
 
 uses
   ServerMethodsUnit1;
+
+procedure TServerContainer1.DSServerClass1CreateInstance(
+  DSCreateInstanceEventObject: TDSCreateInstanceEventObject);
+begin
+//  DSCreateInstanceEventObject.ServerClassInstance :=
+//    TServerMethods1.Create(DSServer1);
+end;
 
 procedure TServerContainer1.DSServerClass1GetClass(
   DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);

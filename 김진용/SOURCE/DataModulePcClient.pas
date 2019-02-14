@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, Data.DBXDataSnap, Data.DBXCommon,
   IPPeerClient, Data.DB, Datasnap.DBClient, Vcl.Dialogs, Datasnap.DSConnect,
-  Data.SqlExpr;
+  Data.SqlExpr, Datasnap.DSCommon;
 
 type
   TdmPcClient = class(TDataModule)
@@ -116,6 +116,7 @@ type
     dtsOrderListORDD_DATE: TWideStringField;
     dtsGetNewOrderSEQ: TClientDataSet;
     dtsGetNewOrderSEQMAX: TIntegerField;
+    DSClientCallbackChannelManager: TDSClientCallbackChannelManager;
     procedure dtsDeliveryManCalcFields(DataSet: TDataSet);
   private
     { Private declarations }

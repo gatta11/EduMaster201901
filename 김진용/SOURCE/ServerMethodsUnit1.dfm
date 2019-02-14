@@ -1,12 +1,12 @@
 object ServerMethods1: TServerMethods1
   OldCreateOrder = False
-  Height = 605
-  Width = 844
+  OnCreate = DSServerModuleCreate
+  Height = 634
+  Width = 862
   object FDConnection1: TFDConnection
     Params.Strings = (
       'Database=C:\DB\JY_Project\TESTDB2.IB'
       'ConnectionDef=JinyongProject')
-    Connected = True
     LoginPrompt = False
     Left = 72
     Top = 32
@@ -17,7 +17,6 @@ object ServerMethods1: TServerMethods1
     Top = 24
   end
   object tb_DEliveryMan: TFDTable
-    Active = True
     Connection = FDConnection1
     UpdateOptions.UpdateTableName = 'DELIVERYMAN'
     UpdateOptions.AutoIncFields = 'DELI_MAN_SEQ'
@@ -125,7 +124,6 @@ object ServerMethods1: TServerMethods1
     Top = 24
   end
   object tb_Menu: TFDTable
-    Active = True
     IndexFieldNames = 'MENU_SEQ'
     Connection = FDConnection1
     UpdateOptions.UpdateTableName = 'MENU'
@@ -181,7 +179,6 @@ object ServerMethods1: TServerMethods1
     Top = 232
   end
   object qryMenuList: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       
@@ -223,7 +220,6 @@ object ServerMethods1: TServerMethods1
     Top = 232
   end
   object qryOrderMenu: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       
@@ -266,7 +262,6 @@ object ServerMethods1: TServerMethods1
     Top = 232
   end
   object tb_OrderMenu: TFDTable
-    Active = True
     IndexFieldNames = 'ORDMN_SEQ'
     Connection = FDConnection1
     UpdateOptions.UpdateTableName = 'ORDERMENU'
@@ -307,7 +302,6 @@ object ServerMethods1: TServerMethods1
     Top = 224
   end
   object tb_Customer: TFDTable
-    Active = True
     IndexFieldNames = 'CUST_SEQ'
     Connection = FDConnection1
     UpdateOptions.UpdateTableName = 'CUSTOMER'
@@ -381,7 +375,6 @@ object ServerMethods1: TServerMethods1
     Top = 232
   end
   object qryOrderList: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT DELIORDER.ORDD_SEQ,'
@@ -491,7 +484,6 @@ object ServerMethods1: TServerMethods1
     Top = 416
   end
   object tb_DeliOrder: TFDTable
-    Active = True
     IndexFieldNames = 'ORDD_SEQ'
     Connection = FDConnection1
     UpdateOptions.UpdateTableName = 'DELIORDER'
@@ -549,7 +541,6 @@ object ServerMethods1: TServerMethods1
     Top = 416
   end
   object qryFindCustomer: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT * FROM CUSTOMER')
@@ -562,7 +553,6 @@ object ServerMethods1: TServerMethods1
     Top = 416
   end
   object qryDeliveryList: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       
@@ -630,7 +620,6 @@ object ServerMethods1: TServerMethods1
     Top = 416
   end
   object qryDeliLogin: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT DELI_MAN_ID, DELI_MAN_PASS, DELI_MAN_NM FROM DELIVERYMAN'
@@ -653,7 +642,6 @@ object ServerMethods1: TServerMethods1
     Top = 416
   end
   object qryDetailOrderMenu: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT ORDERMENU.*, MENU_NM'
@@ -710,7 +698,6 @@ object ServerMethods1: TServerMethods1
     Top = 408
   end
   object qryInsertNewOrder: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT MAX(ORDD_SEQ) FROM DELIORDER')
@@ -721,5 +708,62 @@ object ServerMethods1: TServerMethods1
     DataSet = qryInsertNewOrder
     Left = 744
     Top = 424
+  end
+  object tb_MOrderMenu: TFDTable
+    OnNewRecord = tb_MOrderMenuNewRecord
+    IndexFieldNames = 'MORDMN_SEQ'
+    Connection = FDConnection1
+    UpdateOptions.UpdateTableName = 'MORDERMENU'
+    UpdateOptions.AutoIncFields = 'MORDMN_SEQ'
+    Exclusive = True
+    TableName = 'MORDERMENU'
+    Left = 64
+    Top = 496
+    object tb_MOrderMenuMORDMN_SEQ: TFDAutoIncField
+      FieldName = 'MORDMN_SEQ'
+      Origin = 'MORDMN_SEQ'
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      IdentityInsert = True
+    end
+    object tb_MOrderMenuORD_SEQ: TIntegerField
+      FieldName = 'ORD_SEQ'
+      Origin = 'ORD_SEQ'
+      Required = True
+    end
+    object tb_MOrderMenuMENU_SEQ: TIntegerField
+      FieldName = 'MENU_SEQ'
+      Origin = 'MENU_SEQ'
+      Required = True
+    end
+    object tb_MOrderMenuMORDMN_QNT: TIntegerField
+      FieldName = 'MORDMN_QNT'
+      Origin = 'MORDMN_QNT'
+      Required = True
+    end
+    object tb_MOrderMenuMORDMN_PRICE: TIntegerField
+      FieldName = 'MORDMN_PRICE'
+      Origin = 'MORDMN_PRICE'
+      Required = True
+    end
+  end
+  object dspTbMOrderMenu: TDataSetProvider
+    DataSet = tb_MOrderMenu
+    Left = 64
+    Top = 568
+  end
+  object qryFindMenu: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT MENU_NM FROM MENU'
+      'WHERE MENU.MENU_SEQ = :MENU_SEQ')
+    Left = 280
+    Top = 496
+    ParamData = <
+      item
+        Name = 'MENU_SEQ'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
   end
 end

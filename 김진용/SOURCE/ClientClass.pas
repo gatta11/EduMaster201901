@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2019-01-30 오후 3:19:32
+// 2019-02-13 오전 12:15:17
 //
 
 unit ClientClass;
@@ -12,17 +12,52 @@ uses System.JSON, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON
 type
   TServerMethods1Client = class(TDSAdminClient)
   private
+    FDSServerModuleCreateCommand: TDBXCommand;
     FEchoStringCommand: TDBXCommand;
     FReverseStringCommand: TDBXCommand;
+    FLogMSGCommand: TDBXCommand;
+    FFilaLogMsgCommand: TDBXCommand;
+    FRandomIDCommand: TDBXCommand;
+    FgogogoCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    procedure DSServerModuleCreate(Sender: TObject);
     function EchoString(Value: string): string;
     function ReverseString(Value: string): string;
+    procedure LogMSG(S: string);
+    procedure FilaLogMsg(S: string);
+    function RandomID: string;
+    procedure gogogo;
   end;
 
 implementation
+
+procedure TServerMethods1Client.DSServerModuleCreate(Sender: TObject);
+begin
+  if FDSServerModuleCreateCommand = nil then
+  begin
+    FDSServerModuleCreateCommand := FDBXConnection.CreateCommand;
+    FDSServerModuleCreateCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FDSServerModuleCreateCommand.Text := 'TServerMethods1.DSServerModuleCreate';
+    FDSServerModuleCreateCommand.Prepare;
+  end;
+  if not Assigned(Sender) then
+    FDSServerModuleCreateCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDBXClientCommand(FDSServerModuleCreateCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FDSServerModuleCreateCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(Sender), True);
+      if FInstanceOwner then
+        Sender.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+  end;
+  FDSServerModuleCreateCommand.ExecuteUpdate;
+end;
 
 function TServerMethods1Client.EchoString(Value: string): string;
 begin
@@ -52,6 +87,57 @@ begin
   Result := FReverseStringCommand.Parameters[1].Value.GetWideString;
 end;
 
+procedure TServerMethods1Client.LogMSG(S: string);
+begin
+  if FLogMSGCommand = nil then
+  begin
+    FLogMSGCommand := FDBXConnection.CreateCommand;
+    FLogMSGCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FLogMSGCommand.Text := 'TServerMethods1.LogMSG';
+    FLogMSGCommand.Prepare;
+  end;
+  FLogMSGCommand.Parameters[0].Value.SetWideString(S);
+  FLogMSGCommand.ExecuteUpdate;
+end;
+
+procedure TServerMethods1Client.FilaLogMsg(S: string);
+begin
+  if FFilaLogMsgCommand = nil then
+  begin
+    FFilaLogMsgCommand := FDBXConnection.CreateCommand;
+    FFilaLogMsgCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FFilaLogMsgCommand.Text := 'TServerMethods1.FilaLogMsg';
+    FFilaLogMsgCommand.Prepare;
+  end;
+  FFilaLogMsgCommand.Parameters[0].Value.SetWideString(S);
+  FFilaLogMsgCommand.ExecuteUpdate;
+end;
+
+function TServerMethods1Client.RandomID: string;
+begin
+  if FRandomIDCommand = nil then
+  begin
+    FRandomIDCommand := FDBXConnection.CreateCommand;
+    FRandomIDCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FRandomIDCommand.Text := 'TServerMethods1.RandomID';
+    FRandomIDCommand.Prepare;
+  end;
+  FRandomIDCommand.ExecuteUpdate;
+  Result := FRandomIDCommand.Parameters[0].Value.GetWideString;
+end;
+
+procedure TServerMethods1Client.gogogo;
+begin
+  if FgogogoCommand = nil then
+  begin
+    FgogogoCommand := FDBXConnection.CreateCommand;
+    FgogogoCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FgogogoCommand.Text := 'TServerMethods1.gogogo';
+    FgogogoCommand.Prepare;
+  end;
+  FgogogoCommand.ExecuteUpdate;
+end;
+
 constructor TServerMethods1Client.Create(ADBXConnection: TDBXConnection);
 begin
   inherited Create(ADBXConnection);
@@ -64,8 +150,13 @@ end;
 
 destructor TServerMethods1Client.Destroy;
 begin
+  FDSServerModuleCreateCommand.DisposeOf;
   FEchoStringCommand.DisposeOf;
   FReverseStringCommand.DisposeOf;
+  FLogMSGCommand.DisposeOf;
+  FFilaLogMsgCommand.DisposeOf;
+  FRandomIDCommand.DisposeOf;
+  FgogogoCommand.DisposeOf;
   inherited;
 end;
 

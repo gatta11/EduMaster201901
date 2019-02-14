@@ -14,6 +14,7 @@ object ServerContainer1: TServerContainer1
   end
   object DSServerClass1: TDSServerClass
     OnGetClass = DSServerClass1GetClass
+    OnCreateInstance = DSServerClass1CreateInstance
     Server = DSServer1
     Left = 200
     Top = 11

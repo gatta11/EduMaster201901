@@ -12,6 +12,9 @@
         <Projects Include="ProjectMobileDeliveryMan2.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="ProjectMobileCustomer.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
     <Target Name="ProjectMobileDeliveryMan2:Make">
         <MSBuild Projects="ProjectMobileDeliveryMan2.dproj" Targets="Make"/>
     </Target>
+    <Target Name="ProjectMobileCustomer">
+        <MSBuild Projects="ProjectMobileCustomer.dproj"/>
+    </Target>
+    <Target Name="ProjectMobileCustomer:Clean">
+        <MSBuild Projects="ProjectMobileCustomer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ProjectMobileCustomer:Make">
+        <MSBuild Projects="ProjectMobileCustomer.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ProjectServer;ProjectPCClient;ProjectMobileDeliveryMan2"/>
+        <CallTarget Targets="ProjectServer;ProjectPCClient;ProjectMobileDeliveryMan2;ProjectMobileCustomer"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ProjectServer:Clean;ProjectPCClient:Clean;ProjectMobileDeliveryMan2:Clean"/>
+        <CallTarget Targets="ProjectServer:Clean;ProjectPCClient:Clean;ProjectMobileDeliveryMan2:Clean;ProjectMobileCustomer:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ProjectServer:Make;ProjectPCClient:Make;ProjectMobileDeliveryMan2:Make"/>
+        <CallTarget Targets="ProjectServer:Make;ProjectPCClient:Make;ProjectMobileDeliveryMan2:Make;ProjectMobileCustomer:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -1,7 +1,7 @@
 object dmPcClient: TdmPcClient
   OldCreateOrder = False
   Height = 422
-  Width = 804
+  Width = 757
   object SQLConnection1: TSQLConnection
     DriverName = 'DataSnap'
     LoginPrompt = False
@@ -140,14 +140,14 @@ object dmPcClient: TdmPcClient
       Required = True
       Size = 40
     end
-    object dtsDeliveryManDELI_MAN_SEX: TIntegerField
-      FieldName = 'DELI_MAN_SEX'
-      Origin = 'DELI_MAN_SEX'
-      Required = True
-    end
     object dtsDeliveryManDELI_MAN_AGE: TIntegerField
       FieldName = 'DELI_MAN_AGE'
       Origin = 'DELI_MAN_AGE'
+      Required = True
+    end
+    object dtsDeliveryManDELI_MAN_SEX: TIntegerField
+      FieldName = 'DELI_MAN_SEX'
+      Origin = 'DELI_MAN_SEX'
       Required = True
     end
     object dtsDeliveryManDELI_MAN_PHONE: TWideStringField
@@ -208,15 +208,15 @@ object dmPcClient: TdmPcClient
       FieldName = 'DELI_MAN_IMAGE'
       Origin = 'DELI_MAN_IMAGE'
     end
-    object dtsDeliveryManDELI_MAN_CMT: TWideStringField
-      FieldName = 'DELI_MAN_CMT'
-      Origin = 'DELI_MAN_CMT'
-      Size = 4000
-    end
     object dtsDeliveryManDELI_MAN_ST: TSmallintField
       FieldName = 'DELI_MAN_ST'
       Origin = 'DELI_MAN_ST'
       Required = True
+    end
+    object dtsDeliveryManDELI_MAN_CMT: TWideStringField
+      FieldName = 'DELI_MAN_CMT'
+      Origin = 'DELI_MAN_CMT'
+      Size = 4000
     end
     object dtsDeliveryManDELI_MAN_KORSEX: TStringField
       FieldKind = fkCalculated
@@ -733,5 +733,14 @@ object dmPcClient: TdmPcClient
       ProviderFlags = []
       ReadOnly = True
     end
+  end
+  object DSClientCallbackChannelManager: TDSClientCallbackChannelManager
+    DSHostname = '192.168.1.7'
+    DSPort = '211'
+    CommunicationProtocol = 'tcp/ip'
+    ChannelName = 'local'
+    ManagerId = 'ManagerJY'
+    Left = 616
+    Top = 72
   end
 end
