@@ -1,7 +1,7 @@
 object dmPcClient: TdmPcClient
   OldCreateOrder = False
-  Height = 422
-  Width = 757
+  Height = 527
+  Width = 857
   object SQLConnection1: TSQLConnection
     DriverName = 'DataSnap'
     LoginPrompt = False
@@ -538,59 +538,6 @@ object dmPcClient: TdmPcClient
       ReadOnly = True
     end
   end
-  object dtsTbDeliOrder: TClientDataSet
-    Active = True
-    Aggregates = <>
-    Params = <>
-    ProviderName = 'dspTbDeliOrder'
-    RemoteServer = DSProviderConnection1
-    Left = 360
-    Top = 296
-    object dtsTbDeliOrderORDD_SEQ: TIntegerField
-      FieldName = 'ORDD_SEQ'
-      Origin = 'ORDD_SEQ'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-    end
-    object dtsTbDeliOrderORDD_ST: TSmallintField
-      FieldName = 'ORDD_ST'
-      Origin = 'ORDD_ST'
-      Required = True
-    end
-    object dtsTbDeliOrderCUST_SEQ: TIntegerField
-      FieldName = 'CUST_SEQ'
-      Origin = 'CUST_SEQ'
-    end
-    object dtsTbDeliOrderORDD_TPRICE: TIntegerField
-      FieldName = 'ORDD_TPRICE'
-      Origin = 'ORDD_TPRICE'
-    end
-    object dtsTbDeliOrderORDD_MENUES: TWideStringField
-      FieldName = 'ORDD_MENUES'
-      Origin = 'ORDD_MENUES'
-      Size = 120
-    end
-    object dtsTbDeliOrderORDD_WAITTIME: TIntegerField
-      FieldName = 'ORDD_WAITTIME'
-      Origin = 'ORDD_WAITTIME'
-    end
-    object dtsTbDeliOrderORDD_STNGTIME: TTimeField
-      FieldName = 'ORDD_STNGTIME'
-      Origin = 'ORDD_STNGTIME'
-    end
-    object dtsTbDeliOrderDELI_MAN_SEQ: TIntegerField
-      FieldName = 'DELI_MAN_SEQ'
-      Origin = 'DELI_MAN_SEQ'
-    end
-    object dtsTbDeliOrderORDD_FNTIME: TTimeField
-      FieldName = 'ORDD_FNTIME'
-      Origin = 'ORDD_FNTIME'
-    end
-    object dtsTbDeliOrderORDD_DATE: TWideStringField
-      FieldName = 'ORDD_DATE'
-      Origin = 'ORDD_DATE'
-      Size = 40
-    end
-  end
   object dtsFindCustomer: TClientDataSet
     Active = True
     Aggregates = <>
@@ -735,12 +682,88 @@ object dmPcClient: TdmPcClient
     end
   end
   object DSClientCallbackChannelManager: TDSClientCallbackChannelManager
-    DSHostname = '192.168.1.7'
+    DSHostname = '192.168.1.11'
     DSPort = '211'
     CommunicationProtocol = 'tcp/ip'
     ChannelName = 'local'
     ManagerId = 'ManagerJY'
     Left = 616
     Top = 72
+  end
+  object dtsOrderWorking: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspOrderWorking'
+    RemoteServer = DSProviderConnection1
+    Left = 568
+    Top = 296
+  end
+  object dtsTbDeliOrder: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspTbDeliOrderNew'
+    RemoteServer = DSProviderConnection1
+    Left = 800
+    Top = 8
+  end
+  object dtsQryDeliOrder: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspQryDeliOrder'
+    RemoteServer = DSProviderConnection1
+    Left = 672
+    Top = 208
+    object dtsQryDeliOrderORDD_SEQ: TAutoIncField
+      FieldName = 'ORDD_SEQ'
+      Origin = 'ORDD_SEQ'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object dtsQryDeliOrderORDD_ST: TSmallintField
+      FieldName = 'ORDD_ST'
+      Origin = 'ORDD_ST'
+      Required = True
+    end
+    object dtsQryDeliOrderCUST_SEQ: TIntegerField
+      FieldName = 'CUST_SEQ'
+      Origin = 'CUST_SEQ'
+    end
+    object dtsQryDeliOrderORDD_WAITTIME: TIntegerField
+      FieldName = 'ORDD_WAITTIME'
+      Origin = 'ORDD_WAITTIME'
+    end
+    object dtsQryDeliOrderORDD_STNGTIME: TTimeField
+      FieldName = 'ORDD_STNGTIME'
+      Origin = 'ORDD_STNGTIME'
+    end
+    object dtsQryDeliOrderDELI_MAN_SEQ: TIntegerField
+      FieldName = 'DELI_MAN_SEQ'
+      Origin = 'DELI_MAN_SEQ'
+    end
+    object dtsQryDeliOrderORDD_FNTIME: TTimeField
+      FieldName = 'ORDD_FNTIME'
+      Origin = 'ORDD_FNTIME'
+    end
+    object dtsQryDeliOrderORDD_DATE: TWideStringField
+      FieldName = 'ORDD_DATE'
+      Origin = 'ORDD_DATE'
+      FixedChar = True
+      Size = 48
+    end
+    object dtsQryDeliOrderORDD_MENUES: TWideStringField
+      FieldName = 'ORDD_MENUES'
+      Origin = 'ORDD_MENUES'
+      Size = 120
+    end
+    object dtsQryDeliOrderORDD_TPRICE: TIntegerField
+      FieldName = 'ORDD_TPRICE'
+      Origin = 'ORDD_TPRICE'
+    end
+    object dtsQryDeliOrderORDD_FIMGSEQ: TIntegerField
+      FieldName = 'ORDD_FIMGSEQ'
+      Origin = 'ORDD_FIMGSEQ'
+    end
   end
 end

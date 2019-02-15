@@ -71,14 +71,6 @@ type
     dtsCustomerCUST_TOTALAMOUNT: TIntegerField;
     dtsCustomerCUST_RCNTDATE: TWideStringField;
     dtsOrderList: TClientDataSet;
-    dtsTbDeliOrder: TClientDataSet;
-    dtsTbDeliOrderORDD_SEQ: TIntegerField;
-    dtsTbDeliOrderORDD_ST: TSmallintField;
-    dtsTbDeliOrderCUST_SEQ: TIntegerField;
-    dtsTbDeliOrderORDD_WAITTIME: TIntegerField;
-    dtsTbDeliOrderORDD_STNGTIME: TTimeField;
-    dtsTbDeliOrderDELI_MAN_SEQ: TIntegerField;
-    dtsTbDeliOrderORDD_FNTIME: TTimeField;
     dtsFindCustomer: TClientDataSet;
     dtsFindCustomerCUST_SEQ: TIntegerField;
     dtsFindCustomerCUST_NM: TWideStringField;
@@ -91,8 +83,6 @@ type
     dtsFindCustomerCUST_PASS: TWideStringField;
     dtsFindCustomerCUST_TOTALAMOUNT: TIntegerField;
     dtsFindCustomerCUST_RCNTDATE: TWideStringField;
-    dtsTbDeliOrderORDD_TPRICE: TIntegerField;
-    dtsTbDeliOrderORDD_MENUES: TWideStringField;
     dtsOrderListORDD_SEQ: TIntegerField;
     dtsOrderListORDD_ST: TSmallintField;
     dtsOrderListCUST_SEQ: TIntegerField;
@@ -112,11 +102,24 @@ type
     dtsDetailOrderMenuORDMN_QNT: TIntegerField;
     dtsDetailOrderMenuORDMN_PRICE: TIntegerField;
     dtsDetailOrderMenuMENU_NM: TWideStringField;
-    dtsTbDeliOrderORDD_DATE: TWideStringField;
     dtsOrderListORDD_DATE: TWideStringField;
     dtsGetNewOrderSEQ: TClientDataSet;
     dtsGetNewOrderSEQMAX: TIntegerField;
     DSClientCallbackChannelManager: TDSClientCallbackChannelManager;
+    dtsOrderWorking: TClientDataSet;
+    dtsTbDeliOrder: TClientDataSet;
+    dtsQryDeliOrder: TClientDataSet;
+    dtsQryDeliOrderORDD_SEQ: TAutoIncField;
+    dtsQryDeliOrderORDD_ST: TSmallintField;
+    dtsQryDeliOrderCUST_SEQ: TIntegerField;
+    dtsQryDeliOrderORDD_WAITTIME: TIntegerField;
+    dtsQryDeliOrderORDD_STNGTIME: TTimeField;
+    dtsQryDeliOrderDELI_MAN_SEQ: TIntegerField;
+    dtsQryDeliOrderORDD_FNTIME: TTimeField;
+    dtsQryDeliOrderORDD_DATE: TWideStringField;
+    dtsQryDeliOrderORDD_MENUES: TWideStringField;
+    dtsQryDeliOrderORDD_TPRICE: TIntegerField;
+    dtsQryDeliOrderORDD_FIMGSEQ: TIntegerField;
     procedure dtsDeliveryManCalcFields(DataSet: TDataSet);
   private
     { Private declarations }

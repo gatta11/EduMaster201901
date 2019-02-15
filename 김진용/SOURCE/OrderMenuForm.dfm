@@ -2,8 +2,8 @@ object frmOrderMenu: TfrmOrderMenu
   Left = 0
   Top = 0
   Caption = 'frmOrderMenu'
-  ClientHeight = 772
-  ClientWidth = 1359
+  ClientHeight = 536
+  ClientWidth = 1315
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,8 +14,8 @@ object frmOrderMenu: TfrmOrderMenu
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   DesignSize = (
-    1359
-    772)
+    1315
+    536)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -30,6 +30,7 @@ object frmOrderMenu: TfrmOrderMenu
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
+    Visible = False
   end
   object Label2: TLabel
     Left = 888
@@ -60,8 +61,8 @@ object frmOrderMenu: TfrmOrderMenu
     ParentFont = False
   end
   object TotalPrice: TLabel
-    Left = 1172
-    Top = 453
+    Left = 1052
+    Top = 442
     Width = 143
     Height = 40
     BiDiMode = bdRightToLeft
@@ -100,20 +101,21 @@ object frmOrderMenu: TfrmOrderMenu
     OnSelectCell = sgrdMenuListSelectCell
   end
   object Button1: TButton
-    Left = 224
-    Top = 695
+    Left = 57
+    Top = 517
     Width = 161
     Height = 57
     Caption = #47700#45684' '#47785#47197' '#44032#51256#50724#44592
     TabOrder = 1
+    Visible = False
     OnClick = Button1Click
   end
   object sgrdOrderMenuList: TStringGrid
     Left = 511
     Top = 32
-    Width = 840
+    Width = 796
     Height = 393
-    Anchors = [akLeft, akTop, akRight, akBottom]
+    Anchors = [akLeft, akTop, akRight]
     BorderStyle = bsNone
     ColCount = 9
     Ctl3D = False
@@ -140,6 +142,7 @@ object frmOrderMenu: TfrmOrderMenu
     OnExit = sgrdOrderMenuListExit
     OnSelectCell = sgrdOrderMenuListSelectCell
     OnSetEditText = sgrdOrderMenuListSetEditText
+    ExplicitWidth = 840
   end
   object DBGrid1: TDBGrid
     Left = 224
@@ -155,6 +158,7 @@ object frmOrderMenu: TfrmOrderMenu
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    Visible = False
     Columns = <
       item
         Expanded = False
@@ -197,19 +201,21 @@ object frmOrderMenu: TfrmOrderMenu
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    Visible = False
   end
   object Button2: TButton
-    Left = 400
-    Top = 695
+    Left = 65
+    Top = 454
     Width = 153
     Height = 57
     Caption = 'Button2'
     TabOrder = 5
+    Visible = False
     OnClick = Button2Click
   end
   object btnOrderMenuPost: TButton
-    Left = 559
-    Top = 695
+    Left = 433
+    Top = 454
     Width = 153
     Height = 57
     Caption = #51452#47928' '#47785#47197' '#50732#47532#44592
@@ -229,6 +235,7 @@ object frmOrderMenu: TfrmOrderMenu
     ParentFont = False
     TabOrder = 7
     Text = '2'
+    Visible = False
   end
   object Button3: TButton
     Left = 1004
@@ -238,6 +245,7 @@ object frmOrderMenu: TfrmOrderMenu
     Caption = #50724#45908#54868#47732#51004#47196' '#45336#44592#44592
     ModalResult = 1
     TabOrder = 8
+    Visible = False
     OnClick = Button3Click
   end
   object dsOrderMenulist: TDataSource

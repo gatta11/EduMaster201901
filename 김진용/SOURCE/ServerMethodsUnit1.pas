@@ -86,8 +86,6 @@ type
     tb_CustomerCUST_RCNTDATE: TWideStringField;
     qryOrderList: TFDQuery;
     dspOrderList: TDataSetProvider;
-    tb_DeliOrder: TFDTable;
-    dspTbDeliOrder: TDataSetProvider;
     qryFindCustomer: TFDQuery;
     dspFindCustomer: TDataSetProvider;
     qryDeliveryList: TFDQuery;
@@ -101,15 +99,6 @@ type
     qryDeliveryListORDD_FNTIME: TTimeField;
     qryDeliLogin: TFDQuery;
     dspDeliLogin: TDataSetProvider;
-    tb_DeliOrderORDD_SEQ: TIntegerField;
-    tb_DeliOrderORDD_ST: TSmallintField;
-    tb_DeliOrderCUST_SEQ: TIntegerField;
-    tb_DeliOrderORDD_WAITTIME: TIntegerField;
-    tb_DeliOrderORDD_STNGTIME: TTimeField;
-    tb_DeliOrderDELI_MAN_SEQ: TIntegerField;
-    tb_DeliOrderORDD_FNTIME: TTimeField;
-    tb_DeliOrderORDD_MENUES: TWideStringField;
-    tb_DeliOrderORDD_TPRICE: TIntegerField;
     qryDetailOrderMenu: TFDQuery;
     dspDetailOrderMenu: TDataSetProvider;
     qryDetailOrderMenuORDMN_SEQ: TIntegerField;
@@ -130,7 +119,6 @@ type
     qryOrderListDELI_MAN_SEQ: TIntegerField;
     qryOrderListDELI_MAN_NM: TWideStringField;
     qryOrderListDELI_MAN_ST: TSmallintField;
-    tb_DeliOrderORDD_DATE: TWideStringField;
     qryOrderListORDD_DATE: TWideStringField;
     qryInsertNewOrder: TFDQuery;
     dspInsertNewOrder: TDataSetProvider;
@@ -142,6 +130,26 @@ type
     tb_MOrderMenuMORDMN_QNT: TIntegerField;
     tb_MOrderMenuMORDMN_PRICE: TIntegerField;
     qryFindMenu: TFDQuery;
+    qryOrderWorking: TFDQuery;
+    dspOrderWorking: TDataSetProvider;
+    FDQuery1: TFDQuery;
+    dspTbDeliOrder2: TDataSetProvider;
+    dspTbDeliOrderNew: TDataSetProvider;
+    tbDeliOrder: TFDTable;
+    qryDeliOrder: TFDQuery;
+    dspQryDeliOrder: TDataSetProvider;
+    qryDeliOrderORDD_SEQ: TFDAutoIncField;
+    qryDeliOrderORDD_ST: TSmallintField;
+    qryDeliOrderCUST_SEQ: TIntegerField;
+    qryDeliOrderORDD_WAITTIME: TIntegerField;
+    qryDeliOrderORDD_STNGTIME: TTimeField;
+    qryDeliOrderDELI_MAN_SEQ: TIntegerField;
+    qryDeliOrderORDD_FNTIME: TTimeField;
+    qryDeliOrderORDD_DATE: TWideStringField;
+    qryDeliOrderORDD_MENUES: TWideStringField;
+    qryDeliOrderORDD_TPRICE: TIntegerField;
+    qryDeliOrderORDD_FIMGSEQ: TIntegerField;
+    qryDeliveryListCUST_PHONE: TWideStringField;
     procedure DSServerModuleCreate(Sender: TObject);
     procedure tb_MOrderMenuNewRecord(DataSet: TDataSet);
   private
@@ -158,12 +166,15 @@ type
     Function RandomID:string;
     procedure gogogo;
     function CALLBACK(AChanelName: string; AMessage: string): Boolean;
-    procedure MachDeliMan(OrderSeq,DeliVeryManSeq :Integer);
+    function MatchDeliMan(const ORDD_SEQ, DELI_MAN_SEQ  :Integer):Boolean;
+    procedure NewOrderByCust(ORDD_SEQ, CUST_SEQ: Integer);
+    function FindDeliVeryMan(ORDD_SEQ: Integer):Boolean;
 
   end;
 
 var
   ServerMethods: TServerMethods1;
+    qryMatchDeliManToOrder: TFDQuery;
 
 implementation
 
@@ -215,6 +226,22 @@ begin
     end);
 end;
 
+function TServerMethods1.FindDeliVeryMan(ORDD_SEQ: Integer):Boolean;
+var
+  Value : TJSONString;
+  Msg : String;
+begin
+  result := False;
+  Msg := 'NEWDELIORDER'+'/'+inttostr(ORDD_SEQ);
+  Value := TJSONSTring.Create(Msg);
+  ServerContainer1.DSServer1.BroadcastMessage('Delivery', Value) ;
+
+  showmessage('기사에게 메시지 전송완료');
+  result := True;
+  //Value.Free;
+
+end;
+
 procedure TServerMethods1.gogogo;
 //var
 //  App : TDSAdminClient;
@@ -245,31 +272,71 @@ begin
 end;
 
 
-procedure TServerMethods1.MachDeliMan(OrderSeq, DeliveryManSeq: Integer);
+function TServerMethods1.MatchDeliMan(const ORDD_SEQ, DELI_MAN_SEQ : Integer):Boolean;
 var
   Value : TJSONString;
   msg : String;
 begin
 
+  qryMatchDeliManToOrder.Close;
+  qryMatchDeliManToOrder.Params[0].AsInteger := ORDD_SEQ;
+  qryMatchDeliManToOrder.Open;
+
+  if qryMatchDeliManToOrder.RecordCount = 1 then
+  begin
+    if qryMatchDeliManToOrder.FieldByName('DELI_MAN_SEQ').AsInteger > 0 then
+      result := False
+    else
+    begin
+      qryMatchDeliManToOrder.Close;
+      qryMatchDeliManToOrder.Open;
+
+      qryMatchDeliManToOrder.FieldByName('DELI_MAN_SEQ').AsInteger := DELI_MAN_SEQ;
+      qryMatchDeliManToOrder.Post;
+      qryMatchDeliManToOrder.ApplyUpdates(-1);
+
+      Msg := 'MATCH_DELIVERYMAN/ ' + inttostr(ORDD_SEQ);
+      Value := TJSONSTring.Create(Msg);
+      ServerContainer1.DSServer1.BroadcastMessage('local', Value) ;
+      result := True;
+    end;
+  end
+
+  else
+    result := False;
+//  try
+//  Msg := Format('기사가 매칭되었습니다. OrderSeq : %d, 기사SEQ : %d',[ORDD_SEQ,DELI_MAN_SEQ]);
+//  Value := TJSONSTring.Create(Msg);
+//  ServerContainer1.DSServer1.BroadcastMessage('local', Value) ;
+//  //Value.Free;
+//  finally
+//    //showmessage('pc로 기사정보 발송 완료')
+//  end;
+//
+//  try
+//  Value := TJSONSTring.Create('모바일 한테만 가냐?');
+//  ServerContainer1.DSServer1.BroadcastMessage('mobile', Value) ;
+//
+//  finally
+//    //showmessage('모바일로 테스트메시지  발송 완료')
+//
+//  end;
+
+
+end;
+
+procedure TServerMethods1.NewOrderByCust(ORDD_SEQ, CUST_SEQ: Integer);
+var
+  Value : TJSONString;
+  msg : String;
+begin
   try
-  Msg := Format('기사가 매칭되었습니다. OrderSeq : %d, 기사SEQ : %d',[OrderSeq,DeliVeryManSeq]);
-  Value := TJSONSTring.Create(Msg);
-  ServerContainer1.DSServer1.BroadcastMessage('local', Value) ;
-  //Value.Free;
+    Msg := Format('MNEWORDER/%d/%d',[ORDD_SEQ, CUST_SEQ]);
+    Value := TJSONSTring.Create(Msg);
+    ServerContainer1.DSServer1.BroadcastMessage('local', Value) ;
   finally
-    showmessage('pc로 기사정보 발송 완료')
-  end;
-
-  try
-  Value := TJSONSTring.Create('모바일 한테만 가냐?');
-  ServerContainer1.DSServer1.BroadcastMessage('mobile', Value) ;
-
-  finally
-    showmessage('모바일로 테스트메시지  발송 완료')
 
   end;
-
-
 end;
 
 function TServerMethods1.RandomID: string;

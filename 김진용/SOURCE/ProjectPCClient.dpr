@@ -19,6 +19,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TdmPcClient, dmPcClient);
-  Application.CreateForm(TfrmOrder, frmOrder);
+  Application.CreateForm(TMainForm, MainForm);
   Application.Run;
 end.

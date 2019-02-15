@@ -227,19 +227,21 @@ begin
       S := StringReplace(S, ',', '',[rfReplaceAll]);
       S := copy(S, 2,Length(S));
       dmPcClient.dtsTbOrderMenu.FieldByName('ORDMN_PRICE').AsInteger := StrtoInt(S);
-      dmPcClient.dtsTbOrderMenu.FieldByName('ORD_SEQ').AsInteger := StrtoInt(edtORD_SEQ.Text);
-
+      dmPcClient.dtsTbOrderMenu.FieldByName('ORD_SEQ').AsInteger := MaxSeq;
+      dmPcClient.dtsTbOrderMenu.Post;
       dmPcClient.dtsTbOrderMenu.ApplyUpdates(-1);
 
     except
       begin
-      raise Exception.Create('주문내역 올리는 도중 오류 발생');
+      raise Exception.Create('주문내역 DB전송 중 오류 발생');
       exit;
       end;
     end;
 
   end;
 
+
+  // 대표 IMAGE 넣기
   MaxMenu := '';
   MaxRow := 0;
   MaxPrice := 0;
@@ -259,22 +261,33 @@ begin
   end;
 //  msg := Format('%d, %s, %d',[MaxPrice, MaxMenu, MaxRow]);
 //  showmessage(msg);
-  sRow := frmOrder.sgrdNewOrder.RowCount-1; // Data 넣을 Stringgrid Row
+ // sRow := frmOrder.sgrdNewOrder.RowCount-1; // Data 넣을 Stringgrid Row
 
   //frmOrder.sgrdOrderList.Cells[0,sRow] := edtORD_SEQ.Text;
-  if sgrdOrderMenuList.RowCount = 1 then
-    frmOrder.sgrdNewOrder.Cells[5,sRow] := MaxMenu
-  else
-    frmOrder.sgrdNewOrder.Cells[5,sRow] := MaxMenu + '외 ' + inttostr(sgrdOrderMenuList.RowCount-1) + ' 건' ;
-  frmOrder.sgrdNewOrder.Cells[10,sRow] := TotalPrice.Caption;
-  frmOrder.sgrdNewOrder.Cells[3,sRow] := sgrdOrderMenuList.Cells[0,MaxRow];
 
+//  if sgrdOrderMenuList.RowCount = 1 then
+//    frmOrder.sgrdNewOrder.Cells[5,sRow] := MaxMenu
+//  else
+//  frmOrder.sgrdNewOrder.Cells[5,sRow] := MaxMenu + '외 ' + inttostr(sgrdOrderMenuList.RowCount-1) + ' 건' ;
+//  frmOrder.sgrdNewOrder.Cells[10,sRow] := TotalPrice.Caption;
+//  frmOrder.sgrdNewOrder.Cells[3,sRow] := sgrdOrderMenuList.Cells[0,MaxRow];
+  dmPcClient.dtsQryDeliOrder.IndexFieldNames := 'ORDD_SEQ';
+  if dmPcClient.dtsQrydeliOrder.Locate('ORDD_SEQ', inttostr(SelectedOrderSeq), []) then
+    begin
+      if dmPcClient.dtsQryDeliOrder.state <> dsEdit then
+        dmPcClient.dtsQryDeliOrder.Edit;
+      showmessage(dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_SEQ').AsString);
+      dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_MENUES').AsString :=  MaxMenu + '외 ' + inttostr(sgrdOrderMenuList.RowCount-1) + ' 건' ;
+      dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_TPRICE').AsString :=  TotalPrice.Caption;
+      dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_FIMGSEQ').AsInteger := strtointdef(sgrdOrderMenuList.Cells[0,MaxRow],0);
 
-
+      dmPcClient.dtsQryDeliOrder.POST;
+      dmPcClient.dtsQryDeliOrder.ApplyUpdates(-1);
+    end;
   for I := 0 to sgrdOrderMenuList.RowCount -1 do
     DeleteRow(sgrdOrderMenuList, I);
 
-
+  frmOrder.DrawWorkingOrderListGrid;
 
 end;
 
@@ -525,7 +538,9 @@ begin
   case ACol of
     1:begin // Menu Image
         try
-        Idx := strtoint(sgrdOrderMenuList.Cells[0,Arow])-1;
+        Idx := strtointdef(sgrdOrderMenuList.Cells[0,Arow],0)-1;
+        if idx < 0 then
+          exit;
         if FMenuImageList.Count <=Idx then
           Exit;
         sgrdOrderMenuList.Canvas.StretchDraw(Rect, FMenuImageList[Idx]);
