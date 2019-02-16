@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2019-02-16 오후 8:20:27
+// 2019-02-17 오전 1:42:07
 //
 
 unit ClientClass;
@@ -14,6 +14,7 @@ type
   private
     FDSServerModuleCreateCommand: TDBXCommand;
     Ftb_MOrderMenuNewRecordCommand: TDBXCommand;
+    FMatchDeliManCommand: TDBXCommand;
     FEchoStringCommand: TDBXCommand;
     FReverseStringCommand: TDBXCommand;
     FLogMSGCommand: TDBXCommand;
@@ -21,7 +22,6 @@ type
     FRandomIDCommand: TDBXCommand;
     FgogogoCommand: TDBXCommand;
     FCALLBACKCommand: TDBXCommand;
-    FMatchDeliManCommand: TDBXCommand;
     FNewOrderByCustCommand: TDBXCommand;
     FFindDeliVeryManCommand: TDBXCommand;
   public
@@ -30,6 +30,7 @@ type
     destructor Destroy; override;
     procedure DSServerModuleCreate(Sender: TObject);
     procedure tb_MOrderMenuNewRecord(DataSet: TDataSet);
+    function MatchDeliMan(ORDD_SEQ: Integer; DELI_MAN_SEQ: Integer): Boolean;
     function EchoString(Value: string): string;
     function ReverseString(Value: string): string;
     procedure LogMSG(S: string);
@@ -37,7 +38,6 @@ type
     function RandomID: string;
     procedure gogogo;
     function CALLBACK(AChanelName: string; AMessage: string): Boolean;
-    function MatchDeliMan(ORDD_SEQ: Integer; DELI_MAN_SEQ: Integer): Boolean;
     procedure NewOrderByCust(ORDD_SEQ: Integer; CUST_SEQ: Integer);
     function FindDeliVeryMan(ORDD_SEQ: Integer): Boolean;
   end;
@@ -80,6 +80,21 @@ begin
   end;
   Ftb_MOrderMenuNewRecordCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
   Ftb_MOrderMenuNewRecordCommand.ExecuteUpdate;
+end;
+
+function TServerMethods1Client.MatchDeliMan(ORDD_SEQ: Integer; DELI_MAN_SEQ: Integer): Boolean;
+begin
+  if FMatchDeliManCommand = nil then
+  begin
+    FMatchDeliManCommand := FDBXConnection.CreateCommand;
+    FMatchDeliManCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FMatchDeliManCommand.Text := 'TServerMethods1.MatchDeliMan';
+    FMatchDeliManCommand.Prepare;
+  end;
+  FMatchDeliManCommand.Parameters[0].Value.SetInt32(ORDD_SEQ);
+  FMatchDeliManCommand.Parameters[1].Value.SetInt32(DELI_MAN_SEQ);
+  FMatchDeliManCommand.ExecuteUpdate;
+  Result := FMatchDeliManCommand.Parameters[2].Value.GetBoolean;
 end;
 
 function TServerMethods1Client.EchoString(Value: string): string;
@@ -176,21 +191,6 @@ begin
   Result := FCALLBACKCommand.Parameters[2].Value.GetBoolean;
 end;
 
-function TServerMethods1Client.MatchDeliMan(ORDD_SEQ: Integer; DELI_MAN_SEQ: Integer): Boolean;
-begin
-  if FMatchDeliManCommand = nil then
-  begin
-    FMatchDeliManCommand := FDBXConnection.CreateCommand;
-    FMatchDeliManCommand.CommandType := TDBXCommandTypes.DSServerMethod;
-    FMatchDeliManCommand.Text := 'TServerMethods1.MatchDeliMan';
-    FMatchDeliManCommand.Prepare;
-  end;
-  FMatchDeliManCommand.Parameters[0].Value.SetInt32(ORDD_SEQ);
-  FMatchDeliManCommand.Parameters[1].Value.SetInt32(DELI_MAN_SEQ);
-  FMatchDeliManCommand.ExecuteUpdate;
-  Result := FMatchDeliManCommand.Parameters[2].Value.GetBoolean;
-end;
-
 procedure TServerMethods1Client.NewOrderByCust(ORDD_SEQ: Integer; CUST_SEQ: Integer);
 begin
   if FNewOrderByCustCommand = nil then
@@ -233,6 +233,7 @@ destructor TServerMethods1Client.Destroy;
 begin
   FDSServerModuleCreateCommand.DisposeOf;
   Ftb_MOrderMenuNewRecordCommand.DisposeOf;
+  FMatchDeliManCommand.DisposeOf;
   FEchoStringCommand.DisposeOf;
   FReverseStringCommand.DisposeOf;
   FLogMSGCommand.DisposeOf;
@@ -240,7 +241,6 @@ begin
   FRandomIDCommand.DisposeOf;
   FgogogoCommand.DisposeOf;
   FCALLBACKCommand.DisposeOf;
-  FMatchDeliManCommand.DisposeOf;
   FNewOrderByCustCommand.DisposeOf;
   FFindDeliVeryManCommand.DisposeOf;
   inherited;

@@ -988,4 +988,25 @@ object ServerMethods1: TServerMethods1
     Left = 952
     Top = 208
   end
+  object qryFindDelimanBySeq: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT DELI_MAN_SEQ, DELI_MAN_NM FROM DELIVERYMAN'
+      'WHERE DELI_MAN_SEQ = :SEQ')
+    Left = 952
+    Top = 344
+    ParamData = <
+      item
+        Name = 'SEQ'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object dspQryFindDelimanBySeq: TDataSetProvider
+    DataSet = qryFindDelimanBySeq
+    Left = 952
+    Top = 416
+  end
 end

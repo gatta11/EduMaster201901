@@ -12,7 +12,6 @@ type
 
   TfrmOrderMenu = class(TForm)
     sgrdMenuList: TStringGrid;
-    Button1: TButton;
     sgrdOrderMenuList: TStringGrid;
     DBGrid1: TDBGrid;
     dsOrderMenulist: TDataSource;
@@ -20,12 +19,10 @@ type
     dsTbOrderMenu: TDataSource;
     Label1: TLabel;
     Label2: TLabel;
-    Button2: TButton;
     btnOrderMenuPost: TButton;
     Label3: TLabel;
     TotalPrice: TLabel;
     edtORD_SEQ: TEdit;
-    Button3: TButton;
     procedure sgrdMenuListDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure Button1Click(Sender: TObject);
@@ -47,7 +44,7 @@ type
       var CanSelect: Boolean);
     procedure DeleteRow(StringGrid: TStringGrid; ARow: integer);
     procedure btnOrderMenuPostClick(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     
   private
     { Private declarations }
@@ -162,44 +159,6 @@ begin
 end;
 
 
-procedure TfrmOrderMenu.Button3Click(Sender: TObject);
-var
-  I,MaxRow,MaxPrice, sRow : integer;
-  MaxMenu,S : STring;
-  msg :String;
-
-begin
-  MaxMenu := '';
-  MaxRow := 0;
-  MaxPrice := 0;
-
-
-  for I := 0 to sgrdOrderMenuList.RowCount-1 do
-  begin
-    S := sgrdOrderMenuList.Cells[7, I];
-    S := StringReplace(S, ',', '',[rfReplaceAll]);
-    S := copy(S, 2,Length(S));
-    if MaxPrice < strtoInt(S) then
-    begin
-      MaxPrice := strtoInt(S);
-      MaxMenu := sgrdOrderMenuList.Cells[2, I];
-      MaxRow := I;
-    end;
-  end;
-//  msg := Format('%d, %s, %d',[MaxPrice, MaxMenu, MaxRow]);
-//  showmessage(msg);
-  sRow := frmOrder.sgrdNewOrder.RowCount-1; // Data 넣을 Stringgrid Row
-
-  //frmOrder.sgrdOrderList.Cells[0,sRow] := edtORD_SEQ.Text;
-  if sgrdOrderMenuList.RowCount = 1 then
-    frmOrder.sgrdNewOrder.Cells[5,sRow] := MaxMenu
-  else
-    frmOrder.sgrdNewOrder.Cells[5,sRow] := MaxMenu + '외 ' + inttostr(sgrdOrderMenuList.RowCount-1) + ' 건' ;
-  frmOrder.sgrdNewOrder.Cells[10,sRow] := TotalPrice.Caption;
-  frmOrder.sgrdNewOrder.Cells[3,sRow] := sgrdOrderMenuList.Cells[0,MaxRow];
-
-end;
-
 procedure TfrmOrderMenu.btnOrderMenuPostClick(Sender: TObject);
 var
   I,J, MaxRow,MaxPrice, sRow : integer;
@@ -276,7 +235,7 @@ begin
 
 
   msg := dmPcClient.dtsQrydeliOrder.Locate('ORDD_SEQ', inttostr(SelectedOrderSeq), []).ToString();
-  showmessage(msg);
+  //showmessage(msg);
 
   dmPcClient.dtsQryDeliOrder.IndexFieldNames := 'ORDD_SEQ';
   if dmPcClient.dtsQrydeliOrder.Locate('ORDD_SEQ', inttostr(SelectedOrderSeq), []) then
@@ -299,6 +258,7 @@ begin
 
   frmOrder.DrawWorkingOrderListGrid;
   frmOrder.sgrdDetailOrderMenu.Refresh;
+  ModalResult := mrCancel;
 
 end;
 
@@ -311,6 +271,12 @@ begin
   FMenuImageList.Clear;
 end;
 
+
+procedure TfrmOrderMenu.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  frmOrder.sgrdDetailOrderMenu.SetFocus;
+ Action := CaFree;
+end;
 
 procedure TfrmOrderMenu.FormCreate(Sender: TObject);
 var

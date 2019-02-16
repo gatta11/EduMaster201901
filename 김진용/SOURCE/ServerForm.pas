@@ -4,15 +4,13 @@ interface
 
 uses Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.StdCtrls, Vcl.Buttons, JSON;
+  Vcl.StdCtrls, Vcl.Buttons, JSON, Vcl.Imaging.pngimage, Vcl.ExtCtrls;
 
 type
   TfrmServer = class(TForm)
     Label1: TLabel;
     btnSend: TSpeedButton;
-    mm1: TMemo;
-    Button1: TButton;
-    Button2: TButton;
+    Image1: TImage;
     procedure btnSendClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -49,6 +47,7 @@ end;
 procedure TfrmServer.Button2Click(Sender: TObject);
 begin
   ServerMethods.FindDeliVeryMan(123);
+
 end;
 
 end.
