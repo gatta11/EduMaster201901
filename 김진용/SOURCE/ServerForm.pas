@@ -11,7 +11,11 @@ type
     Label1: TLabel;
     btnSend: TSpeedButton;
     mm1: TMemo;
+    Button1: TButton;
+    Button2: TButton;
     procedure btnSendClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -35,6 +39,16 @@ begin
   //ServerMethods.gogogo;
   Value := TJSONSTring.Create(datetimetostr(now));
   ServerContainer1.DSServer1.BroadcastMessage('local', Value) ;
+end;
+
+procedure TfrmServer.Button1Click(Sender: TObject);
+begin
+  ServerMethods.MatchDeliMan(123,5);
+end;
+
+procedure TfrmServer.Button2Click(Sender: TObject);
+begin
+  ServerMethods.FindDeliVeryMan(123);
 end;
 
 end.

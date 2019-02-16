@@ -164,8 +164,15 @@ type
     qryOrderWorkingDELI_MAN_SEQ: TIntegerField;
     qryOrderWorkingDELI_MAN_NM: TWideStringField;
     qryOrderWorkingDELI_MAN_ST: TSmallintField;
+    qryCustbyOrderSeq: TFDQuery;
+    qryMatchOrder: TFDQuery;
+    dspQryMatchOrder: TDataSetProvider;
+    dspQryCustbyOrderSeq: TDataSetProvider;
     procedure DSServerModuleCreate(Sender: TObject);
     procedure tb_MOrderMenuNewRecord(DataSet: TDataSet);
+    function MatchDeliMan(ORDD_SEQ, DELI_MAN_SEQ  :Integer):Boolean;
+
+
   private
     FCallbackId : String;
     { Private declarations }
@@ -180,15 +187,14 @@ type
     Function RandomID:string;
     procedure gogogo;
     function CALLBACK(AChanelName: string; AMessage: string): Boolean;
-    function MatchDeliMan(const ORDD_SEQ, DELI_MAN_SEQ  :Integer):Boolean;
+
     procedure NewOrderByCust(ORDD_SEQ, CUST_SEQ: Integer);
     function FindDeliVeryMan(ORDD_SEQ: Integer):Boolean;
-
   end;
 
 var
   ServerMethods: TServerMethods1;
-    qryMatchDeliManToOrder: TFDQuery;
+
 
 implementation
 
@@ -242,15 +248,41 @@ end;
 
 function TServerMethods1.FindDeliVeryMan(ORDD_SEQ: Integer):Boolean;
 var
-  Value : TJSONString;
+  //Value : TJSONString;
+  ValueJSON : TJSONObject;
+  CUST_NM,CUST_PHONE,CUST_ADDR : String;
+
   Msg : String;
 begin
   result := False;
-  Msg := 'NEWDELIORDER'+'/'+inttostr(ORDD_SEQ);
-  Value := TJSONSTring.Create(Msg);
-  ServerContainer1.DSServer1.BroadcastMessage('Delivery', Value) ;
+  //Msg := 'NEWDELIORDER'+'/'+inttostr(ORDD_SEQ); //이제 안씀
+  //Value := TJSONSTring.Create(Msg);
 
-  showmessage('기사에게 메시지 전송완료');
+  qryCustbyOrderSeq.Close;
+  qryCustbyOrderSeq.Params[0].AsInteger := ORDD_SEQ;
+  qryCustbyOrderSeq.Open;
+
+  if qryCustbyOrderSeq.RecordCount = 0 then
+  begin
+    showmessage('[배달로]주문한 고객정보가 없습니다.');
+    exit;
+  end;
+
+  CUST_NM := qryCustbyOrderSeq.FieldByName('CUST_NM').asstring;
+  CUST_PHONE := qryCustbyOrderSeq.FieldByName('CUST_PHONE').asstring;
+  CUST_ADDR := qryCustbyOrderSeq.FieldByName('CUST_ADDR').asstring;
+  showmessage(CUST_NM+CUST_ADDR+CUST_PHONE);
+
+  ValueJSON := TJSONObject.Create;
+
+  ValueJSON.AddPair('ORDD_SEQ', inttostr(ORDD_SEQ));
+  ValueJSON.AddPair('CUST_NM', CUST_NM);
+  ValueJSON.AddPair('CUST_PHONE', CUST_PHONE);
+  ValueJSON.AddPair('CUST_ADDR', CUST_ADDR);
+
+  ServerContainer1.DSServer1.BroadcastMessage('Delivery', ValueJSON) ;
+
+  showmessage('[배달로]배달기사에게 배달요청을 전송하였습니다.');
   result := True;
   //Value.Free;
 
@@ -286,31 +318,44 @@ begin
 end;
 
 
-function TServerMethods1.MatchDeliMan(const ORDD_SEQ, DELI_MAN_SEQ : Integer):Boolean;
+function TServerMethods1.MatchDeliMan(ORDD_SEQ, DELI_MAN_SEQ : Integer):Boolean;
 var
   Value : TJSONString;
   msg : String;
 begin
+  //msg := Format('%d,  %d',[ORDD_SEQ, DELI_MAN_SEQ ]);
+  //showmessage(msg);
 
-  qryMatchDeliManToOrder.Close;
-  qryMatchDeliManToOrder.Params[0].AsInteger := ORDD_SEQ;
-  qryMatchDeliManToOrder.Open;
 
-  msg := 'MatchDeliMan 서버메소드 수행중 - qryMatchDeliManToOrder.RecordCount : ' + inttostr(qryMatchDeliManToOrder.RecordCount);
-  showmessage( msg);
+  qryMatchOrder.Close;
+  qryMatchOrder.Params[0].AsInteger := ORDD_SEQ;
+  qryMatchOrder.Open;
 
-  if qryMatchDeliManToOrder.RecordCount = 1 then
+  //msg := 'MatchDeliMan 서버메소드 수행중 - qryMatchDeliManToOrder.RecordCount : ' + inttostr(qryMatchOrder.RecordCount);
+  //showmessage( msg);
+
+  if qryMatchOrder.RecordCount = 1 then
   begin
-    if qryMatchDeliManToOrder.FieldByName('DELI_MAN_SEQ').AsInteger > 0 then
+    //showmessage('넘버머냐' + inttostr(qryMatchOrder.FieldByName('DELI_MAN_SEQ').asinteger));
+
+    if qryMatchOrder.FieldByName('DELI_MAN_SEQ').AsInteger > 0 then
       result := False
     else
     begin
-      qryMatchDeliManToOrder.Close;
-      qryMatchDeliManToOrder.Open;
+      if qryMatchOrder.state <> dsEdit then
+        qryMatchOrder.Edit;
 
-      qryMatchDeliManToOrder.FieldByName('DELI_MAN_SEQ').AsInteger := DELI_MAN_SEQ;
-      qryMatchDeliManToOrder.Post;
-      qryMatchDeliManToOrder.ApplyUpdates(-1);
+      //showmessage('[서버]배달기사수정전');
+
+      try
+        qryMatchOrder.FieldByName('DELI_MAN_SEQ').AsInteger := DELI_MAN_SEQ;
+        qryMatchOrder.Post;
+        //qryMatchOrder.ApplyUpdates(-1);
+      except
+        raise Exception.Create('전송 문제 발생');
+      end;
+
+      showmessage('[서버]배달기사 지정완료');
 
       Msg := 'MATCH_DELIVERYMAN/ ' + inttostr(ORDD_SEQ);
       Value := TJSONSTring.Create(Msg);
@@ -345,12 +390,15 @@ end;
 procedure TServerMethods1.NewOrderByCust(ORDD_SEQ, CUST_SEQ: Integer);
 var
   Value : TJSONString;
+  Value1 : TJSONValue;
   msg : String;
 begin
   try
     Msg := Format('MNEWORDER/%d/%d',[ORDD_SEQ, CUST_SEQ]);
-    Value := TJSONSTring.Create(Msg);
+    //Msg := '{"ORDD_SEQ" : ORDD_SEQ, "CUST_SEQ":CUST_SEQ}' ;
+    Value := TJSONString.Create(Msg);
     ServerContainer1.DSServer1.BroadcastMessage('local', Value) ;
+
   finally
 
   end;

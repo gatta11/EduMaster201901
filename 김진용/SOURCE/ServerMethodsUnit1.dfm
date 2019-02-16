@@ -2,7 +2,7 @@ object ServerMethods1: TServerMethods1
   OldCreateOrder = False
   OnCreate = DSServerModuleCreate
   Height = 634
-  Width = 862
+  Width = 1053
   object FDConnection1: TFDConnection
     Params.Strings = (
       'ConnectionDef=JinyongProject')
@@ -666,12 +666,12 @@ object ServerMethods1: TServerMethods1
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT MAX(ORDD_SEQ) FROM DELIORDER')
-    Left = 784
+    Left = 792
     Top = 360
   end
   object dspInsertNewOrder: TDataSetProvider
     DataSet = qryInsertNewOrder
-    Left = 784
+    Left = 792
     Top = 416
   end
   object tb_MOrderMenu: TFDTable
@@ -947,14 +947,31 @@ object ServerMethods1: TServerMethods1
     Left = 248
     Top = 432
   end
-  object qryMatchDeliManToOrder: TFDQuery
+  object qryCustbyOrderSeq: TFDQuery
     Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      'SELECT DELI_MAN_SEQ FROM DELIORDER'
+      'SELECT CUST_NM, CUST_ADDR, CUST_PHONE FROM CUSTOMER, DELIORDER'
+      'WHERE DELIORDER.ORDD_SEQ = :DELIORDER.ORDD_SEQ'
+      '      AND DELIORDER.CUST_SEQ = CUSTOMER.CUST_SEQ')
+    Left = 960
+    Top = 136
+    ParamData = <
+      item
+        Name = 'DELIORDER.ORDD_SEQ'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object qryMatchOrder: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT ORDD_SEQ, DELI_MAN_SEQ FROM DELIORDER'
       'WHERE ORDD_SEQ = :SEQ')
-    Left = 712
-    Top = 152
+    Left = 856
+    Top = 136
     ParamData = <
       item
         Name = 'SEQ'
@@ -962,5 +979,13 @@ object ServerMethods1: TServerMethods1
         ParamType = ptInput
         Value = Null
       end>
+  end
+  object dspQryMatchOrder: TDataSetProvider
+    Left = 832
+    Top = 208
+  end
+  object dspQryCustbyOrderSeq: TDataSetProvider
+    Left = 952
+    Top = 208
   end
 end

@@ -287,7 +287,7 @@ begin
       if sgrdOrderMenuList.RowCount = 1 then
         dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_MENUES').AsString :=  MaxMenu
       else
-        dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_MENUES').AsString :=  MaxMenu + '외 ' + inttostr(sgrdOrderMenuList.RowCount-1) + ' 건' ;
+        dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_MENUES').AsString :=  MaxMenu + ' 외 ' + inttostr(sgrdOrderMenuList.RowCount-1) + ' 건' ;
       dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_TPRICE').AsString :=  TotalPrice.Caption;
       dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_FIMGSEQ').AsInteger := strtointdef(sgrdOrderMenuList.Cells[0,MaxRow],0);
 
@@ -298,6 +298,7 @@ begin
     DeleteRow(sgrdOrderMenuList, I);
 
   frmOrder.DrawWorkingOrderListGrid;
+  frmOrder.sgrdDetailOrderMenu.Refresh;
 
 end;
 

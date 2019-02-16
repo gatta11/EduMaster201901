@@ -1,7 +1,7 @@
 object frmServer: TfrmServer
   Left = 0
   Top = 0
-  Caption = #48176#45804#47196' '#49436#48260' '#44396#46041#51473
+  Caption = '['#49436#48260'] '#48176#45804#47196' '#44396#46041#51473
   ClientHeight = 357
   ClientWidth = 651
   Color = clBtnFace
@@ -1413,5 +1413,23 @@ object frmServer: TfrmServer
     Lines.Strings = (
       'mm1')
     TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 264
+    Top = 288
+    Width = 137
+    Height = 33
+    Caption = 'Button1'
+    TabOrder = 1
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 414
+    Top = 279
+    Width = 105
+    Height = 42
+    Caption = 'Button2'
+    TabOrder = 2
+    OnClick = Button2Click
   end
 end
