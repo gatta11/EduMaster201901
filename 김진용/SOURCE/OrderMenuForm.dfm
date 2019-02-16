@@ -2,7 +2,7 @@ object frmOrderMenu: TfrmOrderMenu
   Left = 0
   Top = 0
   Caption = 'frmOrderMenu'
-  ClientHeight = 536
+  ClientHeight = 805
   ClientWidth = 1315
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,7 +15,7 @@ object frmOrderMenu: TfrmOrderMenu
   OnDestroy = FormDestroy
   DesignSize = (
     1315
-    536)
+    805)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -142,7 +142,6 @@ object frmOrderMenu: TfrmOrderMenu
     OnExit = sgrdOrderMenuListExit
     OnSelectCell = sgrdOrderMenuListSelectCell
     OnSetEditText = sgrdOrderMenuListSetEditText
-    ExplicitWidth = 840
   end
   object DBGrid1: TDBGrid
     Left = 224

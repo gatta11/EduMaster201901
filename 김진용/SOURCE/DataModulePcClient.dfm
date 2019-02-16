@@ -1,7 +1,7 @@
 object dmPcClient: TdmPcClient
   OldCreateOrder = False
-  Height = 527
-  Width = 857
+  Height = 451
+  Width = 838
   object SQLConnection1: TSQLConnection
     DriverName = 'DataSnap'
     LoginPrompt = False
@@ -682,7 +682,7 @@ object dmPcClient: TdmPcClient
     end
   end
   object DSClientCallbackChannelManager: TDSClientCallbackChannelManager
-    DSHostname = '192.168.1.11'
+    DSHostname = '192.168.200.5'
     DSPort = '211'
     CommunicationProtocol = 'tcp/ip'
     ChannelName = 'local'
@@ -696,16 +696,94 @@ object dmPcClient: TdmPcClient
     Params = <>
     ProviderName = 'dspOrderWorking'
     RemoteServer = DSProviderConnection1
-    Left = 568
+    Left = 584
     Top = 296
+    object dtsOrderWorkingORDD_SEQ: TAutoIncField
+      FieldName = 'ORDD_SEQ'
+      Origin = 'ORDD_SEQ'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object dtsOrderWorkingORDD_DATE: TWideStringField
+      FieldName = 'ORDD_DATE'
+      Origin = 'ORDD_DATE'
+      FixedChar = True
+      Size = 48
+    end
+    object dtsOrderWorkingORDD_ST: TSmallintField
+      FieldName = 'ORDD_ST'
+      Origin = 'ORDD_ST'
+      Required = True
+    end
+    object dtsOrderWorkingCUST_SEQ: TIntegerField
+      FieldName = 'CUST_SEQ'
+      Origin = 'CUST_SEQ'
+    end
+    object dtsOrderWorkingORDD_FIMGSEQ: TIntegerField
+      FieldName = 'ORDD_FIMGSEQ'
+      Origin = 'ORDD_FIMGSEQ'
+    end
+    object dtsOrderWorkingORDD_MENUES: TWideStringField
+      FieldName = 'ORDD_MENUES'
+      Origin = 'ORDD_MENUES'
+      Size = 120
+    end
+    object dtsOrderWorkingCUST_NM: TWideStringField
+      FieldName = 'CUST_NM'
+      Origin = 'CUST_NM'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 40
+    end
+    object dtsOrderWorkingCUST_PHONE: TWideStringField
+      FieldName = 'CUST_PHONE'
+      Origin = 'CUST_PHONE'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 80
+    end
+    object dtsOrderWorkingCUST_ADDR: TWideStringField
+      FieldName = 'CUST_ADDR'
+      Origin = 'CUST_ADDR'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 800
+    end
+    object dtsOrderWorkingORDD_TPRICE: TIntegerField
+      FieldName = 'ORDD_TPRICE'
+      Origin = 'ORDD_TPRICE'
+    end
+    object dtsOrderWorkingORDD_WAITTIME: TIntegerField
+      FieldName = 'ORDD_WAITTIME'
+      Origin = 'ORDD_WAITTIME'
+    end
+    object dtsOrderWorkingDELI_MAN_SEQ: TIntegerField
+      FieldName = 'DELI_MAN_SEQ'
+      Origin = 'DELI_MAN_SEQ'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object dtsOrderWorkingDELI_MAN_NM: TWideStringField
+      FieldName = 'DELI_MAN_NM'
+      Origin = 'DELI_MAN_NM'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 40
+    end
+    object dtsOrderWorkingDELI_MAN_ST: TSmallintField
+      FieldName = 'DELI_MAN_ST'
+      Origin = 'DELI_MAN_ST'
+      ProviderFlags = []
+      ReadOnly = True
+    end
   end
   object dtsTbDeliOrder: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspTbDeliOrderNew'
     RemoteServer = DSProviderConnection1
-    Left = 800
-    Top = 8
+    Left = 760
+    Top = 32
   end
   object dtsQryDeliOrder: TClientDataSet
     Active = True
@@ -713,7 +791,7 @@ object dmPcClient: TdmPcClient
     Params = <>
     ProviderName = 'dspQryDeliOrder'
     RemoteServer = DSProviderConnection1
-    Left = 672
+    Left = 720
     Top = 208
     object dtsQryDeliOrderORDD_SEQ: TAutoIncField
       FieldName = 'ORDD_SEQ'

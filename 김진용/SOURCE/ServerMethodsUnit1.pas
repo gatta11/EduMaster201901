@@ -150,6 +150,20 @@ type
     qryDeliOrderORDD_TPRICE: TIntegerField;
     qryDeliOrderORDD_FIMGSEQ: TIntegerField;
     qryDeliveryListCUST_PHONE: TWideStringField;
+    qryOrderWorkingORDD_SEQ: TFDAutoIncField;
+    qryOrderWorkingORDD_DATE: TWideStringField;
+    qryOrderWorkingORDD_ST: TSmallintField;
+    qryOrderWorkingCUST_SEQ: TIntegerField;
+    qryOrderWorkingORDD_MENUES: TWideStringField;
+    qryOrderWorkingORDD_FIMGSEQ: TIntegerField;
+    qryOrderWorkingCUST_NM: TWideStringField;
+    qryOrderWorkingCUST_PHONE: TWideStringField;
+    qryOrderWorkingCUST_ADDR: TWideStringField;
+    qryOrderWorkingORDD_TPRICE: TIntegerField;
+    qryOrderWorkingORDD_WAITTIME: TIntegerField;
+    qryOrderWorkingDELI_MAN_SEQ: TIntegerField;
+    qryOrderWorkingDELI_MAN_NM: TWideStringField;
+    qryOrderWorkingDELI_MAN_ST: TSmallintField;
     procedure DSServerModuleCreate(Sender: TObject);
     procedure tb_MOrderMenuNewRecord(DataSet: TDataSet);
   private
@@ -282,6 +296,9 @@ begin
   qryMatchDeliManToOrder.Params[0].AsInteger := ORDD_SEQ;
   qryMatchDeliManToOrder.Open;
 
+  msg := 'MatchDeliMan 서버메소드 수행중 - qryMatchDeliManToOrder.RecordCount : ' + inttostr(qryMatchDeliManToOrder.RecordCount);
+  showmessage( msg);
+
   if qryMatchDeliManToOrder.RecordCount = 1 then
   begin
     if qryMatchDeliManToOrder.FieldByName('DELI_MAN_SEQ').AsInteger > 0 then
@@ -361,7 +378,6 @@ var
   Msg : String;
   Menu : STring;
   Qnt : Integer;
-begin
 //  try
 //    tb_MOrderMenu.Last;
 //  except
@@ -375,6 +391,7 @@ begin
 //
 //  Menu := qryFindmenu.Fields[0].AsString;
 //  Msg := Format('[모바일주문] 신규 주문이 접수되었습니다. "%s X %d개 - %s"',[Menu,Qnt,datetimetostr(now)]);
+begin
 
   Msg := Format('[모바일주문] 신규 주문이 접수되었습니다. %s',[datetimetostr(now)]);
   Value := TJSONSTring.Create(Msg);

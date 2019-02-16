@@ -202,7 +202,6 @@ end;
 
 procedure TfrmOrderMenu.btnOrderMenuPostClick(Sender: TObject);
 var
-
   I,J, MaxRow,MaxPrice, sRow : integer;
   MaxMenu,S : STring;
   msg :String;
@@ -212,6 +211,9 @@ begin
     showmessage('주문할 메뉴를 추가하세요.');
     exit;
   end;
+
+  if SelectedOrderSeq = 0 then
+   SelectedOrderSeq := MaxSEQ;
 
   for I := 0 to sgrdOrderMenuList.RowCount -1 do
   begin
@@ -227,7 +229,7 @@ begin
       S := StringReplace(S, ',', '',[rfReplaceAll]);
       S := copy(S, 2,Length(S));
       dmPcClient.dtsTbOrderMenu.FieldByName('ORDMN_PRICE').AsInteger := StrtoInt(S);
-      dmPcClient.dtsTbOrderMenu.FieldByName('ORD_SEQ').AsInteger := MaxSeq;
+      dmPcClient.dtsTbOrderMenu.FieldByName('ORD_SEQ').AsInteger := SelectedOrderSeq;     //MaxSeq
       dmPcClient.dtsTbOrderMenu.Post;
       dmPcClient.dtsTbOrderMenu.ApplyUpdates(-1);
 
@@ -271,13 +273,21 @@ begin
 //  frmOrder.sgrdNewOrder.Cells[5,sRow] := MaxMenu + '외 ' + inttostr(sgrdOrderMenuList.RowCount-1) + ' 건' ;
 //  frmOrder.sgrdNewOrder.Cells[10,sRow] := TotalPrice.Caption;
 //  frmOrder.sgrdNewOrder.Cells[3,sRow] := sgrdOrderMenuList.Cells[0,MaxRow];
+
+
+  msg := dmPcClient.dtsQrydeliOrder.Locate('ORDD_SEQ', inttostr(SelectedOrderSeq), []).ToString();
+  showmessage(msg);
+
   dmPcClient.dtsQryDeliOrder.IndexFieldNames := 'ORDD_SEQ';
   if dmPcClient.dtsQrydeliOrder.Locate('ORDD_SEQ', inttostr(SelectedOrderSeq), []) then
     begin
       if dmPcClient.dtsQryDeliOrder.state <> dsEdit then
         dmPcClient.dtsQryDeliOrder.Edit;
-      showmessage(dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_SEQ').AsString);
-      dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_MENUES').AsString :=  MaxMenu + '외 ' + inttostr(sgrdOrderMenuList.RowCount-1) + ' 건' ;
+      //showmessage(dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_SEQ').AsString);
+      if sgrdOrderMenuList.RowCount = 1 then
+        dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_MENUES').AsString :=  MaxMenu
+      else
+        dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_MENUES').AsString :=  MaxMenu + '외 ' + inttostr(sgrdOrderMenuList.RowCount-1) + ' 건' ;
       dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_TPRICE').AsString :=  TotalPrice.Caption;
       dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_FIMGSEQ').AsInteger := strtointdef(sgrdOrderMenuList.Cells[0,MaxRow],0);
 

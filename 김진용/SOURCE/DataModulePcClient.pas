@@ -120,6 +120,20 @@ type
     dtsQryDeliOrderORDD_MENUES: TWideStringField;
     dtsQryDeliOrderORDD_TPRICE: TIntegerField;
     dtsQryDeliOrderORDD_FIMGSEQ: TIntegerField;
+    dtsOrderWorkingORDD_SEQ: TAutoIncField;
+    dtsOrderWorkingORDD_DATE: TWideStringField;
+    dtsOrderWorkingORDD_ST: TSmallintField;
+    dtsOrderWorkingCUST_SEQ: TIntegerField;
+    dtsOrderWorkingORDD_MENUES: TWideStringField;
+    dtsOrderWorkingCUST_NM: TWideStringField;
+    dtsOrderWorkingCUST_PHONE: TWideStringField;
+    dtsOrderWorkingCUST_ADDR: TWideStringField;
+    dtsOrderWorkingORDD_TPRICE: TIntegerField;
+    dtsOrderWorkingORDD_WAITTIME: TIntegerField;
+    dtsOrderWorkingDELI_MAN_SEQ: TIntegerField;
+    dtsOrderWorkingDELI_MAN_NM: TWideStringField;
+    dtsOrderWorkingDELI_MAN_ST: TSmallintField;
+    dtsOrderWorkingORDD_FIMGSEQ: TIntegerField;
     procedure dtsDeliveryManCalcFields(DataSet: TDataSet);
   private
     { Private declarations }

@@ -5,7 +5,6 @@ object ServerMethods1: TServerMethods1
   Width = 862
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'Server=192.168.1.11'
       'ConnectionDef=JinyongProject')
     FormatOptions.AssignedValues = [fvSE2Null]
     Connected = True
@@ -274,8 +273,8 @@ object ServerMethods1: TServerMethods1
     UpdateOptions.UpdateTableName = 'ORDERMENU'
     UpdateOptions.AutoIncFields = 'ORDMN_SEQ'
     TableName = 'ORDERMENU'
-    Left = 632
-    Top = 160
+    Left = 584
+    Top = 152
     object tb_OrderMenuORDMN_SEQ: TIntegerField
       AutoGenerateValue = arAutoInc
       FieldName = 'ORDMN_SEQ'
@@ -305,8 +304,8 @@ object ServerMethods1: TServerMethods1
   end
   object dspTbOrderMenu: TDataSetProvider
     DataSet = tb_OrderMenu
-    Left = 632
-    Top = 224
+    Left = 584
+    Top = 216
   end
   object tb_Customer: TFDTable
     Active = True
@@ -718,6 +717,7 @@ object ServerMethods1: TServerMethods1
     Top = 24
   end
   object qryFindMenu: TFDQuery
+    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT MENU_NM FROM MENU'
@@ -733,13 +733,16 @@ object ServerMethods1: TServerMethods1
       end>
   end
   object qryOrderWorking: TFDQuery
+    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT DELIORDER.ORDD_SEQ,'
       '           DELIORDER.ORDD_DATE,'
       #9'   DELIORDER.ORDD_ST,'
       #9'   DELIORDER.CUST_SEQ,'
-      #9'   DELIORDER.ORDD_MENUES,'#9'   '
+      #9'   DELIORDER.ORDD_MENUES,'
+      ''
+      ' DELIORDER.ORDD_FIMGSEQ,'#9'   '
       '       CUSTOMER.CUST_NM,'
       '       CUSTOMER.CUST_PHONE,'
       '       CUSTOMER.CUST_ADDR,'
@@ -756,16 +759,103 @@ object ServerMethods1: TServerMethods1
         '       LEFT JOIN DELIVERYMAN DE ON D.DELI_MAN_SEQ = DE.DELI_MAN_' +
         'SEQ'
       '  WHERE     D.ORDD_ST < 3'
+      'ORDER BY ORDD_SEQ'
       '')
     Left = 560
     Top = 520
+    object qryOrderWorkingORDD_SEQ: TFDAutoIncField
+      FieldName = 'ORDD_SEQ'
+      Origin = 'ORDD_SEQ'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      IdentityInsert = True
+    end
+    object qryOrderWorkingORDD_DATE: TWideStringField
+      FieldName = 'ORDD_DATE'
+      Origin = 'ORDD_DATE'
+      FixedChar = True
+      Size = 48
+    end
+    object qryOrderWorkingORDD_ST: TSmallintField
+      FieldName = 'ORDD_ST'
+      Origin = 'ORDD_ST'
+      Required = True
+    end
+    object qryOrderWorkingCUST_SEQ: TIntegerField
+      FieldName = 'CUST_SEQ'
+      Origin = 'CUST_SEQ'
+    end
+    object qryOrderWorkingORDD_MENUES: TWideStringField
+      FieldName = 'ORDD_MENUES'
+      Origin = 'ORDD_MENUES'
+      Size = 120
+    end
+    object qryOrderWorkingORDD_FIMGSEQ: TIntegerField
+      FieldName = 'ORDD_FIMGSEQ'
+      Origin = 'ORDD_FIMGSEQ'
+    end
+    object qryOrderWorkingCUST_NM: TWideStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CUST_NM'
+      Origin = 'CUST_NM'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 40
+    end
+    object qryOrderWorkingCUST_PHONE: TWideStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CUST_PHONE'
+      Origin = 'CUST_PHONE'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 80
+    end
+    object qryOrderWorkingCUST_ADDR: TWideStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CUST_ADDR'
+      Origin = 'CUST_ADDR'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 800
+    end
+    object qryOrderWorkingORDD_TPRICE: TIntegerField
+      FieldName = 'ORDD_TPRICE'
+      Origin = 'ORDD_TPRICE'
+    end
+    object qryOrderWorkingORDD_WAITTIME: TIntegerField
+      FieldName = 'ORDD_WAITTIME'
+      Origin = 'ORDD_WAITTIME'
+    end
+    object qryOrderWorkingDELI_MAN_SEQ: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'DELI_MAN_SEQ'
+      Origin = 'DELI_MAN_SEQ'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object qryOrderWorkingDELI_MAN_NM: TWideStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'DELI_MAN_NM'
+      Origin = 'DELI_MAN_NM'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 40
+    end
+    object qryOrderWorkingDELI_MAN_ST: TSmallintField
+      AutoGenerateValue = arDefault
+      FieldName = 'DELI_MAN_ST'
+      Origin = 'DELI_MAN_ST'
+      ProviderFlags = []
+      ReadOnly = True
+    end
   end
   object dspOrderWorking: TDataSetProvider
     DataSet = qryOrderWorking
+    Constraints = False
     Left = 568
     Top = 576
   end
   object FDQuery1: TFDQuery
+    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SeleCT * FROM '
@@ -863,7 +953,7 @@ object ServerMethods1: TServerMethods1
     SQL.Strings = (
       'SELECT DELI_MAN_SEQ FROM DELIORDER'
       'WHERE ORDD_SEQ = :SEQ')
-    Left = 768
+    Left = 712
     Top = 152
     ParamData = <
       item
