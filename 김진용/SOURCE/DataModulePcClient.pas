@@ -134,6 +134,7 @@ type
     dtsOrderWorkingDELI_MAN_NM: TWideStringField;
     dtsOrderWorkingDELI_MAN_ST: TSmallintField;
     dtsOrderWorkingORDD_FIMGSEQ: TIntegerField;
+    dtsUPdate: TClientDataSet;
     procedure dtsDeliveryManCalcFields(DataSet: TDataSet);
   private
     { Private declarations }

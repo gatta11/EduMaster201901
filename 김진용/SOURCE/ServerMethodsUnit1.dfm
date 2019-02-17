@@ -382,7 +382,6 @@ object ServerMethods1: TServerMethods1
     Top = 232
   end
   object qryOrderList: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT DELIORDER.ORDD_SEQ,'
@@ -667,13 +666,13 @@ object ServerMethods1: TServerMethods1
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT MAX(ORDD_SEQ) FROM DELIORDER')
-    Left = 584
-    Top = 544
+    Left = 280
+    Top = 536
   end
   object dspInsertNewOrder: TDataSetProvider
     DataSet = qryInsertNewOrder
-    Left = 584
-    Top = 600
+    Left = 280
+    Top = 592
   end
   object qryFindMenu: TFDQuery
     Active = True
@@ -681,8 +680,8 @@ object ServerMethods1: TServerMethods1
     SQL.Strings = (
       'SELECT MENU_NM FROM MENU'
       'WHERE MENU.MENU_SEQ = :MENU_SEQ')
-    Left = 856
-    Top = 592
+    Left = 976
+    Top = 176
     ParamData = <
       item
         Name = 'MENU_SEQ'
@@ -720,8 +719,8 @@ object ServerMethods1: TServerMethods1
       '  WHERE     D.ORDD_ST < 3'
       'ORDER BY ORDD_SEQ'
       '')
-    Left = 456
-    Top = 544
+    Left = 160
+    Top = 536
     object qryOrderWorkingORDD_SEQ: TFDAutoIncField
       FieldName = 'ORDD_SEQ'
       Origin = 'ORDD_SEQ'
@@ -810,8 +809,8 @@ object ServerMethods1: TServerMethods1
   object dspOrderWorking: TDataSetProvider
     DataSet = qryOrderWorking
     Constraints = False
-    Left = 464
-    Top = 600
+    Left = 160
+    Top = 592
   end
   object FDQuery1: TFDQuery
     Active = True
@@ -973,32 +972,48 @@ object ServerMethods1: TServerMethods1
     Top = 304
   end
   object qryUpdateFinishOrder: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      'SELECT ORDD_SEQ, ORDD_ST, ORDD_FNTIME FROM DELIORDER'
-      'WHERE ORDD_SEQ = :ORDD_SEQ')
-    Left = 856
-    Top = 392
+      'UPDATE DELIORDER SET'
+      'ORDD_ST =:ST, '
+      'ORDD_FNTIME =:FNTIME'
+      'WHERE ORDD_SEQ =:SEQ')
+    Left = 1016
+    Top = 512
     ParamData = <
       item
-        Name = 'ORDD_SEQ'
-        DataType = ftInteger
+        Name = 'ST'
+        DataType = ftSmallint
         ParamType = ptInput
         Value = Null
+      end
+      item
+        Name = 'FNTIME'
+        DataType = ftTime
+        ParamType = ptInput
+      end
+      item
+        Name = 'SEQ'
+        DataType = ftInteger
+        ParamType = ptInput
       end>
   end
   object qryUpdateFinishDeliMan: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      
-        'SELECT DELI_MAN_SEQ, DELI_MAN_DELICOUNT,DELI_MAN_ST FROM DELIVER' +
-        'YMAN'
-      'WHERE DELI_MAN_SEQ  = :SEQ')
-    Left = 856
-    Top = 456
+      'UPDATE DELIVERYMAN SET'
+      'DELI_MAN_DELICOUNT = DELI_MAN_DELICOUNT + 1,'
+      'DELI_MAN_ST =:ST'
+      'WHERE DELI_MAN_SEQ =:SEQ')
+    Left = 872
+    Top = 512
     ParamData = <
+      item
+        Name = 'ST'
+        DataType = ftSmallint
+        ParamType = ptInput
+        Value = Null
+      end
       item
         Name = 'SEQ'
         DataType = ftString
@@ -1006,16 +1021,19 @@ object ServerMethods1: TServerMethods1
         Value = Null
       end>
   end
-  object qryUpdateFinishCustomer: TFDQuery
+  object qryFindTotalPrice: TFDQuery
     Active = True
     Connection = FDConnection1
     SQL.Strings = (
       
-        'SELECT DELIORDER.ORDD_SEQ,ORDD_TPRICE, CUST_TOTALAMOUNT, CUST_OR' +
-        'DCNT FROM DELIORDER, CUSTOMER'
-      'WHERE ORDD_SEQ = :SEQ AND CUSTOMER.CUST_SEQ = DELIORDER.CUST_SEQ')
-    Left = 856
-    Top = 528
+        'SELECT ORDD_TPRICE, CUST_SEQ, CUST_TOTALAMOUNT FROM DELIORDER, C' +
+        'USTOMER'
+      
+        'WHERE DELIORDER.ORDD_SEQ = :SEQ AND CUSTOMER.CUST_SEQ = DELIORDE' +
+        'R.CUST_SEQ'
+      '')
+    Left = 744
+    Top = 176
     ParamData = <
       item
         Name = 'SEQ'
@@ -1038,6 +1056,33 @@ object ServerMethods1: TServerMethods1
         DataType = ftString
         ParamType = ptInput
         Value = Null
+      end>
+  end
+  object dspUpdateFinishOrder: TDataSetProvider
+    DataSet = qryUpdateFinishOrder
+    Left = 1012
+    Top = 576
+  end
+  object qryUpdateFinishCust: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'UPDATE CUSTOMER SET'
+      'CUST_TOTALAMOUNT = :AMOUNT,'
+      'CUST_ORDCNT = CUST_ORDCNT + 1'
+      'WHERE CUST_SEQ =:SEQ')
+    Left = 872
+    Top = 576
+    ParamData = <
+      item
+        Name = 'AMOUNT'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'SEQ'
+        DataType = ftInteger
+        ParamType = ptInput
       end>
   end
 end

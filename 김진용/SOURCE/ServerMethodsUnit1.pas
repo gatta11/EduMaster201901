@@ -165,8 +165,10 @@ type
     dspQryFindDelimanBySeq: TDataSetProvider;
     qryUpdateFinishOrder: TFDQuery;
     qryUpdateFinishDeliMan: TFDQuery;
-    qryUpdateFinishCustomer: TFDQuery;
+    qryFindTotalPrice: TFDQuery;
     qryUpdateDeliST: TFDQuery;
+    dspUpdateFinishOrder: TDataSetProvider;
+    qryUpdateFinishCust: TFDQuery;
     procedure DSServerModuleCreate(Sender: TObject);
     procedure tb_MOrderMenuNewRecord(DataSet: TDataSet);
     function MatchDeliMan(ORDD_SEQ, DELI_MAN_SEQ  :Integer):Boolean;
@@ -292,62 +294,46 @@ function TServerMethods1.UpdateFinishDelivery(ORDD_SEQ, DELI_MAN_SEQ : integer):
 var
   DeliCount : Integer;
   TPrice : Integer;
+  CUST_SEQ : INTEGER;
+  Amount : Integer;
 begin
 // 트랜잭션 묶어야됨.
 
   result := False;
 
 // ORDD  정보 변경 - 상태 완료 변경, 주문 완료 시간 입력
-  qryUpdateFinishOrder.Close;
-  qryUpdateFinishOrder.Params[0].AsInteger := ORDD_SEQ;
-  qryUpdateFinishOrder.Open;
 
-  if qryUpdateFinishOrder.State <> dsEdit then
-    qryUpdateFinishOrder.Edit;
+  qryUpdateFinishOrder.ParamByName('SEQ').AsInteger := ORDD_SEQ;
+  qryUpdateFinishOrder.ParamByName('FNTIME').AsDateTime := Time;
+  qryUpdateFinishOrder.ParamByName('ST').AsInteger := 4;
+  qryUpdateFinishOrder.ExecSQL;
+//  ORDD_ST =:ST,
+//ORDD_FNTIME =:FNTIME
+//WHERE ORDD_SEQ =:SEQ
 
-  qryUpdateFinishOrder.FieldByName('ORDD_ST').AsInteger := 4;
-  qryUpdateFinishOrder.FieldByName('ORDD_FNTIME').AsDateTime := time;
-
-  qryUpdateFinishOrder.Post;
-
-  showmessage('[배달로] 주문상태 변경 완료');
+  //showmessage('[배달로] 주문상태 변경 완료');
 // 기사 DELI_COUNT 증가,
 
-   qryUpdateFinishDeliMan.Close;
-  qryUpdateFinishDeliMan.Params[0].AsInteger := DELI_MAN_SEQ;
-  qryUpdateFinishDeliMan.Open;
+  qryUpdateFinishDeliMan.ParamByName('SEQ').AsInteger := DELI_MAN_SEQ;
+  qryUpdateFinishDeliMan.ParamByName('ST').AsInteger := 1;
+  qryUpdateFinishDeliMan.ExecSQL;
 
-  if qryUpdateFinishDeliMan.State <> dsEdit then
-    qryUpdateFinishDeliMan.Edit;
-
-  qryUpdateFinishDeliMan.FieldByName('DELI_MAN_ST').AsInteger := 1;
-  DeliCount := qryUpdateFinishDeliMan.FieldByName('DELI_MAN_DELICOUNT').AsInteger;
-  qryUpdateFinishDeliMan.FieldByName('DELI_MAN_DELICOUNT').AsInteger := DeliCount + 1;
-
-  qryUpdateFinishDeliMan.Post;
-
-  showmessage('[배달로] 배송기사 상태 변경');
+  //showmessage('[배달로] 배송기사 상태 변경');
 
   // 고객 주문횟수, 주문금액 증가.
 
-  qryUpdateFinishCustomer.Close;
-  qryUpdateFinishCustomer.Params[0].AsInteger := ORDD_SEQ;
-  qryUpdateFinishCustomer.Open;
+  qryFindTotalPrice.Close;
+  qryFindTotalPrice.Params[0].AsInteger := ORDD_SEQ;
+  qryFindTotalPrice.Open;
+  Tprice := qryFindTotalPrice.FieldByName('ORDD_TPRICE').AsInteger;
+  CUST_SEQ := qryFindTotalPrice.FieldByName('ORDD_TPRICE').AsInteger;
+  AMount := qryFindTotalPrice.FieldByName('CUST_TOTALAMOUNT').AsInteger;
 
-  if qryUpdateFinishCustomer.State <> dsEdit then
-    qryUpdateFinishCustomer.Edit;
-
-  //ORDD_TPRICE, CUST_TOTALAMOUNT, CUST_ORDCNT
-
-  Tprice := qryUpdateFinishCustomer.FieldByName('ORDD_TPRICE').AsInteger;
-
-  qryUpdateFinishCustomer.FieldByName('CUST_TOTALAMOUNT').AsInteger := qryUpdateFinishCustomer.FieldByName('CUST_TOTALAMOUNT').AsInteger + Tprice;
-  qryUpdateFinishCustomer.FieldByName('CUST_ORDCNT').AsInteger := qryUpdateFinishCustomer.FieldByName('CUST_ORDCNT').AsInteger + 1;
-
-  qryUpdateFinishCustomer.Post;
+  qryUpdateFinishCust.ParamByName('AMOUNT').AsInteger := AMount + Tprice;
+  qryUpdateFinishCust.ParamByName('SEQ').AsInteger := CUST_SEQ;
+  qryUpdateFinishCust.ExecSQL;
 
   showmessage('[배달로] 고객정보 상태 변경');
-
 
   result := True;
 
@@ -506,19 +492,7 @@ var
   Msg : String;
   Menu : STring;
   Qnt : Integer;
-//  try
-//    tb_MOrderMenu.Last;
-//  except
-//    raise Exception.Create('tb_MOrderMenu.Last 오류');
-//  end;
-//  Menu := tb_MOrderMenu.FieldByName('MENU_SEQ').asString;
-//  Qnt :=  tb_MOrderMenu.FieldByName('MORDMN_QNT').asInteger;
-//  qryFindMenu.Close;
-//  qryFindMenu.Params[0].AsInteger := strtoint(Menu);
-//  qryFindmenu.Open;
-//
-//  Menu := qryFindmenu.Fields[0].AsString;
-//  Msg := Format('[모바일주문] 신규 주문이 접수되었습니다. "%s X %d개 - %s"',[Menu,Qnt,datetimetostr(now)]);
+
 begin
 
   Msg := Format('[모바일주문] 신규 주문이 접수되었습니다. %s',[datetimetostr(now)]);

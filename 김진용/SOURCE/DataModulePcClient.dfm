@@ -844,4 +844,27 @@ object dmPcClient: TdmPcClient
       Origin = 'ORDD_FIMGSEQ'
     end
   end
+  object dtsUPdate: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftSmallint
+        Name = 'ST'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftTime
+        Name = 'FNTIME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'SEQ'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspUpdateFinishOrder'
+    RemoteServer = DSProviderConnection1
+    Left = 384
+    Top = 32
+  end
 end
