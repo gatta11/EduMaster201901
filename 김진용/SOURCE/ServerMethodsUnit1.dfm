@@ -1,8 +1,8 @@
 object ServerMethods1: TServerMethods1
   OldCreateOrder = False
   OnCreate = DSServerModuleCreate
-  Height = 634
-  Width = 1053
+  Height = 694
+  Width = 1108
   object FDConnection1: TFDConnection
     Params.Strings = (
       'ConnectionDef=JinyongProject')
@@ -305,7 +305,7 @@ object ServerMethods1: TServerMethods1
   object dspTbOrderMenu: TDataSetProvider
     DataSet = tb_OrderMenu
     Left = 584
-    Top = 216
+    Top = 232
   end
   object tb_Customer: TFDTable
     Active = True
@@ -405,8 +405,8 @@ object ServerMethods1: TServerMethods1
       
         '       LEFT JOIN DELIVERYMAN DE ON D.DELI_MAN_SEQ = DE.DELI_MAN_' +
         'SEQ')
-    Left = 64
-    Top = 360
+    Left = 984
+    Top = 16
     object qryOrderListORDD_SEQ: TIntegerField
       FieldName = 'ORDD_SEQ'
       Origin = 'ORDD_SEQ'
@@ -489,21 +489,21 @@ object ServerMethods1: TServerMethods1
   end
   object dspOrderList: TDataSetProvider
     DataSet = qryOrderList
-    Left = 64
-    Top = 416
+    Left = 976
+    Top = 72
   end
   object qryFindCustomer: TFDQuery
     Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT * FROM CUSTOMER')
-    Left = 360
-    Top = 360
+    Left = 264
+    Top = 384
   end
   object dspFindCustomer: TDataSetProvider
     DataSet = qryFindCustomer
-    Left = 360
-    Top = 416
+    Left = 264
+    Top = 440
   end
   object qryDeliveryList: TFDQuery
     Active = True
@@ -516,8 +516,8 @@ object ServerMethods1: TServerMethods1
       '     DELIORDER.DELI_MAN_SEQ = :DELI_MAN_SEQ'
       '     AND DELIORDER.CUST_SEQ = CUSTOMER.CUST_SEQ'
       '')
-    Left = 480
-    Top = 360
+    Left = 384
+    Top = 384
     ParamData = <
       item
         Name = 'DELI_MAN_SEQ'
@@ -578,8 +578,8 @@ object ServerMethods1: TServerMethods1
   end
   object dspDeliveryList: TDataSetProvider
     DataSet = qryDeliveryList
-    Left = 480
-    Top = 416
+    Left = 384
+    Top = 448
   end
   object qryDeliLogin: TFDQuery
     Active = True
@@ -588,8 +588,8 @@ object ServerMethods1: TServerMethods1
       'SELECT DELI_MAN_ID, DELI_MAN_PASS, DELI_MAN_NM FROM DELIVERYMAN'
       'WHERE'
       '    DELIVERYMAN.DELI_MAN_ID = :DELI_MAN_ID')
-    Left = 584
-    Top = 360
+    Left = 488
+    Top = 384
     ParamData = <
       item
         Name = 'DELI_MAN_ID'
@@ -601,8 +601,8 @@ object ServerMethods1: TServerMethods1
   end
   object dspDeliLogin: TDataSetProvider
     DataSet = qryDeliLogin
-    Left = 584
-    Top = 416
+    Left = 488
+    Top = 456
   end
   object qryDetailOrderMenu: TFDQuery
     Active = True
@@ -611,15 +611,16 @@ object ServerMethods1: TServerMethods1
       'SELECT ORDERMENU.*, MENU_NM'
       'FROM ORDERMENU, MENU'
       'WHERE ORDERMENU.ORD_SEQ = :DELIORDER.ORDD_SEQ'
-      '      AND MENU.MENU_SEQ = ORDERMENU.MENU_SEQ')
-    Left = 680
-    Top = 360
+      '      AND MENU.MENU_SEQ = ORDERMENU.MENU_SEQ'
+      'ORDER BY ORDMN_PRICE DESC')
+    Left = 584
+    Top = 384
     ParamData = <
       item
         Name = 'DELIORDER.ORDD_SEQ'
         DataType = ftInteger
         ParamType = ptInput
-        Value = Null
+        Value = 165
       end>
     object qryDetailOrderMenuORDMN_SEQ: TIntegerField
       FieldName = 'ORDMN_SEQ'
@@ -658,63 +659,21 @@ object ServerMethods1: TServerMethods1
   end
   object dspDetailOrderMenu: TDataSetProvider
     DataSet = qryDetailOrderMenu
-    Left = 680
-    Top = 408
+    Left = 592
+    Top = 448
   end
   object qryInsertNewOrder: TFDQuery
     Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT MAX(ORDD_SEQ) FROM DELIORDER')
-    Left = 792
-    Top = 360
+    Left = 584
+    Top = 544
   end
   object dspInsertNewOrder: TDataSetProvider
     DataSet = qryInsertNewOrder
-    Left = 792
-    Top = 416
-  end
-  object tb_MOrderMenu: TFDTable
-    OnNewRecord = tb_MOrderMenuNewRecord
-    IndexFieldNames = 'MORDMN_SEQ'
-    Connection = FDConnection1
-    UpdateOptions.UpdateTableName = 'MORDERMENU'
-    UpdateOptions.AutoIncFields = 'MORDMN_SEQ'
-    Exclusive = True
-    TableName = 'MORDERMENU'
-    Left = 800
-    Top = 24
-    object tb_MOrderMenuMORDMN_SEQ: TFDAutoIncField
-      FieldName = 'MORDMN_SEQ'
-      Origin = 'MORDMN_SEQ'
-      ProviderFlags = [pfInUpdate, pfInWhere]
-      IdentityInsert = True
-    end
-    object tb_MOrderMenuORD_SEQ: TIntegerField
-      FieldName = 'ORD_SEQ'
-      Origin = 'ORD_SEQ'
-      Required = True
-    end
-    object tb_MOrderMenuMENU_SEQ: TIntegerField
-      FieldName = 'MENU_SEQ'
-      Origin = 'MENU_SEQ'
-      Required = True
-    end
-    object tb_MOrderMenuMORDMN_QNT: TIntegerField
-      FieldName = 'MORDMN_QNT'
-      Origin = 'MORDMN_QNT'
-      Required = True
-    end
-    object tb_MOrderMenuMORDMN_PRICE: TIntegerField
-      FieldName = 'MORDMN_PRICE'
-      Origin = 'MORDMN_PRICE'
-      Required = True
-    end
-  end
-  object dspTbMOrderMenu: TDataSetProvider
-    DataSet = tb_MOrderMenu
-    Left = 712
-    Top = 24
+    Left = 584
+    Top = 600
   end
   object qryFindMenu: TFDQuery
     Active = True
@@ -722,8 +681,8 @@ object ServerMethods1: TServerMethods1
     SQL.Strings = (
       'SELECT MENU_NM FROM MENU'
       'WHERE MENU.MENU_SEQ = :MENU_SEQ')
-    Left = 384
-    Top = 520
+    Left = 856
+    Top = 592
     ParamData = <
       item
         Name = 'MENU_SEQ'
@@ -761,8 +720,8 @@ object ServerMethods1: TServerMethods1
       '  WHERE     D.ORDD_ST < 3'
       'ORDER BY ORDD_SEQ'
       '')
-    Left = 560
-    Top = 520
+    Left = 456
+    Top = 544
     object qryOrderWorkingORDD_SEQ: TFDAutoIncField
       FieldName = 'ORDD_SEQ'
       Origin = 'ORDD_SEQ'
@@ -851,8 +810,8 @@ object ServerMethods1: TServerMethods1
   object dspOrderWorking: TDataSetProvider
     DataSet = qryOrderWorking
     Constraints = False
-    Left = 568
-    Top = 576
+    Left = 464
+    Top = 600
   end
   object FDQuery1: TFDQuery
     Active = True
@@ -860,17 +819,17 @@ object ServerMethods1: TServerMethods1
     SQL.Strings = (
       'SeleCT * FROM '
       'DELIORDER')
-    Left = 160
-    Top = 512
+    Left = 64
+    Top = 536
   end
   object dspTbDeliOrder2: TDataSetProvider
-    Left = 160
-    Top = 568
+    Left = 64
+    Top = 592
   end
   object dspTbDeliOrderNew: TDataSetProvider
     DataSet = tbDeliOrder
-    Left = 152
-    Top = 424
+    Left = 56
+    Top = 448
   end
   object tbDeliOrder: TFDTable
     Active = True
@@ -879,8 +838,8 @@ object ServerMethods1: TServerMethods1
     UpdateOptions.UpdateTableName = 'DELIORDER'
     UpdateOptions.AutoIncFields = 'ORDD_SEQ'
     TableName = 'DELIORDER'
-    Left = 160
-    Top = 368
+    Left = 64
+    Top = 392
   end
   object qryDeliOrder: TFDQuery
     Active = True
@@ -889,8 +848,8 @@ object ServerMethods1: TServerMethods1
     SQL.Strings = (
       'SELECT * FROM DELIORDER'
       'ORDER BY ORDD_SEQ')
-    Left = 248
-    Top = 368
+    Left = 152
+    Top = 392
     object qryDeliOrderORDD_SEQ: TFDAutoIncField
       FieldName = 'ORDD_SEQ'
       Origin = 'ORDD_SEQ'
@@ -944,8 +903,8 @@ object ServerMethods1: TServerMethods1
   end
   object dspQryDeliOrder: TDataSetProvider
     DataSet = qryDeliOrder
-    Left = 248
-    Top = 432
+    Left = 152
+    Top = 456
   end
   object qryCustbyOrderSeq: TFDQuery
     Active = True
@@ -954,8 +913,8 @@ object ServerMethods1: TServerMethods1
       'SELECT CUST_NM, CUST_ADDR, CUST_PHONE FROM CUSTOMER, DELIORDER'
       'WHERE DELIORDER.ORDD_SEQ = :DELIORDER.ORDD_SEQ'
       '      AND DELIORDER.CUST_SEQ = CUSTOMER.CUST_SEQ')
-    Left = 960
-    Top = 136
+    Left = 984
+    Top = 240
     ParamData = <
       item
         Name = 'DELIORDER.ORDD_SEQ'
@@ -968,25 +927,29 @@ object ServerMethods1: TServerMethods1
     Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      'SELECT ORDD_SEQ, DELI_MAN_SEQ FROM DELIORDER'
-      'WHERE ORDD_SEQ = :SEQ')
-    Left = 856
-    Top = 136
+      'SELECT DELIORDER.ORDD_SEQ, DELIORDER.DELI_MAN_SEQ, DELI_MAN_ST'
+      ''
+      
+        'FROM DELIORDER D LEFT JOIN DELIVERYMAN DE ON D.DELI_MAN_SEQ = DE' +
+        '.DELI_MAN_SEQ'
+      '     WHERE DELIORDER.ORDD_SEQ = :SEQ   ')
+    Left = 864
+    Top = 240
     ParamData = <
       item
         Name = 'SEQ'
         DataType = ftInteger
         ParamType = ptInput
-        Value = Null
+        Value = 122
       end>
   end
   object dspQryMatchOrder: TDataSetProvider
-    Left = 832
-    Top = 208
+    Left = 864
+    Top = 312
   end
   object dspQryCustbyOrderSeq: TDataSetProvider
-    Left = 952
-    Top = 208
+    Left = 976
+    Top = 312
   end
   object qryFindDelimanBySeq: TFDQuery
     Active = True
@@ -994,8 +957,8 @@ object ServerMethods1: TServerMethods1
     SQL.Strings = (
       'SELECT DELI_MAN_SEQ, DELI_MAN_NM FROM DELIVERYMAN'
       'WHERE DELI_MAN_SEQ = :SEQ')
-    Left = 952
-    Top = 344
+    Left = 744
+    Top = 240
     ParamData = <
       item
         Name = 'SEQ'
@@ -1006,7 +969,75 @@ object ServerMethods1: TServerMethods1
   end
   object dspQryFindDelimanBySeq: TDataSetProvider
     DataSet = qryFindDelimanBySeq
-    Left = 952
-    Top = 416
+    Left = 744
+    Top = 304
+  end
+  object qryUpdateFinishOrder: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT ORDD_SEQ, ORDD_ST, ORDD_FNTIME FROM DELIORDER'
+      'WHERE ORDD_SEQ = :ORDD_SEQ')
+    Left = 856
+    Top = 392
+    ParamData = <
+      item
+        Name = 'ORDD_SEQ'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object qryUpdateFinishDeliMan: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      
+        'SELECT DELI_MAN_SEQ, DELI_MAN_DELICOUNT,DELI_MAN_ST FROM DELIVER' +
+        'YMAN'
+      'WHERE DELI_MAN_SEQ  = :SEQ')
+    Left = 856
+    Top = 456
+    ParamData = <
+      item
+        Name = 'SEQ'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object qryUpdateFinishCustomer: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      
+        'SELECT DELIORDER.ORDD_SEQ,ORDD_TPRICE, CUST_TOTALAMOUNT, CUST_OR' +
+        'DCNT FROM DELIORDER, CUSTOMER'
+      'WHERE ORDD_SEQ = :SEQ AND CUSTOMER.CUST_SEQ = DELIORDER.CUST_SEQ')
+    Left = 856
+    Top = 528
+    ParamData = <
+      item
+        Name = 'SEQ'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object qryUpdateDeliST: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT DELI_MAN_SEQ, DELI_MAN_ST FROM DELIVERYMAN'
+      'WHERE DELI_MAN_SEQ = :SEQ')
+    Left = 864
+    Top = 176
+    ParamData = <
+      item
+        Name = 'SEQ'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
   end
 end

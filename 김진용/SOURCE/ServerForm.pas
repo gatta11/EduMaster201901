@@ -11,6 +11,8 @@ type
     Label1: TLabel;
     btnSend: TSpeedButton;
     Image1: TImage;
+    Edit1: TEdit;
+    Button1: TButton;
     procedure btnSendClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -41,7 +43,7 @@ end;
 
 procedure TfrmServer.Button1Click(Sender: TObject);
 begin
-  ServerMethods.MatchDeliMan(123,5);
+Edit1.Text := timetostr(time);
 end;
 
 procedure TfrmServer.Button2Click(Sender: TObject);

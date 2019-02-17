@@ -1,6 +1,6 @@
 //
 // Created by the DataSnap proxy generator.
-// 2019-02-17 오전 1:42:07
+// 2019-02-17 오후 3:54:45
 //
 
 unit ClientClass;
@@ -15,6 +15,8 @@ type
     FDSServerModuleCreateCommand: TDBXCommand;
     Ftb_MOrderMenuNewRecordCommand: TDBXCommand;
     FMatchDeliManCommand: TDBXCommand;
+    FFindDeliVeryManCommand: TDBXCommand;
+    FUpdateFinishDeliveryCommand: TDBXCommand;
     FEchoStringCommand: TDBXCommand;
     FReverseStringCommand: TDBXCommand;
     FLogMSGCommand: TDBXCommand;
@@ -23,7 +25,6 @@ type
     FgogogoCommand: TDBXCommand;
     FCALLBACKCommand: TDBXCommand;
     FNewOrderByCustCommand: TDBXCommand;
-    FFindDeliVeryManCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
@@ -31,6 +32,8 @@ type
     procedure DSServerModuleCreate(Sender: TObject);
     procedure tb_MOrderMenuNewRecord(DataSet: TDataSet);
     function MatchDeliMan(ORDD_SEQ: Integer; DELI_MAN_SEQ: Integer): Boolean;
+    function FindDeliVeryMan(ORDD_SEQ: Integer): Boolean;
+    function UpdateFinishDelivery(ORDD_SEQ: Integer; DELI_MAN_SEQ: Integer): Boolean;
     function EchoString(Value: string): string;
     function ReverseString(Value: string): string;
     procedure LogMSG(S: string);
@@ -39,7 +42,6 @@ type
     procedure gogogo;
     function CALLBACK(AChanelName: string; AMessage: string): Boolean;
     procedure NewOrderByCust(ORDD_SEQ: Integer; CUST_SEQ: Integer);
-    function FindDeliVeryMan(ORDD_SEQ: Integer): Boolean;
   end;
 
 implementation
@@ -95,6 +97,35 @@ begin
   FMatchDeliManCommand.Parameters[1].Value.SetInt32(DELI_MAN_SEQ);
   FMatchDeliManCommand.ExecuteUpdate;
   Result := FMatchDeliManCommand.Parameters[2].Value.GetBoolean;
+end;
+
+function TServerMethods1Client.FindDeliVeryMan(ORDD_SEQ: Integer): Boolean;
+begin
+  if FFindDeliVeryManCommand = nil then
+  begin
+    FFindDeliVeryManCommand := FDBXConnection.CreateCommand;
+    FFindDeliVeryManCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FFindDeliVeryManCommand.Text := 'TServerMethods1.FindDeliVeryMan';
+    FFindDeliVeryManCommand.Prepare;
+  end;
+  FFindDeliVeryManCommand.Parameters[0].Value.SetInt32(ORDD_SEQ);
+  FFindDeliVeryManCommand.ExecuteUpdate;
+  Result := FFindDeliVeryManCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TServerMethods1Client.UpdateFinishDelivery(ORDD_SEQ: Integer; DELI_MAN_SEQ: Integer): Boolean;
+begin
+  if FUpdateFinishDeliveryCommand = nil then
+  begin
+    FUpdateFinishDeliveryCommand := FDBXConnection.CreateCommand;
+    FUpdateFinishDeliveryCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FUpdateFinishDeliveryCommand.Text := 'TServerMethods1.UpdateFinishDelivery';
+    FUpdateFinishDeliveryCommand.Prepare;
+  end;
+  FUpdateFinishDeliveryCommand.Parameters[0].Value.SetInt32(ORDD_SEQ);
+  FUpdateFinishDeliveryCommand.Parameters[1].Value.SetInt32(DELI_MAN_SEQ);
+  FUpdateFinishDeliveryCommand.ExecuteUpdate;
+  Result := FUpdateFinishDeliveryCommand.Parameters[2].Value.GetBoolean;
 end;
 
 function TServerMethods1Client.EchoString(Value: string): string;
@@ -205,20 +236,6 @@ begin
   FNewOrderByCustCommand.ExecuteUpdate;
 end;
 
-function TServerMethods1Client.FindDeliVeryMan(ORDD_SEQ: Integer): Boolean;
-begin
-  if FFindDeliVeryManCommand = nil then
-  begin
-    FFindDeliVeryManCommand := FDBXConnection.CreateCommand;
-    FFindDeliVeryManCommand.CommandType := TDBXCommandTypes.DSServerMethod;
-    FFindDeliVeryManCommand.Text := 'TServerMethods1.FindDeliVeryMan';
-    FFindDeliVeryManCommand.Prepare;
-  end;
-  FFindDeliVeryManCommand.Parameters[0].Value.SetInt32(ORDD_SEQ);
-  FFindDeliVeryManCommand.ExecuteUpdate;
-  Result := FFindDeliVeryManCommand.Parameters[1].Value.GetBoolean;
-end;
-
 constructor TServerMethods1Client.Create(ADBXConnection: TDBXConnection);
 begin
   inherited Create(ADBXConnection);
@@ -234,6 +251,8 @@ begin
   FDSServerModuleCreateCommand.DisposeOf;
   Ftb_MOrderMenuNewRecordCommand.DisposeOf;
   FMatchDeliManCommand.DisposeOf;
+  FFindDeliVeryManCommand.DisposeOf;
+  FUpdateFinishDeliveryCommand.DisposeOf;
   FEchoStringCommand.DisposeOf;
   FReverseStringCommand.DisposeOf;
   FLogMSGCommand.DisposeOf;
@@ -242,7 +261,6 @@ begin
   FgogogoCommand.DisposeOf;
   FCALLBACKCommand.DisposeOf;
   FNewOrderByCustCommand.DisposeOf;
-  FFindDeliVeryManCommand.DisposeOf;
   inherited;
 end;
 

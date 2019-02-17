@@ -122,13 +122,6 @@ type
     qryOrderListORDD_DATE: TWideStringField;
     qryInsertNewOrder: TFDQuery;
     dspInsertNewOrder: TDataSetProvider;
-    tb_MOrderMenu: TFDTable;
-    dspTbMOrderMenu: TDataSetProvider;
-    tb_MOrderMenuMORDMN_SEQ: TFDAutoIncField;
-    tb_MOrderMenuORD_SEQ: TIntegerField;
-    tb_MOrderMenuMENU_SEQ: TIntegerField;
-    tb_MOrderMenuMORDMN_QNT: TIntegerField;
-    tb_MOrderMenuMORDMN_PRICE: TIntegerField;
     qryFindMenu: TFDQuery;
     qryOrderWorking: TFDQuery;
     dspOrderWorking: TDataSetProvider;
@@ -170,10 +163,15 @@ type
     dspQryCustbyOrderSeq: TDataSetProvider;
     qryFindDelimanBySeq: TFDQuery;
     dspQryFindDelimanBySeq: TDataSetProvider;
+    qryUpdateFinishOrder: TFDQuery;
+    qryUpdateFinishDeliMan: TFDQuery;
+    qryUpdateFinishCustomer: TFDQuery;
+    qryUpdateDeliST: TFDQuery;
     procedure DSServerModuleCreate(Sender: TObject);
     procedure tb_MOrderMenuNewRecord(DataSet: TDataSet);
     function MatchDeliMan(ORDD_SEQ, DELI_MAN_SEQ  :Integer):Boolean;
     function FindDeliVeryMan(ORDD_SEQ: Integer):Boolean;
+    function UpdateFinishDelivery(ORDD_SEQ, DELI_MAN_SEQ: Integer):Boolean;
 
   private
     FCallbackId : String;
@@ -290,6 +288,73 @@ begin
 
 end;
 
+function TServerMethods1.UpdateFinishDelivery(ORDD_SEQ, DELI_MAN_SEQ : integer): Boolean;
+var
+  DeliCount : Integer;
+  TPrice : Integer;
+begin
+// 트랜잭션 묶어야됨.
+
+  result := False;
+
+// ORDD  정보 변경 - 상태 완료 변경, 주문 완료 시간 입력
+  qryUpdateFinishOrder.Close;
+  qryUpdateFinishOrder.Params[0].AsInteger := ORDD_SEQ;
+  qryUpdateFinishOrder.Open;
+
+  if qryUpdateFinishOrder.State <> dsEdit then
+    qryUpdateFinishOrder.Edit;
+
+  qryUpdateFinishOrder.FieldByName('ORDD_ST').AsInteger := 4;
+  qryUpdateFinishOrder.FieldByName('ORDD_FNTIME').AsDateTime := time;
+
+  qryUpdateFinishOrder.Post;
+
+  showmessage('[배달로] 주문상태 변경 완료');
+// 기사 DELI_COUNT 증가,
+
+   qryUpdateFinishDeliMan.Close;
+  qryUpdateFinishDeliMan.Params[0].AsInteger := DELI_MAN_SEQ;
+  qryUpdateFinishDeliMan.Open;
+
+  if qryUpdateFinishDeliMan.State <> dsEdit then
+    qryUpdateFinishDeliMan.Edit;
+
+  qryUpdateFinishDeliMan.FieldByName('DELI_MAN_ST').AsInteger := 1;
+  DeliCount := qryUpdateFinishDeliMan.FieldByName('DELI_MAN_DELICOUNT').AsInteger;
+  qryUpdateFinishDeliMan.FieldByName('DELI_MAN_DELICOUNT').AsInteger := DeliCount + 1;
+
+  qryUpdateFinishDeliMan.Post;
+
+  showmessage('[배달로] 배송기사 상태 변경');
+
+  // 고객 주문횟수, 주문금액 증가.
+
+  qryUpdateFinishCustomer.Close;
+  qryUpdateFinishCustomer.Params[0].AsInteger := ORDD_SEQ;
+  qryUpdateFinishCustomer.Open;
+
+  if qryUpdateFinishCustomer.State <> dsEdit then
+    qryUpdateFinishCustomer.Edit;
+
+  //ORDD_TPRICE, CUST_TOTALAMOUNT, CUST_ORDCNT
+
+  Tprice := qryUpdateFinishCustomer.FieldByName('ORDD_TPRICE').AsInteger;
+
+  qryUpdateFinishCustomer.FieldByName('CUST_TOTALAMOUNT').AsInteger := qryUpdateFinishCustomer.FieldByName('CUST_TOTALAMOUNT').AsInteger + Tprice;
+  qryUpdateFinishCustomer.FieldByName('CUST_ORDCNT').AsInteger := qryUpdateFinishCustomer.FieldByName('CUST_ORDCNT').AsInteger + 1;
+
+  qryUpdateFinishCustomer.Post;
+
+  showmessage('[배달로] 고객정보 상태 변경');
+
+
+  result := True;
+
+end;
+
+
+
 procedure TServerMethods1.gogogo;
 //var
 //  App : TDSAdminClient;
@@ -327,9 +392,16 @@ var
   DELI_MAN_NM : string;
   msg : String;
 begin
+
+  result := False;
+  msg := format('ORDD_SEQ : %d, DELI_MAN_SEQ : %d ',[ORDD_SEQ, DELI_MAN_SEQ]);
+
+  //showmessage(msg);
+
   qryMatchOrder.Close;
   qryMatchOrder.Params[0].AsInteger := ORDD_SEQ;
   qryMatchOrder.Open;
+  //showmessage('쿼리 성공  '+ inttostr(qryMatchOrder.RecordCount) );
 
   if qryMatchOrder.RecordCount = 1 then
   begin
@@ -344,13 +416,26 @@ begin
 
       //showmessage('[서버]배달기사 수정전');
 
-      try
+//      try
+      //begin
         qryMatchOrder.FieldByName('DELI_MAN_SEQ').AsInteger := DELI_MAN_SEQ;
+        //qryMatchOrder.FieldByName('DELI_MAN_ST').AsInteger := 2;
         qryMatchOrder.Post;
+     //end;
         //qryMatchOrder.ApplyUpdates(-1);
-      except
-        raise Exception.Create('[서버] 배달기사 체결 문제 발생');
-      end;
+//      except
+//        raise Exception.Create('[서버] 배달기사 체결 문제 발생');
+//      end;
+      qryUpdateDeliST.Close;
+      qryUpdateDeliST.Params[0].AsInteger := DELI_MAN_SEQ;
+      qryUpdateDeliST.Open;
+
+      if qryUpdateDeliST.state <> dsEdit then
+        qryUpdateDeliST.Edit;
+
+      qryUpdateDeliST.FieldByName('DELI_MAN_ST').AsInteger := 2;
+      qryUpdateDeliST.Post;
+
 
       //showmessage('[서버]배달기사 지정완료');
 
@@ -371,7 +456,7 @@ begin
 
       ServerContainer1.DSServer1.BroadcastMessage('local', JSONValue) ;
       //ServerContainer1.DSServer1.NotifyCallback('local','PcClient','LCallBackID','sss',aResponse);
-      //showmessage('[서버] 회신 완료');
+     // showmessage('[서버] 회신 완료');
 
       result := True;
 
@@ -380,24 +465,6 @@ begin
 
   else
     result := False;
-//  try
-//  Msg := Format('기사가 매칭되었습니다. OrderSeq : %d, 기사SEQ : %d',[ORDD_SEQ,DELI_MAN_SEQ]);
-//  Value := TJSONSTring.Create(Msg);
-//  ServerContainer1.DSServer1.BroadcastMessage('local', Value) ;
-//  //Value.Free;
-//  finally
-//    //showmessage('pc로 기사정보 발송 완료')
-//  end;
-//
-//  try
-//  Value := TJSONSTring.Create('모바일 한테만 가냐?');
-//  ServerContainer1.DSServer1.BroadcastMessage('mobile', Value) ;
-//
-//  finally
-//    //showmessage('모바일로 테스트메시지  발송 완료')
-//
-//  end;
-
 
 end;
 
@@ -409,7 +476,6 @@ var
 begin
   try
     Msg := Format('MNEWORDER/%d/%d',[ORDD_SEQ, CUST_SEQ]);
-    //Msg := '{"ORDD_SEQ" : ORDD_SEQ, "CUST_SEQ":CUST_SEQ}' ;
     Value := TJSONString.Create(Msg);
     ServerContainer1.DSServer1.BroadcastMessage('local', Value) ;
 

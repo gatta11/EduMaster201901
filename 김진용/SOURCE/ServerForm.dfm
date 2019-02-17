@@ -2,7 +2,7 @@ object frmServer: TfrmServer
   Left = 0
   Top = 0
   Caption = '['#49436#48260'] '#48176#45804#47196' '#44396#46041#51473
-  ClientHeight = 286
+  ClientHeight = 563
   ClientWidth = 705
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -1641,5 +1641,22 @@ object frmServer: TfrmServer
       4208215EA1680821847885A2218410E2158A8610428857281A4208215EA16808
       21847885A2218410E2158A8610428857281A4208215EA1680821847885A22184
       10E295FF07E1E07D5B08FE3B640000000049454E44AE426082}
+  end
+  object Edit1: TEdit
+    Left = 232
+    Top = 288
+    Width = 193
+    Height = 49
+    TabOrder = 0
+    Text = 'Edit1'
+  end
+  object Button1: TButton
+    Left = 232
+    Top = 392
+    Width = 145
+    Height = 57
+    Caption = 'Button1'
+    TabOrder = 1
+    OnClick = Button1Click
   end
 end
