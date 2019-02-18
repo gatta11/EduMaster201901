@@ -135,7 +135,12 @@ type
     dtsOrderWorkingDELI_MAN_ST: TSmallintField;
     dtsOrderWorkingORDD_FIMGSEQ: TIntegerField;
     dtsUPdate: TClientDataSet;
+    dtsOrderWorkingORDD_STNGTIME: TTimeField;
+    dtsOrderWorkingORDD_FNTIME: TTimeField;
+    dtsOrderWorkingORDD_CALCST: TStringField;
+    dtsOrderWorkingORDD_CALC_ST: TStringField;
     procedure dtsDeliveryManCalcFields(DataSet: TDataSet);
+    procedure dtsOrderWorkingCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -164,6 +169,22 @@ begin
     2: dtsDeliveryManDeli_Man_KorST.AsString := '배달대기';
   End;
 
+
+end;
+
+procedure TdmPcClient.dtsOrderWorkingCalcFields(DataSet: TDataSet);
+var
+  ORDD_ST : integer;
+begin
+
+   ORDD_ST := dtsOrderWorking.FieldByName('ORDD_ST').AsInteger;
+  CASE ORDD_ST OF
+  0: dtsOrderWorking.FieldByName('ORDD_CALCST').AsString := '주문준비';
+  1: dtsOrderWorking.FieldByName('ORDD_CALCST').AsString := '조리중';
+  2: dtsOrderWorking.FieldByName('ORDD_CALCST').AsString := '배달중';
+  4: dtsOrderWorking.FieldByName('ORDD_CALCST').AsString := '배달완료';
+
+  END;
 
 end;
 

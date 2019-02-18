@@ -6,26 +6,24 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.ExtCtrls, System.IOUtils, DATA.DB,
   Vcl.StdCtrls, System.Generics.Collections, Vcl.DBGrids, Vcl.Samples.Spin,
-  Vcl.Buttons;
+  Vcl.Buttons, Vcl.Imaging.pngimage, System.ImageList, Vcl.ImgList,
+  Vcl.Imaging.jpeg;
 
 type
 
   TfrmOrderMenu = class(TForm)
     sgrdMenuList: TStringGrid;
     sgrdOrderMenuList: TStringGrid;
-    DBGrid1: TDBGrid;
     dsOrderMenulist: TDataSource;
-    DBGrid2: TDBGrid;
     dsTbOrderMenu: TDataSource;
-    Label1: TLabel;
-    Label2: TLabel;
-    btnOrderMenuPost: TButton;
-    Label3: TLabel;
     TotalPrice: TLabel;
-    edtORD_SEQ: TEdit;
+    Image1: TImage;
+    Label4: TLabel;
+    lblwon: TLabel;
+    Image2: TImage;
     procedure sgrdMenuListDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
-    procedure Button1Click(Sender: TObject);
+    procedure InsertOrderMenu(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure sgrdMenuListDblClick(Sender: TObject);
@@ -75,7 +73,7 @@ var
   SeCol, SeRow : integer;
 
 
-procedure TfrmOrderMenu.Button1Click(Sender: TObject);
+procedure TfrmOrderMenu.InsertOrderMenu(Sender: TObject);
 
 var
   i : integer ;
@@ -85,6 +83,8 @@ var
   Price:String;
 
 begin
+
+  //showmessage('111');
   Stream := TMemoryStream.Create;
   Bitmap1 := TBitmap.Create;
 
@@ -122,7 +122,7 @@ begin
     sgrdMenuList.Cells[2,i] := dmPcClient.dtsMenuList.FieldByName('MENU_NM').AsString; //메뉴 이름
     sgrdMenuList.Cells[3,i] := dmPcClient.dtsMenuList.FieldByName('MENU_QNT').AsString; //메뉴 수량
     Price := dmPcClient.dtsMenuList.FieldByName('MENU_PRICE').AsString;   //FormatFloat('#,0', StrToInt(cellText)
-    Price := Format('%m', [strTofloat(Price)]);
+    Price := Formatfloat(',0', strtofloat(price)); //Format('%n', [strtofloat(price)] );//[strTofloat(Price)]
     sgrdMenuList.Cells[4,i] := Price; //메뉴 가격
     dmPcClient.dtsMenuList.Next;
   end;
@@ -186,7 +186,6 @@ begin
       dmPcClient.dtsTbOrderMenu.FieldByName('ORDMN_QNT').AsInteger := StrtoInt(sgrdOrderMenuList.Cells[4, I]);
       S := sgrdOrderMenuList.Cells[7, I];
       S := StringReplace(S, ',', '',[rfReplaceAll]);
-      S := copy(S, 2,Length(S));
       dmPcClient.dtsTbOrderMenu.FieldByName('ORDMN_PRICE').AsInteger := StrtoInt(S);
       dmPcClient.dtsTbOrderMenu.FieldByName('ORD_SEQ').AsInteger := SelectedOrderSeq;     //MaxSeq
       dmPcClient.dtsTbOrderMenu.Post;
@@ -212,7 +211,7 @@ begin
   begin
     S := sgrdOrderMenuList.Cells[7, I];
     S := StringReplace(S, ',', '',[rfReplaceAll]);
-    S := copy(S, 2,Length(S));
+    //S := copy(S, 2,Length(S));
     if MaxPrice < strtoInt(S) then
     begin
       MaxPrice := strtoInt(S);
@@ -247,7 +246,7 @@ begin
         dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_MENUES').AsString :=  MaxMenu
       else
         dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_MENUES').AsString :=  MaxMenu + ' 외 ' + inttostr(sgrdOrderMenuList.RowCount-1) + ' 건' ;
-      dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_TPRICE').AsString :=  TotalPrice.Caption;
+      dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_TPRICE').AsString :=  stringreplace(TotalPrice.Caption,',','',[rfReplaceAll]);
       dmPcClient.dtsQryDeliOrder.FieldByName('ORDD_FIMGSEQ').AsInteger := strtointdef(sgrdOrderMenuList.Cells[0,MaxRow],0);
 
       dmPcClient.dtsQryDeliOrder.POST;
@@ -274,7 +273,7 @@ end;
 
 procedure TfrmOrderMenu.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  frmOrder.sgrdDetailOrderMenu.SetFocus;
+ // frmOrder.sgrdDetailOrderMenu.SetFocus;
  Action := CaFree;
 end;
 
@@ -287,7 +286,7 @@ var
   y: integer;
   wic: TWICImage;
 begin
-  edtORD_SEQ.Text := inttostr(MaxSeq);
+  //edtORD_SEQ.Text := inttostr(MaxSeq);
   FMenuImageList := TList<TWICImage>.Create;
   FQntImageList := TList<TWICImage>.Create;
 
@@ -307,22 +306,22 @@ begin
   FQntImageList.Add(wic);
 
   sgrdMenuList.ColWidths[0] := sgrdMenuList.GridLineWidth -2;
-  sgrdMenuList.ColWidths[1] := sgrdMenuList.GridLineWidth + 100;
-  sgrdMenuList.ColWidths[2] := sgrdMenuList.GridLineWidth + 180;
+  sgrdMenuList.ColWidths[1] := sgrdMenuList.GridLineWidth + 110;
+  sgrdMenuList.ColWidths[2] := sgrdMenuList.GridLineWidth + 200;
   sgrdMenuList.ColWidths[3] := sgrdMenuList.GridLineWidth + 80;
-  sgrdMenuList.ColWidths[4] := sgrdMenuList.GridLineWidth + 100;
+  sgrdMenuList.ColWidths[4] := sgrdMenuList.GridLineWidth + 110;
 
-  sgrdOrderMenuList.ColWidths[0] := sgrdOrderMenuList.GridLineWidth + 40;
+  sgrdOrderMenuList.ColWidths[0] := sgrdOrderMenuList.GridLineWidth + 0;
   sgrdOrderMenuList.ColWidths[1] := sgrdOrderMenuList.GridLineWidth + 80;
-  sgrdOrderMenuList.ColWidths[2] := sgrdOrderMenuList.GridLineWidth + 180;
+  sgrdOrderMenuList.ColWidths[2] := sgrdOrderMenuList.GridLineWidth + 200;
   sgrdOrderMenuList.ColWidths[3] := sgrdOrderMenuList.GridLineWidth + 80;
   sgrdOrderMenuList.ColWidths[4] := sgrdOrderMenuList.GridLineWidth + 80;
   sgrdOrderMenuList.ColWidths[5] := sgrdOrderMenuList.GridLineWidth + 80;
-  sgrdOrderMenuList.ColWidths[6] := sgrdOrderMenuList.GridLineWidth + 60;
-  sgrdOrderMenuList.ColWidths[7] := sgrdOrderMenuList.GridLineWidth + 100;
+  sgrdOrderMenuList.ColWidths[6] := sgrdOrderMenuList.GridLineWidth + 0;
+  sgrdOrderMenuList.ColWidths[7] := sgrdOrderMenuList.GridLineWidth + 130;
   sgrdOrderMenuList.ColWidths[8] := sgrdOrderMenuList.GridLineWidth + 75;
 
-  Button1Click(self);
+  InsertOrderMenu(self);
   
 (*                                                                               // StringGrid에 Button넣기
     rect := sgrdOrderMenuList.CellRect(C_COL, sgrdOrderMenuList.TopRow);
@@ -394,8 +393,7 @@ begin
 
   s2 := sgrdMenuList.Cells[4,sgrdMenuList.Row];
   s2 := StringReplace(s2, ',', '',[rfReplaceAll]);
-  s2 := copy(s2, 2,Length(s2));
-
+  //s2 := copy(s2, 2,Length(s2));
 
   sgrdOrderMenuList.Cells[6,Rcnt-1] := s2; // 수량 2개이상 일때 계산용 단가저장
   sgrdOrderMenuList.Cells[7,Rcnt-1] := sgrdMenuList.Cells[4,sgrdMenuList.Row];
@@ -543,7 +541,7 @@ begin
     begin // 메뉴 수량
       UnitCost := strtoint(sgrdOrderMenuList.Cells[6, ARow]);
       Qnt := strtoint(sgrdOrderMenuList.Cells[4, ARow]);
-      Price := Format('%m', [UnitCost * Qnt * 1.0]);
+      Price := Formatfloat(',0', (UnitCost * Qnt * 1.0));
       sgrdOrderMenuList.Cells[7, ARow] := Price;
 
       sgrdOrderMenuList.Canvas.Font.Name := 'Tahoma';
@@ -593,12 +591,12 @@ begin
     begin
     S := sgrdOrderMenuList.Cells[7, I];
     S := StringReplace(S,',','',[rfReplaceAll]);
-    S := Copy(S, 2,Length(S));
+    //S := Copy(S, 2,Length(S));
 
     TotalCost := TotalCost + strtoint(S) ;
     end;
 
-  TotalPrice.Caption := inttostr(TotalCost);
+  TotalPrice.Caption := formatfloat(',0',(TotalCost*1.0));//inttostr(TotalCost)
 end;
 
 procedure TfrmOrderMenu.sgrdOrderMenuListExit(Sender: TObject);

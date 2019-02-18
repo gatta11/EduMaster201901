@@ -11,7 +11,8 @@ uses
   OrderMenuForm in 'OrderMenuForm.pas' {frmOrderMenu},
   OrderForm in 'OrderForm.pas' {frmOrder},
   FindCustomerForm in 'FindCustomerForm.pas' {frmFindCustomer},
-  PcClientMainForm in 'PcClientMainForm.pas' {MainForm};
+  PcClientMainForm in 'PcClientMainForm.pas' {MainForm},
+  SearchOrderHistoryForm in 'SearchOrderHistoryForm.pas' {frmSearchOrderHistory};
 
 {$R *.res}
 

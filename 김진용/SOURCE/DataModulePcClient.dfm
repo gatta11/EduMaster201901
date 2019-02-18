@@ -696,6 +696,7 @@ object dmPcClient: TdmPcClient
     Params = <>
     ProviderName = 'dspOrderWorking'
     RemoteServer = DSProviderConnection1
+    OnCalcFields = dtsOrderWorkingCalcFields
     Left = 584
     Top = 296
     object dtsOrderWorkingORDD_SEQ: TAutoIncField
@@ -714,6 +715,11 @@ object dmPcClient: TdmPcClient
       FieldName = 'ORDD_ST'
       Origin = 'ORDD_ST'
       Required = True
+    end
+    object dtsOrderWorkingORDD_CALCST: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'ORDD_CALCST'
+      Calculated = True
     end
     object dtsOrderWorkingCUST_SEQ: TIntegerField
       FieldName = 'CUST_SEQ'
@@ -752,6 +758,7 @@ object dmPcClient: TdmPcClient
     object dtsOrderWorkingORDD_TPRICE: TIntegerField
       FieldName = 'ORDD_TPRICE'
       Origin = 'ORDD_TPRICE'
+      DisplayFormat = '#,##0 '#50896
     end
     object dtsOrderWorkingORDD_WAITTIME: TIntegerField
       FieldName = 'ORDD_WAITTIME'
@@ -774,6 +781,18 @@ object dmPcClient: TdmPcClient
       FieldName = 'DELI_MAN_ST'
       Origin = 'DELI_MAN_ST'
       ProviderFlags = []
+      ReadOnly = True
+    end
+    object dtsOrderWorkingORDD_STNGTIME: TTimeField
+      FieldName = 'ORDD_STNGTIME'
+      Origin = 'ORDD_STNGTIME'
+    end
+    object dtsOrderWorkingORDD_FNTIME: TTimeField
+      FieldName = 'ORDD_FNTIME'
+      Origin = 'ORDD_FNTIME'
+    end
+    object dtsOrderWorkingORDD_CALC_ST: TStringField
+      FieldName = 'ORDD_CALC_ST'
       ReadOnly = True
     end
   end

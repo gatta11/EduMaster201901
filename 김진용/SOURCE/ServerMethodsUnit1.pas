@@ -169,11 +169,15 @@ type
     qryUpdateDeliST: TFDQuery;
     dspUpdateFinishOrder: TDataSetProvider;
     qryUpdateFinishCust: TFDQuery;
+    qryOrderWorkingORDD_STNGTIME: TTimeField;
+    qryOrderWorkingORDD_FNTIME: TTimeField;
+    qryOrderWorkingORDD_CALC_ST: TStringField;
     procedure DSServerModuleCreate(Sender: TObject);
     procedure tb_MOrderMenuNewRecord(DataSet: TDataSet);
     function MatchDeliMan(ORDD_SEQ, DELI_MAN_SEQ  :Integer):Boolean;
     function FindDeliVeryMan(ORDD_SEQ: Integer):Boolean;
     function UpdateFinishDelivery(ORDD_SEQ, DELI_MAN_SEQ: Integer):Boolean;
+    procedure qryOrderWorkingCalcFields(DataSet: TDataSet);
 
   private
     FCallbackId : String;
@@ -468,6 +472,22 @@ begin
   finally
 
   end;
+end;
+
+procedure TServerMethods1.qryOrderWorkingCalcFields(DataSet: TDataSet);
+var
+  ORDD_ST : integer;
+begin
+
+   ORDD_ST := qryOrderWorking.FieldByName('ORDD_ST').AsInteger;
+  CASE ORDD_ST OF
+  0: qryOrderWorking.FieldByName('ORDD_CALC_ST').AsString := '주문준비';
+  1: qryOrderWorking.FieldByName('ORDD_CALC_ST').AsString := '조리중';
+  2: qryOrderWorking.FieldByName('ORDD_CALC_ST').AsString := '배달중';
+  4: qryOrderWorking.FieldByName('ORDD_CALC_ST').AsString := '배달완료';
+
+  END;
+
 end;
 
 function TServerMethods1.RandomID: string;

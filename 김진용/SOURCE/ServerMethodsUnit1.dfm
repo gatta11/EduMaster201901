@@ -382,6 +382,7 @@ object ServerMethods1: TServerMethods1
     Top = 232
   end
   object qryOrderList: TFDQuery
+    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT DELIORDER.ORDD_SEQ,'
@@ -666,13 +667,13 @@ object ServerMethods1: TServerMethods1
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT MAX(ORDD_SEQ) FROM DELIORDER')
-    Left = 280
-    Top = 536
+    Left = 352
+    Top = 544
   end
   object dspInsertNewOrder: TDataSetProvider
     DataSet = qryInsertNewOrder
-    Left = 280
-    Top = 592
+    Left = 352
+    Top = 600
   end
   object qryFindMenu: TFDQuery
     Active = True
@@ -692,6 +693,7 @@ object ServerMethods1: TServerMethods1
   end
   object qryOrderWorking: TFDQuery
     Active = True
+    OnCalcFields = qryOrderWorkingCalcFields
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT DELIORDER.ORDD_SEQ,'
@@ -699,6 +701,9 @@ object ServerMethods1: TServerMethods1
       #9'   DELIORDER.ORDD_ST,'
       #9'   DELIORDER.CUST_SEQ,'
       #9'   DELIORDER.ORDD_MENUES,'
+      #9'   DELIORDER.ORDD_STNGTIME,'
+      #9'   DELIORDER.ORDD_FNTIME,'
+      ''
       ''
       ' DELIORDER.ORDD_FIMGSEQ,'#9'   '
       '       CUSTOMER.CUST_NM,'
@@ -716,7 +721,7 @@ object ServerMethods1: TServerMethods1
       
         '       LEFT JOIN DELIVERYMAN DE ON D.DELI_MAN_SEQ = DE.DELI_MAN_' +
         'SEQ'
-      '  WHERE     D.ORDD_ST < 3'
+      '  WHERE     D.ORDD_ST < 5 AND ORDD_DATE = CURRENT_DATE'
       'ORDER BY ORDD_SEQ'
       '')
     Left = 160
@@ -778,6 +783,7 @@ object ServerMethods1: TServerMethods1
     object qryOrderWorkingORDD_TPRICE: TIntegerField
       FieldName = 'ORDD_TPRICE'
       Origin = 'ORDD_TPRICE'
+      DisplayFormat = '#,##0'#50896
     end
     object qryOrderWorkingORDD_WAITTIME: TIntegerField
       FieldName = 'ORDD_WAITTIME'
@@ -804,6 +810,19 @@ object ServerMethods1: TServerMethods1
       Origin = 'DELI_MAN_ST'
       ProviderFlags = []
       ReadOnly = True
+    end
+    object qryOrderWorkingORDD_STNGTIME: TTimeField
+      FieldName = 'ORDD_STNGTIME'
+      Origin = 'ORDD_STNGTIME'
+    end
+    object qryOrderWorkingORDD_FNTIME: TTimeField
+      FieldName = 'ORDD_FNTIME'
+      Origin = 'ORDD_FNTIME'
+    end
+    object qryOrderWorkingORDD_CALC_ST: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'ORDD_CALC_ST'
+      Calculated = True
     end
   end
   object dspOrderWorking: TDataSetProvider
